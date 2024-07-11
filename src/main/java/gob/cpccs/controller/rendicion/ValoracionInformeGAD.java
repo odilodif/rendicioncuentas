@@ -272,13 +272,13 @@ public class ValoracionInformeGAD {
 						nota = nota + (float) 0.00;
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA1);
 						break;
-					case "2. INFORME DE GESTIÓN FINANCIERA APROBADO POR AUTORIDAD COMPETENTE":
+					case " 2. INFORME DE GESTIÓN PESUPUESTARIA APROBADO POR AUTORIDAD COMPETENTE":
 						tblInformeCalificado2.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA2);
 
 						break;
-					case "3. MATRIZ DE LOTAIP QUE SI DIRECCIONA A LA CÉDULA PRESUPUESTARIA":
+					case "3. INFORME DE GESTIÓN FINANCIERA APROBADO POR AUTORIDAD COMPETENTE":
 						tblInformeCalificado2.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA3);
@@ -302,13 +302,13 @@ public class ValoracionInformeGAD {
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA6);
 
 						break;
-					case "7. EL LINK NO DIRECCIONA AL MEDIO DE VERIFICACIÓN":
+					case "7. EL LINK NO DIRECCIONA AL MEDIO DE VERIFICACIÓN ":
 						tblInformeCalificado2.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA7);
 
 						break;
-					case "8. RESPONDE EN 0":
+					case "8. NO IMPLEMENTA":
 						tblInformeCalificado2.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA8);
@@ -346,31 +346,31 @@ public class ValoracionInformeGAD {
 					tblInformeCalificado2.setRespuesta(cmbPregunta2);
 					switch (cmbPregunta2) {
 					case "1. CÉDULA PRESUPUESTARIA DEL MINISTERIO DE FINANZAS":
-						tblInformeCalificado2.setNota((float) 11.11);
-						nota = nota + (float) 11.11;
+						tblInformeCalificado2.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA1);
 						break;
-					case "2. INFORME DE GESTIÓN FINANCIERA APROBADO POR AUTORIDAD COMPETENTE":
-						tblInformeCalificado2.setNota((float) 11.11);
-						nota = nota + (float) 11.11;
+					case " 2. INFORME DE GESTIÓN PESUPUESTARIA APROBADO POR AUTORIDAD COMPETENTE":
+						tblInformeCalificado2.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA2);
 
 						break;
-					case "3. MATRIZ DE LOTAIP QUE SI DIRECCIONA A LA CÉDULA PRESUPUESTARIA":
-						tblInformeCalificado2.setNota((float) 11.11);
-						nota = nota + (float) 11.11;
+					case "3. INFORME DE GESTIÓN FINANCIERA APROBADO POR AUTORIDAD COMPETENTE":
+						tblInformeCalificado2.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA3);
 
 						break;
 					case "4. DOCUMENTO OFICIAL DONDE LA AUTORIDAD APRUEBA EL PRESUPUESTO Y SU EJECUCIÓN":
-						tblInformeCalificado2.setNota((float) 11.11);
-						nota = nota + (float) 11.11;
+						tblInformeCalificado2.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA4);
 
 						break;
 					case "5. MATRIZ DE LOTAIP QUE SÍ DIRECCIONA A LA CÉDULA PRESUPUESTARIA":
-						tblInformeCalificado2.setNota((float) 11.11);
-						nota = nota + (float) 11.11;
+						tblInformeCalificado2.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA5);
 
 						break;
@@ -380,13 +380,13 @@ public class ValoracionInformeGAD {
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA6);
 
 						break;
-					case "7. EL LINK NO DIRECCIONA AL MEDIO DE VERIFICACIÓN":
+					case "7. EL LINK NO DIRECCIONA AL MEDIO DE VERIFICACIÓN ":
 						tblInformeCalificado2.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA7);
 
 						break;
-					case "8. RESPONDE EN 0":
+					case "8. NO IMPLEMENTA":
 						tblInformeCalificado2.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado2.setRespuestaInstitucion(Constantes.FE_P2_RESPUESTA8);
@@ -657,7 +657,7 @@ public class ValoracionInformeGAD {
 					tblInformeCalificado4.setPregunta("¿EL GAD SUSTENTA LA CONFORMACIÓN DEL CONSEJO DE PLANIFICACIÓN?");
 					tblInformeCalificado4.setRespuesta(cmbPregunta4);
 					switch (cmbPregunta4) {
-					case "1. ACTA CONSTITUTIVA DE LAS INSTANCIAS DE PARTICIPACIÓN Y REGISTROS DE ASISTENCIA":
+					case "1.  ACTA CONSTITUTIVA DEL CONSEJO DE PLANIFICACIÓN Y REGISTROS DE ASISTENCIA":
 						tblInformeCalificado4.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado4.setRespuestaInstitucion(Constantes.FE_P4_RESPUESTA1);
@@ -682,7 +682,7 @@ public class ValoracionInformeGAD {
 						nota = nota + (float) 0.00;
 						tblInformeCalificado4.setRespuestaInstitucion(Constantes.FE_P4_RESPUESTA6);
 						break;
-					case "6. NO APLICA":
+					case "6. NO IMPLEMENTA":
 						tblInformeCalificado4.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado4.setRespuestaInstitucion(Constantes.FE_P4_RESPUESTA7);
@@ -714,7 +714,7 @@ public class ValoracionInformeGAD {
 							.setPregunta("¿EL GAD SUSTENTA LA CONFORMACIÓN DE LA INSTANCIA DE PARTICIPACIÓN?");
 					tblInformeCalificado5.setRespuesta(cmbPregunta5);
 					switch (cmbPregunta5) {
-					case "1. ACTA CONSTITUTIVA DE LAS INSTANCIAS DE PARTICIPACIÓN Y REGISTROS DE ASISTENCIA":
+					case "1.  ACTA CONSTITUTIVA DE LAS INSTANCIAS DE PARTICIPACIÓN Y REGISTROS DE ASISTENCIA":
 						tblInformeCalificado5.setNota((float) 5.55);
 						nota = nota + (float) 5.55;
 						tblInformeCalificado5.setRespuestaInstitucion(Constantes.FE_P4_RESPUESTA1);
@@ -1421,6 +1421,7 @@ public class ValoracionInformeGAD {
 					mensaje.put("estado", "error");
 					mensaje.put("mensaje", "Este informe ya fue calificado!");
 				}
+				//////whether codigo != null then update
 			} else {
 				if (datosInformeValorado.size() == 0) {
 					tblInformeCalificado6 = ics.ObtenerRegistroXidInfCal(codigo);
@@ -1428,6 +1429,8 @@ public class ValoracionInformeGAD {
 					tblInformeCalificado8 = ics.ObtenerRegistroXidInfCal(codigo2);
 					tblInformeCalificado9 = ics.ObtenerRegistroXidInfCal(codigo3);
 					tblInformeCalificado10 = ics.ObtenerRegistroXidInfCal(codigo4);
+					
+					
 					tblInformeCalificado6.setInfCod(infcod);
 					tblInformeCalificado6.setMatriz("PROCESO DE RENDICIÓN DE CUENTAS");
 					tblInformeCalificado6.setPregunta(
@@ -1485,7 +1488,7 @@ public class ValoracionInformeGAD {
 					}
 					ics.guardarInformeCalificacion(tblInformeCalificado6);
 
-					////////////////////////////////// cmbPregunta12/////////////////////////////////////////////////////////////////////////
+					////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 					tblInformeCalificado7.setInfCod(infcod);
 					tblInformeCalificado7.setMatriz("PROCESO DE RENDICIÓN DE CUENTAS");
@@ -1493,37 +1496,52 @@ public class ValoracionInformeGAD {
 							"¿EL GAD SUSTENTA LA ENTREGA DEL INFORME PRELIMINAR Y FORMULARIO DE RENDICIÓN DE CUENTAS INSTITUCIONAL CON 15 DÍAS DE ANTELACIÓN?");
 					tblInformeCalificado7.setRespuesta(cmbPregunta7);
 					switch (cmbPregunta7) {
-					case "1. DOCUMENTO DEL GAD EN EL QUE LA ASAMBLEA CIUDADANA /CIUDADANÍA AFIRMAN HABER RECIBIDO EL INFORME Y FORMULARIO DE RENDICIÓN DE CUENTAS INSTITUCIONAL, CON 15 DÍAS DE ANTELACIÓN":
-						tblInformeCalificado7.setNota((float) 2.33);
-						nota = nota + (float) 2.23;
+					case "1. ACTA DE CONFORMACIÓN DEL EQUIPO TÉCNICO MIXTO, DONDE SUSCRIBE EL GAD Y LOS REPRESENTANTES DE LA ACL/CIUDADANÍA":
+						tblInformeCalificado7.setNota((float) 9.50);
+						nota = nota + (float) 9.50;
 						tblInformeCalificado7.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA1);
 						break;
-					case "2. ENVÍO VIRTUAL DEL INFORME & FORMULARIO DE RENDICIÓN DE CUENTAS INSTITUCIONAL, POR PARTE DE LA E.P DEL GAD A LA ASAMBLEA CIUDADANA /CIUDADANÍA, Y CONFIRMACIÓN CIUDADANA DE RECIBIDO, CON 15 DÍAS DE ANTELACIÓN":
-						tblInformeCalificado7.setNota((float) 2.50);
-						nota = nota + (float) 2.23;
+					case "2. OFICIO DE LA ACL QUE INDICA AL GAD SUS DELEGADOS AL EQUIPO TÉCNICO MIXTO":
+						tblInformeCalificado7.setNota((float) 9.50);
+						nota = nota + (float) 9.50;
 						tblInformeCalificado7.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA2);
 						break;
-					case "3. NO ABRE EL LINK":
-						tblInformeCalificado7.setNota((float) 0.00);
-						nota = nota + (float) 0.00;
+					case "3. ACTA DE APROBACIÓN DE LA HOJA DE RUTA PARA LA RENDICIÓN DE CUENTAS, DONDE SUSCRIBE EL GAD Y LOS REPRESENTANTES DE LA ACL/CIUDADANÍA":
+						tblInformeCalificado7.setNota((float) 9.50);
+						nota = nota + (float) 9.50;
 						tblInformeCalificado7.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA3);
 						break;
-					case "4. EL LINK NO DIRECCIONA AL MEDIO DE	VERIFICACIÓN":
-						tblInformeCalificado7.setNota((float) 0.00);
-						nota = nota + (float) 0.00;
+					case "4. ACTAS DE REUNIONES DE ELABORACIÓN DEL INFORME, DONDE TAMBIÉN SUSCRIBEN LOS REPRESENTANTES DE LA ACL/CIUDADANÍA":
+						tblInformeCalificado7.setNota((float) 4.75);
+						nota = nota + (float) 4.75;
 						tblInformeCalificado7.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA4);
 						break;
-					case "5. NO APLICA":
-						tblInformeCalificado7.setNota((float) 0.00);
-						nota = nota + (float) 0.00;
+					case "5. ACTAS DE REUNIONES DE PLANIFICACIÓN DEL EVENTO DELIBERATIVO, DONDE TAMBIÉN SUSCRIBEN LOS REPRESENTANTES DE LA ACL/CIUDADANÍA":
+						tblInformeCalificado7.setNota((float) 4.75);
+						nota = nota + (float) 4.75;
 						tblInformeCalificado7.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA5);
 						break;
-					case "6. OTROS, NO CUMPLE":
+					case "6. NO ABRE EL LINK":
 						tblInformeCalificado7.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado7.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA6);
 						break;
-					case "7. VACÍO":
+					case "7. EL LINK NO DIRECCIONA AL MEDIO DE VERIFICACIÓN":
+						tblInformeCalificado7.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
+						tblInformeCalificado7.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA7);
+						break;
+					case "8. NO IMPLEMENTÓ":
+						tblInformeCalificado7.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
+						tblInformeCalificado7.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA7);
+						break;
+					case "9. OTROS, NO CUMPLE":
+						tblInformeCalificado7.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
+						tblInformeCalificado7.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA7);
+						break;
+					case "10. VACÍO":
 						tblInformeCalificado7.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado7.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA7);
@@ -1538,7 +1556,7 @@ public class ValoracionInformeGAD {
 					}
 					ics.guardarInformeCalificacion(tblInformeCalificado7);
 					
-					///////////////////////////////// cmbPregunta13//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 					tblInformeCalificado8.setInfCod(infcod);
 					tblInformeCalificado8.setMatriz("PROCESO DE RENDICIÓN DE CUENTAS");
@@ -1546,14 +1564,15 @@ public class ValoracionInformeGAD {
 							"¿EL GAD SUSTENTA LA REALIZACIÓN DEL VIDEO DE LA DELIBERACIÓN PÚBLICA CON LA INTERVENCIÓN DE LA CIUDADANÍA?");
 					tblInformeCalificado8.setRespuesta(cmbPregunta8);
 					switch (cmbPregunta8) {
-					case "1. LINK AL VIDEO EN EL QUE EL GAD DEMUESTRA QUE LA ASAMBLEA CIUDADANA /CIUDADANÍA SI TUVO UN TIEMPO PARA EVALUAR LA ENTIDAD EN LA DELIBERACIÓN PÚBLICA":
-						tblInformeCalificado8.setNota((float) 2.23);
-						nota = nota + (float) 2.23;
+					case "1. DOCUMENTO DEL GAD EN EL QUE LA ACL/CIUDADANÍA AFIRMA HABER RECIBIDO EL INFORME & FORMULARIO DE RENDICIÓN DE CUENTAS INSTITUCIONAL, CON 15 DÍAS DE ANTELACIÓN.":
+
+						tblInformeCalificado8.setNota((float) 9.50);
+						nota = nota + (float) 9.50;
 						tblInformeCalificado8.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA1);
 						break;
-					case "2. LINK AL VIDEO EN EL QUE EL GAD REALIZÓ LA DELIBERACIÓN PÚBLICA, PERO LA ASAMBLEA CIUDADANA /CIUDADANÍA NO TUVO UN TIEMPO PARA EVALUAR LA ENTIDAD EN LA DELIBERACIÓN PÚBLICA":
-						tblInformeCalificado8.setNota((float) 0.00);
-						nota = nota + (float) 0.00;
+					case "2. ENVÍO VIRTUAL DEL INFORME & FORMULARIO DE RENDICIÓN DE CUENTAS INSTITUCIONAL, POR PARTE DEL GAD A LA ACL /CIUDADANÍA, Y CONFIRMACIÓN CIUDADANA DE RECIBIDO, CON 15 DÍAS DE ANTELACIÓN.":
+						tblInformeCalificado8.setNota((float) 9.50);
+						nota = nota + (float) 9.50;
 						tblInformeCalificado8.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA2);
 						break;
 					case "3. NO ABRE EL LINK":
@@ -1561,12 +1580,12 @@ public class ValoracionInformeGAD {
 						nota = nota + (float) 0.00;
 						tblInformeCalificado8.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA3);
 						break;
-					case "4. EL LINK NO DIRECCIONA AL MEDIO DE	VERIFICACIÓN":
+					case "4. EL LINK NO DIRECCIONA AL MEDIO DE VERIFICACIÓN":
 						tblInformeCalificado8.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado8.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA4);
 						break;
-					case "5. NO APLICA":
+					case "5. NO IMPLEMENTÓ":
 						tblInformeCalificado8.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado8.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA5);
@@ -1590,7 +1609,7 @@ public class ValoracionInformeGAD {
 						tblInformeCalificado8.setEvidencia("N/A");
 					}
 					ics.guardarInformeCalificacion(tblInformeCalificado8);
-					/////////////////////////////// cmbPregunta14////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 					tblInformeCalificado9.setInfCod(infcod);
 					tblInformeCalificado9.setMatriz("PROCESO DE RENDICIÓN DE CUENTAS");
@@ -1598,32 +1617,47 @@ public class ValoracionInformeGAD {
 							"¿EL GAD SUSTENTA EL PLAN DE TRABAJO QUE INCORPORA LAS SUGERENCIAS CIUDADANAS EN SU GESTIÓN?");
 					tblInformeCalificado9.setRespuesta(cmbPregunta9);
 					switch (cmbPregunta9) {
-					case "1. DOCUMENTO DEL PLAN DE TRABAJO DEL GAD ELABORADO A PARTIR DE LOS INSUMOS DE LA DELIBERACIÓN PÚBLICA DEL GAD":
-						tblInformeCalificado9.setNota((float) 2.23);
-						nota = nota + (float) 2.23;
+					case "1. VIDEO EN EL QUE EL GAD DEMUESTRA QUE LA ACL/CIUDADANÍA SI TUVO UN TIEMPO PARA EVALUAR A LA ENTIDAD EN LA DELIBERACIÓN PÚBLICA":
+						tblInformeCalificado9.setNota((float) 9.50);
+						nota = nota + (float) 9.50;
 						tblInformeCalificado9.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA1);
 						break;
-					case "2. NO ABRE EL LINK":
+					case "2. ACTA DE REALIZACIÓN DEL EVENTO, QUE CONTENGA: LINK AL VIDEO DEL ESPACIO DELIBERATIVO, DONDE SE EVIDENCIA QUE LA  ACL/CIUDADANÍA SI TUVO UN TIEMPO PARA EVALUAR A LA ENTIDAD":
+						tblInformeCalificado9.setNota((float) 9.50);
+						nota = nota + (float) 9.50;
+						tblInformeCalificado9.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA2);
+						break;
+					case "3. VIDEO EN EL QUE EL GAD REALIZÓ LA DELIBERACIÓN PÚBLICA, PERO LA ASAMBLEA CIUDADANA /CIUDADANÍA NO TUVO UN TIEMPO PARA EVALUAR LA ENTIDAD EN LA DELIBERACIÓN PÚBLICA, NI SE ELABORARON SUGERENCIAS/RECOMENDACIONES AL GAD":
 						tblInformeCalificado9.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado9.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA3);
 						break;
-					case "3. EL LINK NO DIRECCIONA AL MEDIO DE	VERIFICACIÓN":
+					case "4. ACTA DE REALIZACIÓN DEL EVENTO, QUE CONTENGA: LINK AL VIDEO DEL ESPACIO DELIBERATIVO, DONDE SE EVIDENCIA QUE LA  ACL/CIUDADANÍA NO TUVO UN TIEMPO PARA EVALUAR A LA ENTIDAD, NI SE ELABORARON SUGERENCIAS/RECOMENDACIONES AL GAD":
 						tblInformeCalificado9.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado9.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA4);
 						break;
-					case "4. NO APLICA":
+					case "5. NO ABRE EL LINK":
 						tblInformeCalificado9.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado9.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA5);
 						break;
-					case "5. OTROS, NO CUMPLE":
+					case "6. EL LINK NO DIRECCIONA AL MEDIO DE VERIFICACIÓN":
 						tblInformeCalificado9.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado9.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA6);
 						break;
-					case "6. VACÍO":
+					case "7. NO IMPLEMENTÓ":
+						tblInformeCalificado9.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
+						tblInformeCalificado9.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA7);
+						break;
+					case "8. OTROS, NO CUMPLE":
+						tblInformeCalificado9.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
+						tblInformeCalificado9.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA7);
+						break;
+					case "9. VACÍO":
 						tblInformeCalificado9.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado9.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA7);
@@ -1637,7 +1671,7 @@ public class ValoracionInformeGAD {
 						tblInformeCalificado9.setEvidencia("N/A");
 					}
 					ics.guardarInformeCalificacion(tblInformeCalificado9);
-					////////////////// cmbPregunta15/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 					tblInformeCalificado10.setInfCod(infcod);
 					tblInformeCalificado10.setMatriz("PROCESO DE RENDICIÓN DE CUENTAS");
@@ -1645,32 +1679,52 @@ public class ValoracionInformeGAD {
 							"¿EL GAD SUSTENTA LA ENTREGA DEL PLAN DE TRABAJO A LA ASAMBLEA CIUDADANA CON SU RESPECTIVO RECIBIDO?");
 					tblInformeCalificado10.setRespuesta(cmbPregunta10);
 					switch (cmbPregunta10) {
-					case "1. DOCUMENTOS (DIGITAL O FÍSICO) CON EL RECIBIDO DE: LA ASAMBLEA CIUDADANA/ CIUDADANÍA, CONSEJO DE PARTICIPACIÓN E INSTANCIA DE PARTICIPACIÓN, DE CONSTANCIA DE ENTREGA DEL PLAN DE TRABAJO":
-						tblInformeCalificado10.setNota((float) 2.23);
-						nota = nota + (float) 2.23;
+					case "1. VIDEO EN EL QUE EL GAD DEMUESTRA QUE LA ACL/CIUDADANÍA SI PARTICIPÓ DE LAS MESAS DE TRABAJO Y SI SE ELABORARON RECOMENDACIONES AL GAD":
+						tblInformeCalificado10.setNota((float) 9.50);
+						nota = nota + (float) 9.50;
 						tblInformeCalificado10.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA1);
 						break;
-					case "2. NO ABRE EL LINK":
-						tblInformeCalificado10.setNota((float) 0.00);
-						nota = nota + (float) 0.00;
+					case "2. ACTA DE REALIZACIÓN DEL EVENTO, QUE CONTENGA: LINK AL VIDEO DEL ESPACIO DELIBERATIVO, DONDE SE EVIDENCIA QUE LA  ACL/CIUDADANÍA SI PARTICIPÓ DE LAS MESAS DE TRABAJO Y SI SE ELABORARON SUGERENCIAS/RECOMENDACIONES AL GAD":
+						tblInformeCalificado10.setNota((float) 9.50);
+						nota = nota + (float) 9.50;
 						tblInformeCalificado10.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA3);
 						break;
-					case "3. EL LINK NO DIRECCIONA AL MEDIO DE	VERIFICACIÓN":
-						tblInformeCalificado10.setNota((float) 0.00);
-						nota = nota + (float) 0.00;
+					case "3. VIDEO EN EL QUE EL GAD DEMUESTRA QUE LA ACL/CIUDADANÍA SI PARTICIPÓ DE LAS MESAS DE TRABAJO PERO NO SE ELABORARON SUGERENCIAS/RECOMENDACIONES AL GAD":
+						tblInformeCalificado10.setNota((float) 4.75);
+						nota = nota + (float) 4.75;
 						tblInformeCalificado10.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA4);
 						break;
-					case "4. NO APLICA":
-						tblInformeCalificado10.setNota((float) 0.00);
-						nota = nota + (float) 0.00;
+					case "4. ACTA DE REALIZACIÓN DEL EVENTO, QUE CONTENGA: LINK AL VIDEO DEL ESPACIO DELIBERATIVO, DONDE SE EVIDENCIA QUE LA  ACL/CIUDADANÍA SI PARTICIPÓ DE LAS MESAS DE TRABAJO PERO NO SE ELABORARON SUGERENCIAS/RECOMENDACIONES AL GAD":
+						tblInformeCalificado10.setNota((float) 4.75);
+						nota = nota + (float) 4.75;
 						tblInformeCalificado10.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA5);
 						break;
-					case "5. OTROS, NO CUMPLE":
-						tblInformeCalificado10.setNota((float) 0.00);
-						nota = nota + (float) 0.00;
+					case "5. VIDEO EN EL QUE EL GAD DEMUESTRA QUE NO DESARROLLÓ MESAS TEMÁTICAS EN SU DELIBERACIÓN PÚBLICA, PERO LA ACL/CIUDADANÍA SI PARTICIPÓ DE LAS MESAS DE TRABAJO":
+						tblInformeCalificado10.setNota((float) 4.75);
+						nota = nota + (float) 4.75;
 						tblInformeCalificado10.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA6);
 						break;
-					case "6. VACÍO":
+					case "6. NO ABRE EL LINK":
+						tblInformeCalificado10.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
+						tblInformeCalificado10.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA7);
+						break;
+					case "7. EL LINK NO DIRECCIONA AL MEDIO DE VERIFICACIÓN":
+						tblInformeCalificado10.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
+						tblInformeCalificado10.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA7);
+						break;
+					case "8. NO IMPLEMENTÓ":
+						tblInformeCalificado10.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
+						tblInformeCalificado10.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA7);
+						break;
+					case "9. OTROS, NO CUMPLE":
+						tblInformeCalificado10.setNota((float) 0.00);
+						nota = nota + (float) 0.00;
+						tblInformeCalificado10.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA7);
+						break;
+					case "10. VACÍO":
 						tblInformeCalificado10.setNota((float) 0.00);
 						nota = nota + (float) 0.00;
 						tblInformeCalificado10.setRespuestaInstitucion(Constantes.FE_P6_RESPUESTA7);
@@ -1707,6 +1761,8 @@ public class ValoracionInformeGAD {
 
 	}
 
+	
+	/**** Matriz 6 ***/
 	@SuppressWarnings("finally")
 	@RequestMapping(value = "/GuardarFrmGADP6")
 	public @ResponseBody String GuardarFrmGADP6(HttpServletRequest request,
@@ -1864,6 +1920,8 @@ public class ValoracionInformeGAD {
 
 	}
 
+	
+	/**** Matriz 7 ***/
 	@SuppressWarnings("finally")
 	@RequestMapping(value = "/GuardarFrmGADP7")
 	public @ResponseBody String GuardarFrmGADP7(HttpServletRequest request,
@@ -2075,9 +2133,12 @@ public class ValoracionInformeGAD {
 
 	}
 
+
+	/**** Matriz 8 ***/
 	@SuppressWarnings("finally")
 	@RequestMapping(value = "/GuardarFrmGADP8")
-	public @ResponseBody String GuardarFrmGADP8(HttpServletRequest request,
+	
+public @ResponseBody String GuardarFrmGADP8(HttpServletRequest request,
 			@RequestParam("identificadorResponsable") String identificadorResponsable,
 			@RequestParam("infcod") Integer infcod, @RequestParam("rutaArchivo7") String rutaArchivo7,
 			@RequestParam("cmbPregunta14") String cmbPregunta14, @RequestParam("periodoInforme") Integer periodoInforme,
@@ -2230,6 +2291,8 @@ public class ValoracionInformeGAD {
 
 	}
 
+	
+	/**** Matriz 9 ***/
 	@SuppressWarnings("finally")
 	@RequestMapping(value = "/GuardarFrmGADP9")
 	public @ResponseBody String GuardarFrmGADP9(HttpServletRequest request,
@@ -2377,6 +2440,8 @@ public class ValoracionInformeGAD {
 
 	}
 
+	
+	/**** Matriz 10 ***/
 	@SuppressWarnings("finally")
 	@RequestMapping(value = "/GuardarFrmGADP10")
 	public @ResponseBody String GuardarFrmGADP10(HttpServletRequest request,
@@ -2532,6 +2597,8 @@ public class ValoracionInformeGAD {
 
 	}
 
+	
+	/**** Matriz 11 ***/
 	@SuppressWarnings("finally")
 	@RequestMapping(value = "/GuardarFrmGADP11")
 	public @ResponseBody String GuardarFrmGADP11(HttpServletRequest request,
