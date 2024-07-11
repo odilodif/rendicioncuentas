@@ -1,0 +1,148 @@
+package gob.cpccs.repository;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import org.springframework.stereotype.Component;
+
+import gob.cpccs.model.aplicacion.TblAplicaciones;
+import gob.cpccs.utilidades.Constantes;
+
+@Component
+public class GraficasRepositoryImpl extends FuncionesSqlRepository<TblAplicaciones> implements GraficaRepository {
+
+	public GraficasRepositoryImpl() {
+		super(TblAplicaciones.class);
+	}
+
+	@PersistenceUnit
+	private EntityManagerFactory emf;
+
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Override
+	public List<Object[]> findBycountGraficaprueba(String fecha) {
+		EntityManager em = emf.createEntityManager();
+		List<Object[]> lista = null;
+		try {
+			String sql = "SELECT    DISTINCT\r\n"
+					+ " (select  COUNT(fec.inst_fecha_registro) from esq_catalogos.tbl_institucion fec WHERE TO_CHAR(fec.inst_fecha_registro, 'YYYY/MM/DD') = '"
+					+ fecha + "' ) AS registrado,\r\n"
+					+ "	(select  COUNT(fec.inst_fecha_activar) from esq_catalogos.tbl_institucion fec WHERE TO_CHAR(fec.inst_fecha_activar, 'YYYY/MM/DD') = '"
+					+ fecha + "' ) AS activo\r\n" + " FROM\r\n" + "	esq_catalogos.tbl_institucion insti\r\n"
+					+ "WHERE\r\n" + "	insti.inst_periodo = " + Constantes.periodo();
+			Query query = em.createNativeQuery(sql);
+			lista = query.getResultList();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			em.clear();
+			em.close();
+			return lista;
+		}
+	}
+
+	@Override
+	public List<Object[]> findBycountGraficaFinalizarInformeXCumplimiento(String fecha) {
+		EntityManager em = emf.createEntityManager();
+
+		String sql = "SELECT DISTINCT\r\n"
+				+ "	( SELECT COUNT ( fec.inf_fechafin ) FROM esq_rendicioncuentas.tbl_informe fec WHERE TO_CHAR( fec.inf_fechafin, 'YYYY/MM/DD' ) = '"
+				+ fecha + "' and fec.inf_verificador='A TIEMPO') AS cumplido,\r\n" + "	\r\n"
+				+ "	( SELECT COUNT ( fec.inf_fechafin ) FROM esq_rendicioncuentas.tbl_informe fec WHERE TO_CHAR( fec.inf_fechafin, 'YYYY/MM/DD' ) = '"
+				+ fecha + "' and fec.inf_verificador='A DESTIEMPO' ) AS incumplido \r\n" + "	\r\n" + "FROM\r\n"
+				+ "	esq_catalogos.tbl_institucion insti \r\n" + "WHERE\r\n" + " insti.inst_periodo = "
+				+ Constantes.periodo();
+		Query query = em.createNativeQuery(sql);
+		@SuppressWarnings("unchecked")
+		List<Object[]> lista = query.getResultList();
+		em.close();
+		return lista;
+	}
+
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Override
+	public List<Object[]> findBycountGraficaAsignarInforme(String periodo) {
+		EntityManager em = emf.createEntityManager();
+		List<Object[]> lista = null;
+		try {
+			String sql = "SELECT"
+					+ "	(SELECT funciona.nombre FROM esq_usuarios_internos.tbl_datos_funcionarios funciona WHERE funciona.identificador = asig.identificador and funciona.estado_empleado='1') AS identificador,"
+					+ "	(SELECT COUNT ( * ) FROM esq_retroalimentacion.tbl_asignacion asig2 where asig2.estado_asig ='asignado' and asig2.identificador = asig.identificador) AS asginado,\r\n"
+					+ "(SELECT COUNT ( * ) FROM esq_retroalimentacion.tbl_asignacion asig2 where asig2.estado_asig ='calificado' and asig2.identificador = asig.identificador) AS calificado 	\r\n"
+					+ "FROM\r\n" + "	esq_retroalimentacion.tbl_asignacion asig " + "WHERE\r\n"
+					+ "	asig.estado_asig = 'asignado' " + "	AND asig.periodo_asig =" + periodo + " GROUP BY "
+					+ "	asig.identificador";
+			Query query = em.createNativeQuery(sql);
+			lista = query.getResultList();
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			em.clear();
+			em.close();
+			return lista;
+		}
+	}
+
+	@SuppressWarnings({ "unchecked", "finally" })
+	@Override
+	public List<Object[]> findBycountGraficaAutoridad(String fecha) {
+		EntityManager em = emf.createEntityManager();
+		List<Object[]> lista = null;
+		try {
+			String sql = "SELECT  DISTINCT (select  COUNT(fec.fecha_registro) from esq_autoridades.tbl_autoridad fec WHERE TO_CHAR(fec.fecha_registro, 'YYYY/MM/DD') = '"
+					+ fecha
+					+ "' ) AS registrado, (select  COUNT(fec.fecha_activar) from esq_autoridades.tbl_autoridad fec WHERE TO_CHAR(fec.fecha_activar, 'YYYY/MM/DD') = '"
+					+ fecha + "' ) AS activo FROM esq_autoridades.tbl_autoridad autoridad WHERE autoridad.periodo= "
+					+ Constantes.periodo();
+			Query query = em.createNativeQuery(sql);
+			lista = query.getResultList();
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			em.clear();
+			em.close();
+			return lista;
+		}
+	}
+
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Override
+	public List<Object[]> findBycountGraficaFinalizarInformeAutoridadXCumplimiento(String fecha) {
+		EntityManager em = emf.createEntityManager();
+		List<Object[]> lista = null;
+
+		try {
+			String sql = "SELECT DISTINCT  \r\n"
+					+ "         		 	( SELECT COUNT ( fec.inf_aut_fechafin ) FROM esq_rendicioncuentas.tbl_informe_autoridad fec WHERE TO_CHAR( fec.inf_aut_fechafin, 'YYYY/MM/DD' ) = '"
+					+ fecha + "' and fec.inf_aut_verificador='A TIEMPO') AS cumplido,  \r\n"
+					+ "         		 	  \r\n"
+					+ "         		 	( SELECT COUNT ( fec.inf_aut_fechafin ) FROM esq_rendicioncuentas.tbl_informe_autoridad fec WHERE TO_CHAR( fec.inf_aut_fechafin, 'YYYY/MM/DD' ) = '"
+					+ fecha + "' and fec.inf_aut_verificador='A DESTIEMPO' ) AS incumplido   \r\n"
+					+ "         		 	  \r\n" + "         		 FROM  \r\n"
+					+ "         		 	esq_autoridades.tbl_autoridad aut   \r\n" + "         		 WHERE  \r\n"
+					+ "         		  aut.periodo  = " + Constantes.periodo();
+			Query query = em.createNativeQuery(sql);
+
+			lista = query.getResultList();
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			em.clear();
+			em.close();
+			return lista;
+
+		}
+	}
+
+}

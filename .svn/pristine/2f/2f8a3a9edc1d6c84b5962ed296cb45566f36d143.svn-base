@@ -1,0 +1,348 @@
+package gob.cpccs.service.rendicion;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import gob.cpccs.model.rendicion.TblEjecucionProgramatica;
+import gob.cpccs.model.rendicion.TblFuncionesObjetivos;
+import gob.cpccs.model.rendicion.TblImplementacionIgualdad;
+import gob.cpccs.model.rendicion.TblImplementacionPresupuesto;
+import gob.cpccs.model.rendicion.TblInforme;
+import gob.cpccs.model.rendicion.TblInformeAutoridad;
+import gob.cpccs.model.rendicion.TblMecanismoRendicionCuentas;
+import gob.cpccs.model.rendicion.TblMecanismosContolSocial;
+import gob.cpccs.model.rendicion.TblParticipacionCiudadana;
+import gob.cpccs.model.rendicion.TblObjetivosPlanDesarrollo;
+import gob.cpccs.model.rendicion.TblPlanDesarrollo;
+import gob.cpccs.repository.InformeRepository;
+import gob.cpccs.repository.QuerysNativosRepository;
+import gob.cpccs.repository.rendicion.TblImplementacionIgualdadRepository;
+import gob.cpccs.repository.rendicion.PlanDesarrolloRepository; 
+import gob.cpccs.repository.rendicion.TblImplementacionPresupuestoRepository;
+import gob.cpccs.repository.rendicion.TblMecanismosContolSocialRepository;
+import gob.cpccs.repository.rendicion.TblParticipacionCiudadanaRepository;
+import gob.cpccs.repository.rendicion.EjecucionProgramticaRepository;
+import gob.cpccs.repository.InformeInstitucionRepository;
+import gob.cpccs.repository.InformeInstitucionFuncionObjetivoRepository;
+import gob.cpccs.repository.rendicion.ObjetivosPlanDesarrolloRepository;
+
+
+@Service
+public class InformeServicioImpl implements InformeServicio {
+
+	@Autowired 
+	private InformeRepository InformeRepository;
+	
+	@Autowired 
+	private InformeInstitucionRepository InformeInstitucionRepository;
+
+	@Autowired 
+	private InformeInstitucionFuncionObjetivoRepository InformeInstitucionFuncionObjetivoRepository;
+		
+	@Autowired
+	private ObjetivosPlanDesarrolloRepository ObjetivosPlanDesarrolloRepository;
+	
+	@Autowired
+	private EjecucionProgramticaRepository EjecucionProgramticaRepository;
+	
+	@Autowired
+	private PlanDesarrolloRepository PlanDesarrolloRepository;
+	
+	@Autowired
+	private QuerysNativosRepository QuerysNativosRepository;
+
+	@Override
+	public TblInformeAutoridad obtenerRegistroInforme(int identificador ,int periodo) {
+		return InformeRepository.findByInfAutCodAndInfAutPeriodo(identificador, periodo);
+	}
+
+	@Override
+	public TblInformeAutoridad obtenerRegistroInformeAutCod(int identificador ,int periodo) {
+		return InformeRepository.findByInfAutCodAndInfAutPeriodo2(identificador, periodo);
+	}
+
+	
+	
+	
+	@Override
+	public List<Object[]> obtenerInformeAutoridadxIdentificador(String Estado, Integer periodo,  String Identificador) {
+		return QuerysNativosRepository.ObtenerInformeXIdentificador(Estado, periodo, Identificador);
+	}
+
+	
+	@Override
+	public TblInformeAutoridad obtenerRegistroInformexIdentificador(int infAutCod ,int periodo) {
+		return InformeRepository.findByIdentificadorAndInfAutPeriodo(infAutCod, periodo);
+	}
+
+	
+	@Override
+	public void guardarInformeAutoridad(TblInformeAutoridad tblInformeAutoridad) {
+		InformeRepository.save(tblInformeAutoridad);
+		
+	}
+	
+	@Override
+	public void ActualizarGrupoEducacion(String infGprEducacion, int infCod) {
+		InformeInstitucionRepository.actualizarInformeGrupoEducacion(infGprEducacion, infCod);  
+	}
+
+	
+	public void AperturaInforme(String infEstado, Integer infCod,  String infVerificador, Integer infContadorApertura) {
+		InformeInstitucionRepository.aperturaInforme(infEstado, infCod, infVerificador, infContadorApertura);
+		
+		
+	}
+	
+	public void AperturaInformeAutoridad(String infAutEstado, Integer infAutCod,  String infAutVerificador, Integer infContadorApertura) {
+		InformeRepository.aperturaInforme(infAutEstado, infAutCod, infAutVerificador, infContadorApertura);
+		
+		
+	}
+
+	//institucion
+	
+	@Override
+	public TblInforme obtenerRegistroInformeInstitucion(int instCod ,int periodo) {
+		return InformeInstitucionRepository.findByInstCodAndInfPeriodo(instCod, periodo);
+	}
+	
+	
+	@Override
+	public List<Object[]> obtenerRegistroInformeInstitucionXInfcod(int infcod ,int periodo) {
+		return QuerysNativosRepository.ObtenerInstitucionxInforme(infcod, periodo);
+	}
+	
+	@Override
+	public List<Object[]> obtenerRegistroInformeInstitucionXInfcodMedios(int infcod ,int periodo) {
+		return QuerysNativosRepository.ObtenerInstitucionxInformeMedio(infcod, periodo);
+	}
+	
+	
+	@Override
+	public List<Object[]> obtenerRegistroInformeInstitucionXInfcodES(int infcod ,int periodo) {
+		return QuerysNativosRepository.ObtenerInstitucionxInformeES(infcod, periodo);
+	}
+	
+	
+	@Override
+	public void guardarInforme(TblInforme tblInforme) {
+		InformeInstitucionRepository.save(tblInforme);
+		
+	}
+	
+	@Override
+	public  List<TblFuncionesObjetivos> obtenerRegistroInformeInstitucionFuncionesObjetivos(int instCod) {
+		return InformeInstitucionFuncionObjetivoRepository.findByInstCod(instCod);
+	}
+	
+	@Override
+	public  List<TblFuncionesObjetivos> obtenerRegistroInformeInstitucionFuncionesObjetivosxTipo(int instCod, String foTip) {
+		return InformeInstitucionFuncionObjetivoRepository.findByInstCodAndFoTip(instCod, foTip);
+	}
+	//FuncionesObjetivos
+	@Override
+	public void guardarFuncionesObjetivos(TblFuncionesObjetivos tblFuncionesObjetivos) {
+		InformeInstitucionFuncionObjetivoRepository.save(tblFuncionesObjetivos);
+		
+	}
+
+	@Override
+	public List<Object[]> BuscarFuncionesObjetivosInstCod(int codigoIntitucionAutorida, String estado, String periodo) {
+		return InformeInstitucionFuncionObjetivoRepository.BuscarFuncionesObjetivosInstCod(codigoIntitucionAutorida, estado, periodo);
+	}
+	
+	@Override
+	public List<Object[]> BuscarFuncionesObjetivosInstCodTipo(int codigoIntitucionAutorida, String estado, String periodo, String tipo) {
+		return InformeInstitucionFuncionObjetivoRepository.BuscarFuncionesObjetivosInstCodTipo(codigoIntitucionAutorida, estado, periodo, tipo);
+	}
+	// concurrentes para aplicarse en el periodo 2025 
+	/*
+	@Override
+	public List<Object[]> BuscarFuncionesObjetivosInstCodTipoConcurrentes(int codigoIntitucionAutorida, String estado, String periodo, String tipo) {
+		return InformeInstitucionFuncionObjetivoRepository.BuscarFuncionesObjetivosInstCodTipoConcurrentes(codigoIntitucionAutorida, estado, periodo, tipo);
+	}
+	*/
+
+	@Override
+	public List<Object[]> BuscarFuncionesObjetivosInstCodSinTipo(int codigoIntitucionAutorida, String estado, String periodo) {
+		return InformeInstitucionFuncionObjetivoRepository.BuscarFuncionesObjetivoSinTipoInstCodTipo(codigoIntitucionAutorida, estado, periodo);
+	}
+
+	@Override
+	public TblFuncionesObjetivos obtenerRegistroFuncionObjetivo(int identificador, String periodo) {
+		return InformeInstitucionFuncionObjetivoRepository.findByFoCodAndFoPeriodo(identificador, periodo);
+	}
+
+	@Override
+	public TblInforme obtenerRegistroInformeXcodPeriodo(Integer infCod, Integer periodo) {
+		
+		return InformeInstitucionRepository.findByinfCodAndInfPeriodo(infCod, periodo);
+	}
+	
+	@Override
+	public void guardarPlanDesarrollo(TblObjetivosPlanDesarrollo tblObjetivosPlanDesarrollo) {
+		ObjetivosPlanDesarrolloRepository.save(tblObjetivosPlanDesarrollo);
+		
+	}
+	
+	@Override
+	public List<Object[]> obtenerRegistroObjetivosPlanXcod(TblInforme tblInforme) {
+		return ObjetivosPlanDesarrolloRepository.buscarObjetivoPlan(tblInforme);
+	}
+	
+	@Override
+	public List<TblObjetivosPlanDesarrollo> OntenerRegistrosObjetivosXcod(TblInforme tblInforme) {
+		return ObjetivosPlanDesarrolloRepository.findByInfCod(tblInforme);
+	}
+	
+	@Override
+	public void guardarEjecucionProgramtica(TblEjecucionProgramatica tblEjecucionProgramatica) {
+		EjecucionProgramticaRepository.save(tblEjecucionProgramatica);
+		
+	}
+	
+	@Override
+	public List<TblEjecucionProgramatica> obtenerTotalesEjecucionProgramatica(int infCod) {
+		return EjecucionProgramticaRepository.findByInfCod(infCod);
+	}
+	@Override
+	public List<Object[]> obtenerTotalesEjecucionProgramaticaNativa(int infCod) {
+		return EjecucionProgramticaRepository.findByInfCodSQL(infCod);
+	}
+	@Override
+	public TblObjetivosPlanDesarrollo obtenerIdObjetivoPlan(int objCod) {
+		return ObjetivosPlanDesarrolloRepository.findByObjCod(objCod);
+	}
+	
+	@Override
+	public void ActualizarTotalEjecucionProgramatica(BigDecimal eprSuma, int infCod) {
+		 EjecucionProgramticaRepository.actualizarTotalEP(eprSuma, infCod);  
+	}
+	
+	@Override
+	public void guardarAvances(TblPlanDesarrollo tblPlanDesarrollo) {
+		PlanDesarrolloRepository.save(tblPlanDesarrollo);
+		
+	}
+	
+	@Override
+	public List<Object[]> obtenerRegistroAvances(TblInforme tblInforme) {
+		return PlanDesarrolloRepository.buscarAvances(tblInforme);
+	}
+
+	@Override
+	public TblInforme obtenerRegistroInforme(int instCod) {
+		return InformeInstitucionRepository.findByInfCod(instCod);
+		
+	}
+
+	@Override
+	public void ActualizarInformeAutoridad(Date fechaRendicion, String lugar, Integer numeroAsistentes, int infAutCod) {
+		InformeRepository.actualizarInformeAutoridadxId( fechaRendicion, lugar,  numeroAsistentes,  infAutCod);
+		
+	}
+	
+	@Override
+	public void ActualizarInformeObligaciones(String infAutTributo, String infAutMedioTributario,  int infAutCod) {
+		InformeRepository.actualizarInformeCumplimientoxId( infAutTributo,  infAutMedioTributario,  infAutCod);
+		
+	}
+	
+	
+	@Override
+	public void ActualizarInformeRendicion(String inaProcesoRc,  int infAutCod) {
+		
+		InformeRepository.actualizarInformeRendicionxId(inaProcesoRc, infAutCod);
+		
+	}
+
+
+	@Override
+	public void ActualizarInformeAportes(String inaAportesCiu, int infCod ) {
+		InformeRepository.actualizarInformeAportesxId(inaAportesCiu, infCod);
+		
+	}
+
+
+	@Override
+	public  String listar(int infAutCod, int infAutPeriodo) {
+		// TODO Auto-generated method stub
+		return InformeRepository.listaProcedure( infAutCod,  infAutPeriodo);
+	}
+	
+	@Override
+	public  String listarInstitucion(int infCod, int infAutPeriodo) {
+		// TODO Auto-generated method stub
+		return InformeInstitucionRepository.listaProcedure( infCod,  infAutPeriodo);
+	}
+	
+	@Override
+	public  String listarInstitucionVinculadas(int infCod, int infAutPeriodo) {
+		// TODO Auto-generated method stub
+		return InformeInstitucionRepository.listaProcedureVinculadas( infCod,  infAutPeriodo);
+	}
+	
+	@Override
+	public  String listarEudcacionSuperior(int infCod, int infAutPeriodo) {
+		// TODO Auto-generated method stub
+		return InformeInstitucionRepository.listaProcedureES( infCod,  infAutPeriodo);
+	}
+	
+	@Override
+	public  String listarInstitucionGADEP(int infCod, int infAutPeriodo) {
+		// TODO Auto-generated method stub
+		return InformeInstitucionRepository.listaProcedureGADEP( infCod,  infAutPeriodo);
+	}
+	
+	@Override
+	public  String listarInstitucionFE(int infCod, int infAutPeriodo) {
+		// TODO Auto-generated method stub
+		return InformeInstitucionRepository.listaProcedureFE( infCod,  infAutPeriodo);
+	}
+
+	@Override
+	public  String listarInstitucionFEEP(int infCod, int infAutPeriodo) {
+		// TODO Auto-generated method stub
+		return InformeInstitucionRepository.listaProcedureFEEP( infCod,  infAutPeriodo);
+	}
+	
+	@Override
+	public  String listarInstitucionMedios(int infCod, int infAutPeriodo) {
+		// TODO Auto-generated method stub
+		return InformeInstitucionRepository.listaProcedureMedios( infCod,  infAutPeriodo);
+	}
+
+	@Override
+	public  String listarInstitucionIESS(int infCod, int infAutPeriodo) {
+		// TODO Auto-generated method stub
+		return InformeInstitucionRepository.listaProcedureIESS( infCod,  infAutPeriodo);
+	}
+
+	@Override
+	public void finalizarInforme( int infAutCod, String infAutEstado, Date infAutFechafin, String infAutVerificador) {
+		
+		InformeRepository.finalizar( infAutCod,  infAutEstado,  infAutFechafin,  infAutVerificador);
+	}
+
+	@Override
+	public void finalizarInformeInstitucion( int instCod, String infEstado, Date infFechafin,  String infVerificador) {
+		
+		InformeInstitucionRepository.finalizar( instCod,  infEstado,  infFechafin,   infVerificador);
+	}
+	
+	@Override
+	public void finalizarTiempoInformeInstitucion( int instCod, String infEstado) {
+		
+		InformeInstitucionRepository.finalizarPlazo( instCod,  infEstado);
+	}
+	
+	@Override
+	public TblInforme obtenerDatosInformePorInstitucionCodigo(int instCod) {
+		return InformeInstitucionRepository.findByInstCod(instCod);
+	}
+}

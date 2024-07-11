@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ArticulacionPolitcas" pageWidth="1500" pageHeight="595" orientation="Landscape" whenNoDataType="NoPages" columnWidth="1460" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="ae76c9e5-1f80-4d82-8fdb-5147b3563923">
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DatosArticulacion" uuid="43613b81-16ac-4a1e-aeb0-39adfe52c670">
+		<property name="com.jaspersoft.studio.data.sql.tables">
+			<![CDATA[ZXNxX2NhdGFsb2dvcy50YmxfaW5zdGl0dWNpb24gQVMgLDE1LDE1LGVkNzRlNzE2LTU3ZDgtNDll
+Yi05ODZjLTEyNTM4YmJkYzRlNTtlc3FfcmVuZGljaW9uY3VlbnRhcy50YmxfYXJ0aWN1bGFjaW9u
+X3BwIEFTICwxNzAsMTUsZDAwMTAzZmEtMDc5NS00MzU5LTkxNDYtOWFiNGM3NmQ5ODljO2VzcV9y
+ZW5kaWNpb25jdWVudGFzLnRibF9pbmZvcm1lICwzNDgsMTUsMWNhZDM1YjEtYTdhZi00N2QwLWIw
+ODAtMzc1NTc0MGI1OTE5Ow==]]>
+		</property>
+		<parameter name="Periodo" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[--LA INSTITUCIÓN TIENE ARTICULADAS SUS POA AL PLAN NACIONAL DE DESARROLLO
+SELECT 
+	app.app_descripcion nombre,
+	sum((SELECT count(app1.app_articulacion) FROM	esq_rendicioncuentas.tbl_articulacion_pp AS app1 	
+	WHERE app1.app_descripcion='LA INSTITUCIÓN TIENE ARTICULADAS SUS POA AL PLAN NACIONAL DE DESARROLLO' and app1.app_articulacion='SI' and app1.app_cod=app.app_cod)) as SI,
+	sum((SELECT count(app1.app_articulacion) FROM	esq_rendicioncuentas.tbl_articulacion_pp AS app1
+	WHERE app1.app_descripcion='LA INSTITUCIÓN TIENE ARTICULADAS SUS POA AL PLAN NACIONAL DE DESARROLLO' and app1.app_articulacion='NO' and app1.app_cod=app.app_cod)) as NO,
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf 
+	INNER JOIN esq_catalogos.tbl_institucion AS insti ON insti.inst_cod = inf.inst_cod
+	  WHERE insti.inst_fun_cod NOT BETWEEN 8 and 10 and  insti.inst_fun_cod<>6 and  inf.inf_cod NOT IN( SELECT pl.inf_cod
+    FROM esq_rendicioncuentas.tbl_articulacion_pp pl  WHERE pl.app_descripcion =app.app_descripcion ) and inf_estado='finalizado') as BLANCOS
+FROM
+	esq_rendicioncuentas.tbl_articulacion_pp AS app ,esq_rendicioncuentas.tbl_informe info
+		INNER JOIN esq_catalogos.tbl_institucion AS insti ON insti.inst_cod = info.inst_cod
+	WHERE  info.inf_cod=app.inf_cod and app.app_descripcion='LA INSTITUCIÓN TIENE ARTICULADAS SUS POA AL PLAN NACIONAL DE DESARROLLO'  and info.inf_estado='finalizado' and info.inf_periodo= $P{Periodo}   and insti.inst_fun_cod NOT BETWEEN 8 and 10 AND insti.inst_fun_cod<>6
+	
+GROUP BY app.app_descripcion
+
+--EL POA ESTÁ ARTICULADO AL PLAN ESTRATÉGICO
+UNION
+SELECT 
+	app.app_descripcion nombre,
+	sum((SELECT count(app1.app_articulacion) FROM	esq_rendicioncuentas.tbl_articulacion_pp AS app1 	
+	WHERE app1.app_descripcion='EL POA ESTÁ ARTICULADO AL PLAN ESTRATÉGICO' and app1.app_articulacion='SI' and app1.app_cod=app.app_cod)) as SI,
+	sum((SELECT count(app1.app_articulacion) FROM	esq_rendicioncuentas.tbl_articulacion_pp AS app1
+	WHERE app1.app_descripcion='EL POA ESTÁ ARTICULADO AL PLAN ESTRATÉGICO' and app1.app_articulacion='NO' and app1.app_cod=app.app_cod)) as NO,
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf 
+	INNER JOIN esq_catalogos.tbl_institucion AS insti ON insti.inst_cod = inf.inst_cod
+	  WHERE insti.inst_fun_cod NOT BETWEEN 8 and 10 and  insti.inst_fun_cod<>6 and  inf.inf_cod NOT IN( SELECT pl.inf_cod
+    FROM esq_rendicioncuentas.tbl_articulacion_pp pl  WHERE pl.app_descripcion =app.app_descripcion ) and inf_estado='finalizado') as BLANCOS
+FROM
+	esq_rendicioncuentas.tbl_articulacion_pp AS app ,esq_rendicioncuentas.tbl_informe info
+		INNER JOIN esq_catalogos.tbl_institucion AS insti ON insti.inst_cod = info.inst_cod
+	WHERE  info.inf_cod=app.inf_cod and app.app_descripcion='EL POA ESTÁ ARTICULADO AL PLAN ESTRATÉGICO'  and info.inf_estado='finalizado' and info.inf_periodo= $P{Periodo}   and insti.inst_fun_cod NOT BETWEEN 8 and 10 AND insti.inst_fun_cod<>6
+	
+GROUP BY app.app_descripcion]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="SI" class="java.lang.Integer"/>
+		<field name="NO" class="java.lang.Integer"/>
+		<field name="BLANCOS" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="GraficoArticulacion" uuid="8a1be8bf-5790-417b-945e-7359303928f1">
+		<parameter name="Periodo" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[--LA INSTITUCIÓN TIENE ARTICULADAS SUS POA AL PLAN NACIONAL DE DESARROLLO
+SELECT
+	CONCAT(app1.app_descripcion ,' ',app1.app_articulacion)nombre,sum((SELECT count(app.app_articulacion) FROM
+	esq_rendicioncuentas.tbl_articulacion_pp AS app 	WHERE app.app_descripcion='LA INSTITUCIÓN TIENE ARTICULADAS SUS POA AL PLAN NACIONAL DE DESARROLLO' 
+	and app.app_articulacion='SI' and app1.app_cod=app.app_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_articulacion_pp AS app1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=app1.inf_cod and app1.app_descripcion='LA INSTITUCIÓN TIENE ARTICULADAS SUS POA AL PLAN NACIONAL DE DESARROLLO' 
+	and app1.app_articulacion='SI'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo} 
+	GROUP BY app1.app_descripcion,app1.app_articulacion
+	
+	UNION
+	
+	SELECT
+	CONCAT(app1.app_descripcion ,' ',app1.app_articulacion)nombre,sum((SELECT count(app.app_articulacion) FROM
+	esq_rendicioncuentas.tbl_articulacion_pp AS app 	WHERE app.app_descripcion='LA INSTITUCIÓN TIENE ARTICULADAS SUS POA AL PLAN NACIONAL DE DESARROLLO' 
+	and app.app_articulacion='NO' and app1.app_cod=app.app_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_articulacion_pp AS app1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=app1.inf_cod and app1.app_descripcion='LA INSTITUCIÓN TIENE ARTICULADAS SUS POA AL PLAN NACIONAL DE DESARROLLO' 
+	and app1.app_articulacion='NO'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo} 
+	GROUP BY app1.app_descripcion,app1.app_articulacion
+	
+	UNION
+
+SELECT DISTINCT
+	CONCAT('LA INSTITUCIÓN TIENE ARTICULADAS SUS POA AL PLAN NACIONAL DE DESARROLLO' ,' ','BLANCOS')nombre,
+	
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf 
+	INNER JOIN esq_catalogos.tbl_institucion AS insti ON insti.inst_cod = inf.inst_cod
+	WHERE  insti.inst_fun_cod NOT BETWEEN 8 and 10 and  insti.inst_fun_cod<>6 and  inf.inf_cod NOT IN(
+   SELECT app.inf_cod  FROM esq_rendicioncuentas.tbl_articulacion_pp app
+  WHERE app.app_descripcion ='LA INSTITUCIÓN TIENE ARTICULADAS SUS POA AL PLAN NACIONAL DE DESARROLLO'
+) and inf_estado='finalizado') as total
+FROM
+	esq_rendicioncuentas.tbl_articulacion_pp AS app1 ,esq_rendicioncuentas.tbl_informe info
+INNER JOIN esq_catalogos.tbl_institucion AS insti ON insti.inst_cod = info.inst_cod
+	WHERE info.inf_cod=app1.inf_cod and info.inf_estado='finalizado'  AND info.inf_periodo=  $P{Periodo}  and insti.inst_fun_cod NOT BETWEEN 8 and 10 AND insti.inst_fun_cod<>6
+		GROUP BY app1.app_descripcion,app1.app_articulacion
+
+--EL POA ESTÁ ARTICULADO AL PLAN ESTRATÉGICO
+UNION
+
+SELECT
+	CONCAT(app1.app_descripcion ,' ',app1.app_articulacion)nombre,sum((SELECT count(app.app_articulacion) FROM
+	esq_rendicioncuentas.tbl_articulacion_pp AS app 	WHERE app.app_descripcion='EL POA ESTÁ ARTICULADO AL PLAN ESTRATÉGICO' 
+	and app.app_articulacion='SI' and app1.app_cod=app.app_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_articulacion_pp AS app1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=app1.inf_cod and app1.app_descripcion='EL POA ESTÁ ARTICULADO AL PLAN ESTRATÉGICO' 
+	and app1.app_articulacion='SI'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo} 
+	GROUP BY app1.app_descripcion,app1.app_articulacion
+	
+	UNION
+	
+	SELECT
+	CONCAT(app1.app_descripcion ,' ',app1.app_articulacion)nombre,sum((SELECT count(app.app_articulacion) FROM
+	esq_rendicioncuentas.tbl_articulacion_pp AS app 	WHERE app.app_descripcion='EL POA ESTÁ ARTICULADO AL PLAN ESTRATÉGICO' 
+	and app.app_articulacion='NO' and app1.app_cod=app.app_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_articulacion_pp AS app1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=app1.inf_cod and app1.app_descripcion='EL POA ESTÁ ARTICULADO AL PLAN ESTRATÉGICO' 
+	and app1.app_articulacion='NO'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo} 
+	GROUP BY app1.app_descripcion,app1.app_articulacion
+	
+	UNION
+
+SELECT DISTINCT
+	CONCAT('EL POA ESTÁ ARTICULADO AL PLAN ESTRATÉGICO' ,' ','BLANCOS')nombre,
+	
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf 
+	INNER JOIN esq_catalogos.tbl_institucion AS insti ON insti.inst_cod = inf.inst_cod
+	WHERE  insti.inst_fun_cod NOT BETWEEN 8 and 10 and  insti.inst_fun_cod<>6 and  inf.inf_cod NOT IN(
+   SELECT app.inf_cod  FROM esq_rendicioncuentas.tbl_articulacion_pp app
+  WHERE app.app_descripcion ='EL POA ESTÁ ARTICULADO AL PLAN ESTRATÉGICO'
+) and inf_estado='finalizado') as total
+FROM
+	esq_rendicioncuentas.tbl_articulacion_pp AS app1 ,esq_rendicioncuentas.tbl_informe info
+INNER JOIN esq_catalogos.tbl_institucion AS insti ON insti.inst_cod = info.inst_cod
+	WHERE info.inf_cod=app1.inf_cod and info.inf_estado='finalizado'  AND info.inf_periodo=  $P{Periodo}  and insti.inst_fun_cod NOT BETWEEN 8 and 10 AND insti.inst_fun_cod<>6
+		GROUP BY app1.app_descripcion,app1.app_articulacion]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="total" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="Articulacion" uuid="6366bf2e-f8c8-40f8-bea4-749119779a06">
+		<parameter name="Periodo" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT 
+	insti.inst_nom nombre,
+	insti.inst_ruc,
+	(select lc.nombre from esq_catalogos.tbl_localizacion lc WHERE lc.id_localizacion=insti.prov_cod and lc.categoria=1) provincia,
+	(SELECT fu.fun_des from esq_catalogos.tbl_funcion fu WHERE fu.fun_cod=insti.inst_fun_cod) funcion,
+	insti.inst_tip_des sector,
+	info.inf_periodo periodo,
+	info.inf_cod,
+	insti.inst_cod,
+	(SELECT DISTINCT app.app_articulacion FROM esq_rendicioncuentas.tbl_articulacion_pp app WHERE app.app_descripcion='LA INSTITUCIÓN TIENE ARTICULADAS SUS POA AL PLAN NACIONAL DE DESARROLLO' 	and app.inf_cod=info.inf_cod) variable1,
+	(SELECT DISTINCT app.app_articulacion  FROM esq_rendicioncuentas.tbl_articulacion_pp app WHERE app.app_descripcion='EL POA ESTÁ ARTICULADO AL PLAN ESTRATÉGICO' 
+	and app.inf_cod=info.inf_cod) variable2
+
+FROM
+	 esq_rendicioncuentas.tbl_informe info
+	
+	INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+
+	WHERE info.inf_estado='finalizado' and  info.inf_periodo= $P{Periodo} and insti.inst_fun_cod NOT BETWEEN 8 and 10 and  insti.inst_fun_cod<>6 
+	ORDER BY insti.inst_cod]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="inst_ruc" class="java.lang.String"/>
+		<field name="provincia" class="java.lang.String"/>
+		<field name="funcion" class="java.lang.String"/>
+		<field name="sector" class="java.lang.String"/>
+		<field name="variable1" class="java.lang.String"/>
+		<field name="variable2" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="Periodo" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT * from esq_catalogos.tbl_funcion WHERE fun_est='activo']]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="453" splitType="Stretch">
+			<staticText>
+				<reportElement x="600" y="10" width="518" height="30" uuid="faf94a6f-f447-4fd5-b63d-041047d97966"/>
+				<textElement textAlignment="Center">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PLANIFICACIÓN: Se refiere a la articulación de políticas públicas]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="10" y="350" width="564" height="90" uuid="17529e30-30c1-45cf-ac65-2f7d0404cb7a">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DatosArticulacion" uuid="6a26e212-b756-4fba-b985-40252d50f852">
+						<datasetParameter name="Periodo">
+							<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="390" uuid="9f5a53e0-39e1-47b7-942c-719efb9d1a9f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="390" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="7541a025-5cab-4ce3-ba32-1a9d19aa4997"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Variables]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 1_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="390" height="30" uuid="b035b109-cf31-4ba3-8abc-3ba594a816a0"/>
+								<textElement>
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="170" uuid="3ec830a3-82fc-4538-ae72-c389c63d5b1a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [4]"/>
+						<jr:tableHeader style="Table 1_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="170" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="73918ace-797c-4ba2-b294-e0ec722ca20a"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Resultados]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:column width="40" uuid="e967da7f-902f-4845-9b03-65a57f727a8c">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+							<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="40" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="58b37ce4-8b7b-4671-bba6-30cbb7b86e56"/>
+									<textElement textAlignment="Center"/>
+									<text><![CDATA[SI]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 1_TD" height="30">
+								<textField>
+									<reportElement x="0" y="0" width="40" height="30" uuid="449ba471-80fd-4e0b-8b1b-1d6445767dfb"/>
+									<textFieldExpression><![CDATA[$F{SI}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="40" uuid="49770dab-9a9f-4f1a-9c99-1f5b7c4c73c8">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+							<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="40" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b8119fad-6a91-4f8c-8dc8-40e82ad67cce"/>
+									<textElement textAlignment="Center"/>
+									<text><![CDATA[NO]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 1_TD" height="30">
+								<textField>
+									<reportElement x="0" y="0" width="40" height="30" uuid="bc3635e3-535f-4ac0-b19e-cdfdd0bdf277"/>
+									<textFieldExpression><![CDATA[$F{NO}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="50" uuid="63f43479-0823-4df0-b531-e4a771fb8607">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+							<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="50" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="df823bda-d31e-47be-bb9f-f701763f87da"/>
+									<textElement textAlignment="Center"/>
+									<text><![CDATA[Blancos]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 1_TD" height="30">
+								<textField>
+									<reportElement x="0" y="0" width="50" height="30" uuid="92f3d6d4-4eb5-4291-80c2-d872f7982b40"/>
+									<textFieldExpression><![CDATA[$F{BLANCOS}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="40" uuid="efd9d47d-6b4e-425e-a139-a243cff14d34">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+							<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="40" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="1267e10f-c8f7-412a-a45f-544723a77d04"/>
+									<textElement textAlignment="Center"/>
+									<text><![CDATA[Total]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 1_TD" height="30">
+								<textField>
+									<reportElement x="0" y="0" width="40" height="30" uuid="09dd3fed-7a62-4a8a-8d27-233ba74ae665"/>
+									<textFieldExpression><![CDATA[$F{SI}+$F{NO}+$F{BLANCOS}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<barChart>
+				<chart isShowLegend="true" evaluationTime="Column">
+					<reportElement x="0" y="40" width="1434" height="290" uuid="9f94998b-3e7a-4d95-89fc-a9438e358f5b"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend position="Right">
+						<font size="8"/>
+					</chartLegend>
+				</chart>
+				<categoryDataset>
+					<dataset resetType="Report">
+						<datasetRun subDataset="GraficoArticulacion" uuid="a408fa69-e232-4c1d-aa64-57ab72a261b6">
+							<datasetParameter name="Periodo">
+								<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{nombre}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombre}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{total}]]></valueExpression>
+						<labelExpression><![CDATA[$F{nombre}]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</title>
+	<detail>
+		<band height="89" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="5" y="10" width="1450" height="68" uuid="2c6f856b-5c14-4045-ab6f-7d61d3052752">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.grid.JSSGridBagLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Articulacion" uuid="bfe47dd1-7268-48c8-92ae-5940ed4aad2c">
+						<datasetParameter name="Periodo">
+							<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="50" uuid="9922d0e3-4ca4-4610-a4ca-8c488b470f95">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="40" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="d03a76c0-bf39-4e6c-82f6-40599833e06f"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[No.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="226d8fe1-0532-4e25-bbb9-f20ae12978d4"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="432" uuid="2497100c-2c5f-44b0-a3a8-50fb5cf12f12">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="432" height="40" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="a76d6dd6-bc76-4506-b8b9-2f4e03d77bed"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Nombre Institución]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="432" height="30" uuid="2228b258-509d-4f93-9b88-2bbe263cef29">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="151" uuid="fc4f0a2b-3447-49b6-a538-d777559ca149">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="151" height="40" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="47887f43-6cba-425b-9b21-aae1e6da469d"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Ruc]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="151" height="30" uuid="33b89b3d-ce14-4d98-bc56-4f6ee19c220f"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{inst_ruc}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="153" uuid="fbbee15a-b8d7-4f4f-b02d-63b5f17cdf0c">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="153" height="40" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="45bcb0f6-ba26-419e-bf04-6bb2798d0b58"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Provincia]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="153" height="30" uuid="facaebb6-18b2-4009-ad71-a13fb4ea5b34"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="153" uuid="7699ad77-a4a8-44e1-971e-43c9c5854f88">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="153" height="40" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="de4fb773-6a72-4a77-bfd7-3f05c83a1a81"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Función]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="153" height="30" uuid="20132af5-426f-4867-abbe-eff830178053"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{funcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="153" uuid="2186bbdc-5077-43aa-a8d3-8780ab0fc646">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="153" height="40" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b9246390-3cc8-4111-af17-4fb50296ebc1"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Sector]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="153" height="30" uuid="e84bd04e-d45d-4127-917f-60bc1bf8007b"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{sector}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="180" uuid="2767a699-15a7-4d8f-baeb-41d4da29e01f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="180" height="40" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="356c4aa9-e193-4a43-bd75-635f89b58a22"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[La institución tiene articuladas su poa al plan nacional de desarrollo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="180" height="30" uuid="46284c1b-2b08-4dec-9a39-79edf06f1cea"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{variable1}==null?"BLANCOS":$F{variable1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="178" uuid="55101b93-1e2a-479b-ad35-f730c90351f8">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:columnHeader style="Table_CH" height="40" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="178" height="40" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="05e5f548-058b-47ef-be52-32e21d503881"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[El poa está articulado al plan estratégico]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="178" height="30" uuid="04483c05-f025-4e8d-b8d0-4f56db9ecc79"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{variable2}==null?"BLANCOS":$F{variable2}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

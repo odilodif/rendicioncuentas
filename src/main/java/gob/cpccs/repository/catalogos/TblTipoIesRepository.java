@@ -1,0 +1,16 @@
+package gob.cpccs.repository.catalogos;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import gob.cpccs.model.catalogos.TblTipoIes;
+@Repository
+public interface TblTipoIesRepository extends JpaRepository<TblTipoIes, Integer> {
+	
+	List<TblTipoIes> findByTiesEst(@Param("tiesEst") String tiesEst);
+	
+	TblTipoIes findByTiesCod(@Param("tiesCod") Integer tiesCod);
+}

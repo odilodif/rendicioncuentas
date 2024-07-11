@@ -1,0 +1,2550 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MecanismosParticipacion" pageWidth="2384" pageHeight="1684" orientation="Landscape" whenNoDataType="NoPages" columnWidth="2374" leftMargin="5" rightMargin="5" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="f0971d6c-de57-4368-afaa-7cd4e7b20a24">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="272"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NO_DATA_ADAPTER"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DatasetPRORCGADS" uuid="d2d22abc-87a0-4ce2-af89-5edae57d5958">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Produccion"/>
+		<parameter name="periodo" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+	t1.*,
+	t1_1.mecanismo_fase,
+	t1_1.mecanismo_nombre,
+	t1_1.mecanismo_implementado,
+	t1_2.mecanismo_fase,
+	t1_2.mecanismo_nombre,
+	t1_2.mecanismo_implementado,
+	t1_3.mecanismo_fase,
+	t1_3.mecanismo_nombre,
+	t1_3.mecanismo_implementado,
+	t1_4.mecanismo_fase,
+	t1_4.mecanismo_nombre,
+	t1_4.mecanismo_implementado,
+	t1_5.mecanismo_fase,
+	t1_5.mecanismo_nombre,
+	t1_5.mecanismo_implementado,
+	t1_6.mecanismo_fase,
+	t1_6.mecanismo_nombre,
+	t1_6.mecanismo_implementado,
+	t1_7.mecanismo_fase,
+	t1_7.mecanismo_nombre,
+	t1_7.mecanismo_implementado,
+	t1_8.mecanismo_fase,
+	t1_8.mecanismo_nombre,
+	t1_8.mecanismo_implementado,
+	t1_9.mecanismo_fase,
+	t1_9.mecanismo_nombre,
+	t1_9.mecanismo_implementado,
+	t1_10.mecanismo_fase,
+	t1_10.mecanismo_nombre,
+	t1_10.mecanismo_implementado,
+	t1_11.mecanismo_fase,
+	t1_11.mecanismo_nombre,
+	t1_11.mecanismo_implementado,
+	t1_12.mecanismo_fase,
+	t1_12.mecanismo_nombre,
+	t1_12.mecanismo_implementado,
+	t1_13.mecanismo_fase,
+	t1_13.mecanismo_nombre,
+	t1_13.mecanismo_implementado,
+	t1_14.mecanismo_fase,
+	t1_14.mecanismo_nombre,
+	t1_14.mecanismo_implementado,
+	t1_15.mecanismo_fase,
+	t1_15.mecanismo_nombre,
+	t1_15.mecanismo_implementado,
+	t1_16.mecanismo_fase,
+	t1_16.mecanismo_nombre,
+	t1_16.mecanismo_implementado,
+	t1_17.mecanismo_fase,
+	t1_17.mecanismo_nombre,
+	t1_17.mecanismo_implementado,
+	t1_18.mecanismo_fase,
+	t1_18.mecanismo_nombre,
+	t1_18.mecanismo_implementado
+FROM
+(
+SELECT DISTINCT
+	ins.inst_cod, 
+	ins.inst_nom, 
+	ins.inst_ruc, 
+	( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.prov_cod ) AS provincia, 
+	( SELECT fun.fun_des FROM esq_catalogos.tbl_funcion fun WHERE fun.fun_cod = ins.inst_fun_cod ) AS funcion, 
+	esq_rendicioncuentas.tbl_informe.inf_cod as informe
+FROM
+	esq_catalogos.tbl_institucion AS ins
+	INNER JOIN
+	esq_rendicioncuentas.tbl_informe
+	ON 
+		ins.inst_cod = esq_rendicioncuentas.tbl_informe.inst_cod
+WHERE
+	ins.inst_periodo =  $P{periodo}   and ins.inst_fun_cod = 8 or ins.inst_fun_cod = 9 
+
+or ins.inst_fun_cod = 10  
+or ins.inst_fun_cod = 11  
+
+
+ORDER BY
+	ins.inst_cod ASC
+)AS t1
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '1. LA CIUDADANÍA / ASAMBLEA LOCAL CIUDADANA PRESENTÓ LA LISTA DE TEMAS SOBRE LOS QUE DESEA SER INFORMADA'
+) AS t1_1
+	ON 
+		t1.informe = t1_1.inf_cod
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '2. LA INSTANCIA DE PARTICIPACIÓN DEL TERRITORIO Y LA ENTIDAD CREARON EL EQUIPO TÉCNICO MIXTO Y PARITARIO (CIUDADANOS Y AUTORIDADES/TÉCNICOS) QUE SE ENCARGARÁ DE ORGANIZAR Y FACILITAR EL PROCESO'
+) AS t1_2
+	ON 
+		t1.informe = t1_2.inf_cod
+		
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '3. EL EQUIPO TÉCNICO MIXTO Y PARITARIO (CIUDADANOS Y AUTORIDADES/TÉCNICOS) CONFORMARON  2 SUBCOMISIONES PARA LA IMPLEMENTACIÓN DEL PROCESO: UNA LIDERADA POR LA ENTIDAD Y UNA LIDERADA POR LA CIUDADANÍA / ASAMBLEA CIUDADANA'
+) AS t1_3
+	ON 
+		t1.informe = t1_3.inf_cod
+		
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '1. LA COMISIÓN LIDERADA POR LA ENTIDAD  REALIZÓ LA EVALUACIÓN DE LA GESTIÓN INSTITUCIONAL'
+) AS t1_4
+	ON 
+		t1.informe = t1_4.inf_cod
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '2. LA COMISIÓN LIDERADA POR LA ENTIDAD  REDACTÓ EL INFORME PARA LA CIUDADANÍA, EN EL CUAL RESPONDIÓ LAS DEMANDAS DE LA CIUDADANÍA Y MOSTRÓ AVANCES PARA DISMINUIR BRECHAS DE DESIGUALDAD Y OTRAS DIRIGIDAS A GRUPOS DE ATENCIÓN PRIORITARIA'
+) AS t1_5
+	ON 
+		t1.informe = t1_5.inf_cod
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '3. LA COMISIÓN LIDERADA POR LA ENTIDAD LLENÓ EL FORMULARIO DE INFORME DE RENDICIÓN DE CUENTAS ESTABLECIDO POR EL CPCCS'
+) AS t1_6
+	ON 
+		t1.informe = t1_6.inf_cod
+		
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '4. TANTO EL FORMULARIO DE RENDICIÓN DE CUENTAS PARA EL CPCCS , COMO EL INFORME DE RENDICIÓN DE CUENTAS PARA LA CIUDADANÍA FUERON APROBADOS POR LA MÁXIMA AUTORIDAD DE LA ENTIDAD'
+) AS t1_7
+	ON 
+		t1.informe = t1_7.inf_cod
+		
+		LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '5. LA ENTIDAD ENVIÓ EL INFORME DE RENDICIÓN DE CUENTAS INSTITUCIONAL A LA INSTANCIA DE PARTICIPACIÓN Y A LA ASAMBLEA CIUDADANA'
+) AS t1_8
+	ON 
+		t1.informe = t1_8.inf_cod
+	LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '1. LA ENTIDAD DIFUNDIÓ EL INFORME DE RENDICIÓN DE CUENTAS A TRAVÉS DE QUÉ MEDIOS'
+) AS t1_9
+	ON 
+		t1.informe = t1_9.inf_cod
+	LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '2. LA ENTIDAD INVITÓ A LA DELIBERACIÓN PÚBLICA Y EVALUACIÓN CIUDADANA DEL INFORME DE RENDICIÓN DE CUENTAS A LOS ACTORES SOCIALES DEL MAPEO DE ACTORES QUE ENTREGÓ LA ASAMBLEA CIUDADANA DELIBERACIÓN PÚBLICA Y EVALUACIÓN CIUDADANA DEL INFORME DE RENDICIÓN DE CUENTAS A LOS ACTORES SOCIALES DEL MAPEO DE ACTORES QUE ENTREGÓ LA ASAMBLEA CIUDADANA'
+) AS t1_10
+	ON 
+		t1.informe = t1_10.inf_cod
+			LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '3. LA DELIBERACIÓN PÚBLICA Y EVALUACIÓN CIUDADANA DEL INFORME INSTITUCIONAL SE REALIZÓ DE FORMA PRESENCIAL REALIZÓ DE FORMA PRESENCIAL Y, ADICIONALMENTE, SE RETRANSMITIÓ EN VIVO, A TRAVÉS DE PLATAFORMAS INTERACTIVAS'
+) AS t1_11
+	ON 
+		t1.informe = t1_11.inf_cod
+				LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '5. UNA VEZ QUE  LA ASAMBLEA CIUDADANA / CIUDADANÍA PRESENTÓ SUS OPINIONES, LA MÁXIMA AUTORIDAD DE LA ENTIDAD EXPUSO SU INFORME DE RENDICIÓN DE CUENTAS'
+) AS t1_12
+	ON 
+		t1.informe = t1_12.inf_cod
+		
+			LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '6. EN LA DELIBERACIÓN PÚBLICA DE RENDICIÓN DE CUENTAS, LA MÁXIMA AUTORIDAD DE LA ENTIDAD RESPONDIÓ LAS DEMANDAS CIUDADANAS'
+) AS t1_13
+	ON 
+		t1.informe = t1_13.inf_cod
+		
+			LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '7. EN LA DELIBERACIÓN PÚBLICA DE RENDICIÓN DE CUENTAS SE REALIZARON MESAS DE TRABAJO O COMISIONES PARA QUE LOS CIUDADANOS Y CIUDADANAS DEBATAN  Y ELABOREN LAS RECOMENDACIONES PARA MEJORAR LA GESTIÓN DE LA ENTIDAD'
+) AS t1_14
+	ON 
+		t1.informe = t1_14.inf_cod
+		
+		LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '8. LA COMISIÓN LIDERADA POR LA CIUDADANÍA - RECOGIÓ LAS SUGERENCIAS CIUDADANAS DE CADA MESA QUE SE PRESENTARON EN PLENARIA'
+) AS t1_15
+	ON 
+		t1.informe = t1_15.inf_cod
+		
+			LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '9. LOS REPRESENTANTES CIUDADANOS /  ASAMBLEA CIUDADANA FIRMARON EL ACTA EN LA QUE SE RECOGIÓ LAS SUGERENCIAS CIUDADANAS QUE SE PRESENTARON EN LA PLENARIA'
+) AS t1_16
+	ON 
+		t1.informe = t1_16.inf_cod
+		
+		LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '1. LA ENTIDAD  ELABORÓ UN PLAN DE TRABAJO PARA INCORPORAR LAS SUGERENCIAS CIUDADANAS EN SU GESTIÓN'
+) AS t1_17
+	ON 
+		t1.informe = t1_17.inf_cod
+		
+				LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = '2. LA ENTIDAD ENTREGÓ EL PLAN DE TRABAJO A LA ASAMBLEA CIUDADANA, AL CONSEJO DE PLANIFICACIÓN Y A LA INSTANCIA DE PARTICIPACIÓN PARA SU MONITOREO'
+) AS t1_18
+	ON 
+		t1.informe = t1_18.inf_cod]]>
+		</queryString>
+		<field name="inst_cod" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.name" value="inst_cod"/>
+			<property name="com.jaspersoft.studio.field.label" value="inst_cod"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_institucion"/>
+			<fieldDescription><![CDATA[identificador unico de la entidad tbl_institucion]]></fieldDescription>
+		</field>
+		<field name="inst_nom" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="inst_nom"/>
+			<property name="com.jaspersoft.studio.field.label" value="inst_nom"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_institucion"/>
+			<fieldDescription><![CDATA[nombre de la institucion]]></fieldDescription>
+		</field>
+		<field name="inst_ruc" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="inst_ruc"/>
+			<property name="com.jaspersoft.studio.field.label" value="inst_ruc"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_institucion"/>
+			<fieldDescription><![CDATA[ruc de la institucion]]></fieldDescription>
+		</field>
+		<field name="provincia" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="provincia"/>
+			<property name="com.jaspersoft.studio.field.label" value="provincia"/>
+		</field>
+		<field name="funcion" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="funcion"/>
+			<property name="com.jaspersoft.studio.field.label" value="funcion"/>
+		</field>
+		<field name="informe" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.name" value="informe"/>
+			<property name="com.jaspersoft.studio.field.label" value="informe"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_informe"/>
+		</field>
+		<field name="mecanismo_fase" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="mecanismo_nombre" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="mecanismo_implementado" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_10" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_11" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_12" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_13" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_14" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_15" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_16" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_17" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_18" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_19" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_20" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_21" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_22" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_23" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_24" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_25" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_26" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_27" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_28" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_29" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_30" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_31" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_32" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_33" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_34" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_35" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_36" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_37" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_38" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_39" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_40" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_41" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_42" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_43" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_44" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_45" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_46" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_47" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_48" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_49" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_50" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_51" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_52" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_53" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_54" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_55" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_56" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_57" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_58" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_59" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_60" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+	</subDataset>
+	<parameter name="Periodo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * from esq_catalogos.tbl_funcion WHERE fun_est='activo']]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="465" y="0" width="355" height="16" uuid="26a08c47-dbad-44f4-822a-801cf45a1e61"/>
+				<text><![CDATA[PROCESO DE RENDICIÓN DE CUENTAS - GADS]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="246" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT} == 1]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="10" y="10" width="2360" height="230" uuid="48fcb9d0-e704-45d5-81b3-8297a286fcda">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DatasetPRORCGADS" uuid="35ad2d5a-a02d-4d7e-a2d3-f779afb0a670">
+						<datasetParameter name="periodo">
+							<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="21" uuid="d7d5bdc1-5fa6-445c-b56a-f36f1f6c0b2b">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="21" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="da489a0a-7d0b-4eec-afa7-52af8ff30112"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Código]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="21" height="110" uuid="d0601307-cd51-48b6-9f6a-a0e79ac8355d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{inst_cod}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="67c7980e-48f0-4c46-9e1b-40fd612e05d6">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="61" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b5bf0cfc-3c9f-4734-877d-2909acf488d0"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="61" height="110" uuid="f2e9dc98-c09d-4f27-a38d-e4d214a3549f"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{inst_nom}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="b7c27680-3661-4379-b6b1-2c37caeb5a8f">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="df0ea9da-8007-4018-9d06-fb8924217559"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Ruc]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="2b6d6663-1fcd-479f-bd91-243b0f875045"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{inst_ruc}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="ec5d1cd6-14d0-424b-8c0d-ec1676d90f7e">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="ac3d6e87-3a74-4a11-b2a3-b6b7abf4c18c"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Provincia]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="7b85626d-4674-4428-a321-93a0ca2dd480"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="12972cb7-1075-428a-9e67-f2a8baa4c492">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="50340729-f6f6-4c7b-bd4d-d542998c2ebf"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Función]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="75233b70-2ed1-4816-b65b-dad7ab3f2eeb"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{funcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="4bfa6f9c-b6a1-4cb1-acf0-3405d58e1f4b">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="15f30562-1ad8-4810-ad8a-9619cd990640"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Número de informe]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="682e21a8-55f2-44fc-bae9-cc225aaf5245"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{informe}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="1434ed4f-a676-4d8e-8565-2afb7dbbccdb">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="1d15e39c-030e-43c3-b49e-3b3beb802b99"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="44143398-9349-4fe9-8ea5-1e19db344472"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{mecanismo_fase}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="4af0e9b9-ca27-4b9e-b7c6-989aa741853a">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="abe945f0-9aae-464d-93ef-aec57dd384b1"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="a02c2754-5e04-42a0-81bf-e4b56255d78d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{mecanismo_nombre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="48c40703-edb4-4790-9c5e-4b35c3311d2c">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="3a112e28-0e88-4791-8a30-39b3356e8ccd"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="c400a55a-d45d-4546-b02c-018681cc5f34"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{mecanismo_implementado}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="403aa8cd-2ab1-464b-a8b7-98cb29587cf8">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="2c279487-6375-4084-8b03-f99bc3650191"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="ff15da6a-e4f4-4255-9ed8-72396aecc118"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_10}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="7df725e6-b23c-4c7c-8581-27040454041b">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="5254be41-600d-480e-a79c-c939adc5fc2d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="5efa7ace-d668-4563-869b-6c51f295fada"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_11}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="55ff9f94-22fb-420a-8b64-13b2ed89429a">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="bb4e34ec-de41-47d6-afbb-32f25dfda51f"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="871035a1-4aeb-4e7a-b98a-8df1b0a59b27"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_12}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="03428d7d-7dbe-47bb-9746-ca3b8f4fb2a1">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="06b73150-9edf-4837-ab0e-3a3868d583c4"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="ebf82c5a-484c-4ce0-a2dd-ee66efbd0950"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_13}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="acbbfa8e-33b3-451d-b979-e9c6f59f6eb8">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="ae3b6244-9170-4416-8f19-b45825ac2564"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="44daf5a4-18b4-432f-9b1c-03cd06c6614e"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_14}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="fe362658-d56e-4177-b825-cccf168f20fa">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="f13e441f-8d20-47c5-b810-f004ad1a9d7b"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="0f4aa2b9-8407-446f-a37c-7a356e6d3906"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_15}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="58e8cb98-4705-4386-9af2-d3378907c8b4">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="dcd56a15-29f6-419a-a2e0-b41b8d119088"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="35c1200c-3443-40f7-b3da-9037507e3144"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_16}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="2b767cd8-f309-4d68-8bec-d0865f2fabbd">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="a6aee41e-0b99-41ee-a52e-ed3aa53b4cb6"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="8ab1a9a2-9633-4344-bc5b-57223b1bbb75"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_17}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="f2ecfdd9-a792-4c17-a2d5-fcf2d1cbb815">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="745cfc05-7005-4783-b606-bb18ce95dbdc"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="25055021-a711-4ee7-a5b8-7030392d2372"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_18}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="c528b7a2-0f79-4f86-9928-cbfc3a38045b">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="2658568f-5d71-4d03-8da9-ec4af6ee6dcb"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="f30f275d-8c03-4cf1-9f34-30352cdf2644"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_19}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="acee553a-cb8c-47f1-825d-b8117cbfafad">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="cf46f367-7913-4137-bdd2-5c14e038eb1d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="41a86a0a-20b1-4d19-bee4-e7342927ed19"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_20}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="94ab7030-3261-4a03-a504-43a3346f7753">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="41" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b59b8fc7-5456-4d58-8496-e8427c22fc76"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="110" uuid="f256c2b8-ecf2-46b4-9423-34cf2211d10f"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_21}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="215b2d5a-03a5-449c-8290-7917eea7671a">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="7d8fe65b-1013-4554-8f64-f7734acd81bd"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="28e228ab-e8a6-4cf7-800d-6324e0da5d9b"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_22}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="71fb3541-c502-43f2-85a1-f70eb0a70497">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="984f4bd3-0538-44dc-b05f-49564181e354"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="742a72b8-0430-4d0d-8628-bc23760184b6"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_23}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="2e9fa6b4-4fa1-476d-990c-1d820a2b508c">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="9cd2c38a-cf56-4c95-b4bd-61e0cdff58f5"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="42b319b4-5710-4174-9ad0-1c2a547ba57d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_24}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="6b227b28-5c01-4456-b773-492d7ac6787e">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="2409d195-bda7-4077-abda-719b41986694"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="a347268d-d8fd-4e83-b9ef-a5ade9203530"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_25}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="f06b2b15-91bc-4992-9e2d-341a43e2a9c6">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="90f0600b-e2b8-433f-8059-3bcfedfc6abe"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="f1294a3f-5827-46a5-9f88-e7ba0328e11d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_26}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="1d0d3c8b-59cf-414a-b0b3-a084ab38a7d6">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="bdf6b69c-77bc-4279-8537-23b6e2b5f8e8"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="9997cac3-a01c-46ab-834e-3902709af914"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_27}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="30c416fd-51fa-4098-8de0-334058f489dc">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="3450abb2-9850-48f7-9eec-196d77d52c2d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="385f19ae-9af4-4671-9d4d-bbe3edf70f79"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_28}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="70a69ba9-8f45-4c78-bcea-9880b27f40a0">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="2713292b-be6c-49f0-98da-3fcb6b2a56de"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="358078c5-2a29-434f-8309-c4bd9ff79cdc"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_29}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="d89e877f-735b-4311-be6b-a1a84456d664">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="47cff3f5-8f4e-49a9-8362-21330188e723"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="1a0c30d6-2153-48ef-908c-45c5ac68cc49"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_30}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="331f7232-5fd2-4f1e-a961-de0b154e7167">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="23e55e03-f679-4931-a933-346be666f7f6"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="ebece857-06e7-4f0a-bbc8-065f656a6cf0"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_31}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="ebdd36bb-683f-4cb4-b66e-968856cee133">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b72b0a93-6bf3-46c0-9a60-52da283d643d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="7abffe81-e459-4b0f-b36d-6573081733a3"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_32}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="a6852dd1-2ccf-42cb-a696-994882ae8185">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="9324ccb3-91d5-4fcb-afd6-46b43418df04"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="a847deac-9449-4113-86e5-095e60f6993a"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_33}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="a253326d-1e5d-4ecc-9b67-ca90ce5f9480">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="242b0053-e5c2-49fa-94d1-eb13fb3c60f2"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="acf8559a-6955-4d59-8fec-2ad8dcf265c1"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_34}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="27f506d3-ca03-4c0f-840e-7906a36705b5">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="a45affab-cb37-45bb-95e7-5b98a83cb8d5"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="cf1402ba-cfdc-4b74-95b5-9003b9d3540f"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_35}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="76666f36-3628-4134-88db-d7b6eebd7eed">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="c0cd8d62-a578-4545-9fb2-14208af8581e"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="a9b36fa0-364d-44fa-90c3-c9766af72ea3"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_36}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="78d770e5-f5df-475d-bfba-1e32705d8002">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="3808b52d-b879-41ee-88ab-2622f02dc67a"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="e4cc323a-c5ac-4e80-aaf3-aeced1d82a16"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_37}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="a7f1a21b-7ff6-42a6-b8bf-291dfc16e91c">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="39" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="65fbb3cb-a472-4eed-b705-4d88e808679d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="110" uuid="343b6c30-6d3c-4899-a553-793f58538689"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_38}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="5bbabb01-43b9-4ac1-a6e8-0e89eeb32316">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="9bc9fe05-9852-4a9d-80ee-01033d0a3fc6"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="a9fd8016-80c2-4fb7-952a-111b83f44892"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_39}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="1046d899-51dc-419e-ab88-ca45a43c6288">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="bc71306e-663f-4028-933e-128c952b39a7"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="a57ea4dd-d002-4db6-84a1-0d81156d1800"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_40}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="cffd280a-dbe0-45b7-9b65-70f99948745f">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="e4d352fa-1a3f-49e0-97c0-5926e6090114"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="1afbfb88-6a7a-4aac-85a1-aee99d080633"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_41}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="e011d604-b820-4a12-affd-293186f67f81">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="28a1a3d0-fde4-4aa0-9c28-08f159812723"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="84798901-33ae-4cc0-a5ce-6d8f451bb6d8"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_42}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="9a998f9a-8608-424c-a6e9-ad5e6b2dcd8c">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="7af00eaa-bb12-467b-a571-f6588aa5fe6e"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="a505802f-7ce4-4d2e-8106-a3d0eb61ef5a"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_43}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="35c1ea39-0d78-4ed4-babd-5e7135abd8e1">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="3dfff6f8-3b2b-418a-ae2e-f695c5b255a2"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="edef90f6-8ae3-441f-97c6-bd59ac509721"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_44}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="517f7fcf-e297-49db-942a-cfdaa1060ec8">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="683aeaab-0c70-413d-992b-63918d43b17e"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="2e8b0217-2e6e-44d8-b8b8-0e1cd625b649"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_45}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="b2d35a09-899d-4bbe-b69b-bacb65ccf93a">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b0c2a020-79a7-4daa-b03b-a955b061867f"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="b22716af-a309-4a1f-80ba-6caa09073f2c"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_46}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="535464f6-0d7e-472e-b385-f5d14a942c0e">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="414dc63f-04af-4132-a14d-3fc0c011921a"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="5a0b3ec5-157c-443e-8f69-7a4157f980b3"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_47}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="0bf6f167-9ba0-4f5f-9b7b-428d4c49844e">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="c64d4b88-ab93-4c1d-b84e-7a668a9532dd"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="0874d4ca-f364-4663-a28a-87afe8c139c5"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_48}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="1aa19f43-23cd-4428-86a0-deba1d282846">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="1a87929f-e95e-4bb1-b169-92c88197fbe3"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="414df03e-1a9e-48f4-a888-8cb249434003"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_49}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="982609e8-5b03-49b1-ab95-4e554e17a91b">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="887f178d-e67e-4385-bbb5-25a3e50afea5"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="19280383-c859-4600-9377-90a61788bdd6"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_50}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="db12b509-286f-4494-a31e-024e896f7b62">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="5542cf3c-104b-4b75-9f33-60f544d1241b"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="236812f8-55bb-4545-b421-1373538f90ab"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_51}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="f7a4ff32-a7c1-481f-b7af-4968d7c4d3cc">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="786b8086-0b8f-40d1-b22e-608244ea2bd5"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="232bd464-d46f-4fba-94af-9a5ebf6a9f5a"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_52}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="b4b34f31-5af0-49cf-be5e-194332bf7837">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="95609394-7bc3-44fe-aa6a-36791e8a9583"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="ed66fea6-168b-4b68-9c08-c58a4fa3cd0f"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_53}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="1f3b97f3-d42f-4043-ae90-50e3b2cbe80b">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="1c4489d1-274d-40e1-922c-508234bb0bfe"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="3a7cc5d4-aee4-4716-b660-e894c2ef8753"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_54}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="fee89f59-5806-4b21-a5dc-d3870a119170">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="63ba5d38-9caf-4211-bbd8-1197202ef657"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="490ba745-8482-40b9-9e4f-492bdd1c3a65"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_55}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="8d918ae1-e0e4-4a6d-b89a-87110610ce89">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="67e50d23-205c-47db-ad82-dd0e320a25fb"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="85bbf076-cb32-4678-ae88-72d5c4b59fc1"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_56}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="d08d8c3f-a65c-4918-9116-f62e97b10d97">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="feece095-d9e4-4457-82e3-1861ff1f5548"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="3536474a-a74a-4d66-90a9-f0985dc472d3"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_57}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="bb48ab34-ee01-4b99-93b4-dd3af2b3ced6">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="f2ec7b98-e11d-47d1-8e07-d91324ee2fd6"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="8df8318f-d52d-45ff-a0a3-11387a1903f3"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_58}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="a5724ce2-7b9c-4fba-9046-db00c11b73b8">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="bad065b3-ce67-4519-8f7d-5d66309fdc11"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="7eeee548-670a-4a86-ae2a-46e8581b6f85"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_59}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="38" uuid="4dd55092-b726-4055-b42f-c2d509473751">
+						<jr:columnHeader style="Table_CH" height="50">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="38" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="d9f04484-16a7-4cf4-adcb-00f30eb7dc0d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="110">
+							<textField>
+								<reportElement x="0" y="0" width="38" height="110" uuid="323a426a-963a-48c7-bf6f-6d30f3e3d193"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_60}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

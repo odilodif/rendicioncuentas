@@ -1,0 +1,621 @@
+
+package gob.cpccs.utilidades;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+public class Constantes {
+	public static final String RUC_EMISOR_FACTURA = "1768147720001";
+	public static final String RUTA_IMAGEN_CPCCSTEXTO = "img/rendicioncuentas2023.jpg";
+	public static final String KEY_SITIO_RECAPTCHA = "6Le-7aYaAAAAAHoAiCg4BnUZBRAYNfTevZw6cPit";
+	public static final String KEY_SECRETO_RECAPTCHA = "6Le-7aYaAAAAAIIM87Ssz0spuZSHtE-Ah3nGRDA7";
+	public static final String NOMBRE_INSTITUCION_MAYUSCULA = "CONSEJO DE PARTICIPACIÓN CIUDADANA Y CONTROL SOCIAL";
+	public static final String NOMBRE_INSTITUCION_MINUSCULA = "Consejo de Participación Ciudadana y Control Social";
+	public static final String NOMBRE_INSTITUCION_SIGLAS = "CPCCS";
+	public static final String NOMBRE_MODULO_MINUSCULA = " Sistema Nacional de Rendición de Cuentas";
+	public static final String RUTA_SERVIDOR_APLICACION = System.getProperty("jboss.home.dir");
+	public static final String RUTA_SERVIDOR_ARCHIVOS = "/archivos/";
+	public static final String RUTA_ARCHIVOS_MODULO_DOCUMENTO = "registro/";
+	public static final String RUTA_ARCHIVOS_MODULO_RETROALIMENTACION = "retroalimentacion/";
+	public static final String RUTA_ARCHIVOS_APLICACION = "/usr/share/nginx/html/archivos/";
+	//public static final String RUTA_ARCHIVOS_Pdf = "https://sudappstest.cpccs.gob.ec/archivos/reportes/";	
+	//public static final String URLSERVIDOR = "https://sudappstest.cpccs.gob.ec";
+	public static final String RUTA_ARCHIVOS_Pdf = "https://plataforma.cpccs.gob.ec/archivos/reportes/";
+	public static final String URLSERVIDOR = "https://plataforma.cpccs.gob.ec";
+	public static final String RUTA_ARCHIVOS_XLSX = URLSERVIDOR+"/archivos/reportes/";
+	public static final String USUARIO_ACCESO_WEBSERVICES_BSG = "0703924449";
+	public static final String USUARIO_ACCESO_WEBSERVICES_BSG_AGRO = "1103876296";
+	public static final String URL_WEB_SERVICES_REGISTRO_CIVIL = "https://www.bsg.gob.ec/sw/RC/BSGSW03_Consultar_Ciudadano?wsdl";
+	public static final String URL_WEB_SERVICES_SRI = "https://www.bsg.gob.ec/sw/SRI/BSGSW01_Consultar_RucSRI?wsdl";
+	public static final String URL_WEB_SERVICES_SENESCYT = "https://www.bsg.gob.ec/sw/SENESCYT/BSGSW04_Consultar_Titulos?wsdl";
+	public static final Integer NUMERO_PROVINCIAS = 24;
+	public static final String LINK_SISTEMA_SUDAPPS = "plataforma.cpccs.gob.ec";
+	public static final String CORREO_SOPORTE_SISTEMA = "rendiciondecuentas@cpccs.gob.ec";
+	public static final String CORREO_SOPORTE_SISTEMA_MODULO_RENDICION = "rendiciondecuentas@cpccs.gob.ec";
+	public static final String EMAIL_NOTIFICACION = "rendiciondecuentas@cpccs.gob.ec";
+	public static final String TAMANIO_ARCHIVO_1_MEGAS = "1MB";
+	public static final String TAMANIO_ARCHIVO_2_MEGAS = "2MB";
+	public static final String TAMANIO_ARCHIVO_3_MEGAS = "3MB";
+	public static final String TAMANIO_ARCHIVO_4_MEGAS = "4MB";
+	public static final String TAMANIO_ARCHIVO_5_MEGAS = "5MB";
+	public static final String TAMANIO_ARCHIVO_25_MEGAS = "25MB";
+	public static final String TAMANIO_ARCHIVO_50_MEGAS = "50MB";
+	public static final String FECHA_INICIO_PROCESO = "2022/01/1";
+
+	public static final String MSG_ERROR_ACTUALIZAR_ESTADO_ITEM = "Ocurrio un error al eliminar el registro";
+	public static final String MSG_EXITO_ACTUALIZAR_ESTADO_ITEM = "El registro fue eliminado exitosamente";
+	public static final String ESTADO = "activo";
+	public static final String ESTADO_INACTIVO = "inactivo";
+	public static final String ESTADO_REGISTRADO = "registrado";
+	public static final Integer ESTADO_INACTIVO_USUARIOS = 0;
+	public static final Integer ESTADO_ACTIVO_USUARIOS = 1;
+	public static final String ESTADO_INFORME_INCOMPLETO = "incompleto";
+	public static final String ESTADO_INFORME_COMPLETO = "completo";
+	public static final String ESTADO_INFORME_FINALIZADO = "finalizado";
+	public static final String ESTADO_PROCESO_CUMPLIDO = "cumplido";
+	public static final String ESTADO_PROCESO_INCUMPLIDO = "incumplido";
+	public static final String ESTADO_INFORME_A_TIEMPO = "A TIEMPO";
+	public static final String ESTADO_INFORME_A_DESTIEMPO = "A DESTIEMPO";
+	public static final String ESTADO_PROCESO_CONCLUIDO = "CONCLUIDO";
+	public static final String ESTADO_SIN_INFORME = "Sin Informe";
+
+	//Constantes para retroalimentación 
+	public static final String ESTADO_ASIGNADO = "asignado";
+	public static final String ESTADO_REVOCADO = "revocado";
+	public static final String ESTADO_CALIFICADO = "calificado";
+	public static final String FE_P1_RESPUESTA1 = "Respuesta 1";
+	public static final String FE_P2_RESPUESTA1 = "Respuesta 1";
+	public static final String FE_P2_RESPUESTA2 = "Respuesta 2";
+	public static final String FE_P2_RESPUESTA3 = "Respuesta 3";
+	public static final String FE_P2_RESPUESTA4 = "Respuesta 4";
+	public static final String FE_P2_RESPUESTA5 = "Respuesta 5";
+	public static final String FE_P2_RESPUESTA6 = "Respuesta 6";
+	public static final String FE_P2_RESPUESTA7 = "Respuesta 7";
+	public static final String FE_P2_RESPUESTA8 = "Respuesta 8";
+	public static final String FE_P2_RESPUESTA9 = "Respuesta 9";
+	public static final String FE_P2_RESPUESTA10 = "Respuesta 10";
+	
+	public static final String FE_P3_RESPUESTA1 = "Respuesta 1";
+	public static final String FE_P3_RESPUESTA2 = "Respuesta 2";
+	public static final String FE_P3_RESPUESTA3 = "Respuesta 3";
+	public static final String FE_P3_RESPUESTA4 = "Respuesta 4";
+	public static final String FE_P3_RESPUESTA5 = "Respuesta 5";
+	public static final String FE_P3_RESPUESTA6 = "Respuesta 6";
+	public static final String FE_P3_RESPUESTA7 = "Respuesta 7";
+	public static final String FE_P3_RESPUESTA8 = "Respuesta 8";
+	public static final String FE_P3_RESPUESTA9 = "Respuesta 9";
+	public static final String FE_P3_RESPUESTA10 = "Respuesta 10";
+	public static final String FE_P3_RESPUESTA11 = "Respuesta 11";
+	public static final String FE_P3_RESPUESTA12 = "Respuesta 12";
+	
+	public static final String FE_P4_RESPUESTA1 = "Respuesta 1";
+	public static final String FE_P4_RESPUESTA2 = "Respuesta 2";
+	public static final String FE_P4_RESPUESTA3 = "Respuesta 3";
+	public static final String FE_P4_RESPUESTA4 = "Respuesta 4";
+	public static final String FE_P4_RESPUESTA5 = "Respuesta 5";
+	public static final String FE_P4_RESPUESTA6 = "Respuesta 6";
+	public static final String FE_P4_RESPUESTA7 = "Respuesta 7";
+	public static final String FE_P4_RESPUESTA8 = "Respuesta 8";
+	public static final String FE_P4_RESPUESTA9 = "Respuesta 9";
+	
+	public static final String FE_P5_RESPUESTA1 = "Respuesta 1";
+	public static final String FE_P5_RESPUESTA2 = "Respuesta 2";
+	public static final String FE_P5_RESPUESTA3 = "Respuesta 3";
+	public static final String FE_P5_RESPUESTA4 = "Respuesta 4";
+	public static final String FE_P5_RESPUESTA5 = "Respuesta 5";
+	public static final String FE_P5_RESPUESTA6 = "Respuesta 6";
+	public static final String FE_P5_RESPUESTA7 = "Respuesta 7";
+	public static final String FE_P5_RESPUESTA8 = "Respuesta 8";
+	public static final String FE_P5_RESPUESTA9 = "Respuesta 9";
+	
+	public static final String FE_P6_RESPUESTA1 = "Respuesta 1";
+	public static final String FE_P6_RESPUESTA2 = "Respuesta 2";
+	public static final String FE_P6_RESPUESTA3 = "Respuesta 3";
+	public static final String FE_P6_RESPUESTA4 = "Respuesta 4";
+	public static final String FE_P6_RESPUESTA5 = "Respuesta 5";
+	public static final String FE_P6_RESPUESTA6 = "Respuesta 6";
+	public static final String FE_P6_RESPUESTA7 = "Respuesta 7";
+	public static final String FE_P6_RESPUESTA8 = "Respuesta 8";
+	public static final String FE_P6_RESPUESTA9 = "Respuesta 9";
+	
+	public static final String FE_P7_RESPUESTA1 = "Respuesta 1";
+	public static final String FE_P7_RESPUESTA2 = "Respuesta 2";
+	public static final String FE_P7_RESPUESTA3 = "Respuesta 3";
+	public static final String FE_P7_RESPUESTA4 = "Respuesta 4";
+	public static final String FE_P7_RESPUESTA5 = "Respuesta 5";
+	public static final String FE_P7_RESPUESTA6 = "Respuesta 6";
+	public static final String FE_P7_RESPUESTA7 = "Respuesta 7";
+	public static final String FE_P7_RESPUESTA8 = "Respuesta 8";
+	public static final String FE_P7_RESPUESTA9 = "Respuesta 9";
+	
+	public static final String FE_P8_RESPUESTA1 = "Respuesta 1";
+	public static final String FE_P8_RESPUESTA2 = "Respuesta 2";
+	public static final String FE_P8_RESPUESTA3 = "Respuesta 3";
+	public static final String FE_P8_RESPUESTA4 = "Respuesta 4";
+	public static final String FE_P8_RESPUESTA5 = "Respuesta 5";
+	public static final String FE_P8_RESPUESTA6 = "Respuesta 6";
+	public static final String FE_P8_RESPUESTA7 = "Respuesta 7";
+	public static final String FE_P8_RESPUESTA8 = "Respuesta 8";
+	public static final String FE_P8_RESPUESTA9 = "Respuesta 9";
+	
+	public static final String FE_P9_RESPUESTA1 = "Respuesta 1";
+	public static final String FE_P9_RESPUESTA2 = "Respuesta 2";
+	public static final String FE_P9_RESPUESTA3 = "Respuesta 3";
+	public static final String FE_P9_RESPUESTA4 = "Respuesta 4";
+	
+	
+	public static final String FEEP_P1_RESPUESTA1 = "Respuesta 1";
+	
+	public static final String FEEP_P2_RESPUESTA1 = "Respuesta 1";
+	public static final String FEEP_P2_RESPUESTA2 = "Respuesta 2";
+	public static final String FEEP_P2_RESPUESTA3 = "Respuesta 3";
+	public static final String FEEP_P2_RESPUESTA4 = "Respuesta 4";
+	public static final String FEEP_P2_RESPUESTA5 = "Respuesta 5";
+	public static final String FEEP_P2_RESPUESTA6 = "Respuesta 6";
+	public static final String FEEP_P2_RESPUESTA7 = "Respuesta 7";
+	public static final String FEEP_P2_RESPUESTA8 = "Respuesta 8";
+	public static final String FEEP_P2_RESPUESTA9 = "Respuesta 9";
+	public static final String FEEP_P2_RESPUESTA10 = "Respuesta 10";
+	public static final String FEEP_P2_RESPUESTA11 = "Respuesta 11";
+	public static final String FEEP_P2_RESPUESTA12 = "Respuesta 12";
+	
+	public static final String FEEP_P3_RESPUESTA1 = "Respuesta 1";
+	public static final String FEEP_P3_RESPUESTA2 = "Respuesta 2";
+	public static final String FEEP_P3_RESPUESTA3 = "Respuesta 3";
+	public static final String FEEP_P3_RESPUESTA4 = "Respuesta 4";
+	public static final String FEEP_P3_RESPUESTA5 = "Respuesta 5";
+	public static final String FEEP_P3_RESPUESTA6 = "Respuesta 6";
+	
+	public static final String FEEP_P4_RESPUESTA1 = "Respuesta 1";
+	public static final String FEEP_P4_RESPUESTA2 = "Respuesta 2";
+	public static final String FEEP_P4_RESPUESTA3 = "Respuesta 3";
+	public static final String FEEP_P4_RESPUESTA4 = "Respuesta 4";
+	public static final String FEEP_P4_RESPUESTA5 = "Respuesta 5";
+	public static final String FEEP_P4_RESPUESTA6 = "Respuesta 6";
+	public static final String FEEP_P4_RESPUESTA7 = "Respuesta 7";
+	public static final String FEEP_P4_RESPUESTA8 = "Respuesta 8";
+	public static final String FEEP_P4_RESPUESTA9 = "Respuesta 9";
+	public static final String FEEP_P4_RESPUESTA10 = "Respuesta 10";
+	public static final String FEEP_P4_RESPUESTA11 = "Respuesta 11";
+	public static final String FEEP_P4_RESPUESTA12 = "Respuesta 12";
+	
+	public static final String FEEP_P5_RESPUESTA1 = "Respuesta 1";
+	public static final String FEEP_P5_RESPUESTA2 = "Respuesta 2";
+	public static final String FEEP_P5_RESPUESTA3 = "Respuesta 3";
+	public static final String FEEP_P5_RESPUESTA4 = "Respuesta 4";
+	public static final String FEEP_P5_RESPUESTA5 = "Respuesta 5";
+	public static final String FEEP_P5_RESPUESTA6 = "Respuesta 6";
+	public static final String FEEP_P5_RESPUESTA7 = "Respuesta 7";
+	
+	public static final String FEEP_P6_RESPUESTA1 = "Respuesta 1";
+	public static final String FEEP_P6_RESPUESTA2 = "Respuesta 2";
+	public static final String FEEP_P6_RESPUESTA3 = "Respuesta 3";
+	public static final String FEEP_P6_RESPUESTA4 = "Respuesta 4";
+	public static final String FEEP_P6_RESPUESTA5 = "Respuesta 5";
+	public static final String FEEP_P6_RESPUESTA6 = "Respuesta 6";
+	
+	public static final String FEEP_P7_RESPUESTA1 = "Respuesta 1";
+	public static final String FEEP_P7_RESPUESTA2 = "Respuesta 2";
+	public static final String FEEP_P7_RESPUESTA3 = "Respuesta 3";
+	public static final String FEEP_P7_RESPUESTA4 = "Respuesta 4";
+	public static final String FEEP_P7_RESPUESTA5 = "Respuesta 5";
+	public static final String FEEP_P7_RESPUESTA6 = "Respuesta 6";
+	public static final String FEEP_P7_RESPUESTA7 = "Respuesta 7";
+	public static final String FEEP_P7_RESPUESTA8 = "Respuesta 8";
+	
+	public static final String FEEP_P8_RESPUESTA1 = "Respuesta 1";
+	public static final String FEEP_P8_RESPUESTA2 = "Respuesta 2";
+	public static final String FEEP_P8_RESPUESTA3 = "Respuesta 3";
+	public static final String FEEP_P8_RESPUESTA4 = "Respuesta 4";
+	public static final String FEEP_P8_RESPUESTA5 = "Respuesta 5";
+	public static final String FEEP_P8_RESPUESTA6 = "Respuesta 6";
+	public static final String FEEP_P8_RESPUESTA7 = "Respuesta 7";
+	public static final String FEEP_P8_RESPUESTA8 = "Respuesta 8";
+	
+	public static final String FEEP_P9_RESPUESTA1 = "Respuesta 1";
+	public static final String FEEP_P9_RESPUESTA2 = "Respuesta 2";
+	public static final String FEEP_P9_RESPUESTA3 = "Respuesta 3";
+	public static final String FEEP_P9_RESPUESTA4 = "Respuesta 4";
+	public static final String FEEP_P9_RESPUESTA5 = "Respuesta 5";
+	public static final String FEEP_P9_RESPUESTA6 = "Respuesta 6";
+	public static final String FEEP_P9_RESPUESTA7 = "Respuesta 7";
+	
+	public static final String FEEP_P10_RESPUESTA1 = "Respuesta 1";
+	public static final String FEEP_P10_RESPUESTA2 = "Respuesta 2";
+	public static final String FEEP_P10_RESPUESTA3 = "Respuesta 3";
+	public static final String FEEP_P10_RESPUESTA4 = "Respuesta 4";
+	public static final String FEEP_P10_RESPUESTA5 = "Respuesta 5";
+	public static final String FEEP_P10_RESPUESTA6 = "Respuesta 6";
+	public static final String FEEP_P10_RESPUESTA7 = "Respuesta 7";
+	public static final String FEEP_P10_RESPUESTA8 = "Respuesta 8";
+	
+	public static final String FEEP_P11_RESPUESTA1 = "Respuesta 1";
+	public static final String FEEP_P11_RESPUESTA2 = "Respuesta 2";
+	public static final String FEEP_P11_RESPUESTA3 = "Respuesta 3";
+	public static final String FEEP_P11_RESPUESTA4 = "Respuesta 4";
+	public static final String FEEP_P11_RESPUESTA5 = "Respuesta 5";
+	public static final String FEEP_P11_RESPUESTA6 = "Respuesta 6";
+	public static final String FEEP_P11_RESPUESTA7 = "Respuesta 7";
+	public static final String FEEP_P11_RESPUESTA8 = "Respuesta 8";
+	
+	public static final String FEEP_P12_RESPUESTA1 = "Respuesta 1";
+	public static final String FEEP_P12_RESPUESTA2 = "Respuesta 2";
+	public static final String FEEP_P12_RESPUESTA3 = "Respuesta 3";
+	public static final String FEEP_P12_RESPUESTA4 = "Respuesta 4";
+	
+
+	
+	public static final String CADENA1 = "\n";// "\r\n|\n";
+	public static final String REMPLAZO1 = "\\\\n";
+	public static final String CADENA2 = "\\\"";
+	public static final String REMPLAZO2 = "\\\\\\\"";
+	public static final String CADENA3 = "\t|\r";
+	public static final String REMPLAZO3 = "";
+	public static final String CADENA4 = "";
+	public static final String REMPLAZO4 = " ";
+	public static final String CADENA5 = "\"";
+	public static final String CADENA6 = "\\\"";
+	public static final String CADENA7 = "\'";
+	public static final String MESSAGE_OK_JSON = "{\"data\": ";
+	public static final String MESSAGE_EMPTY_JSON = "{\"data\": []}";
+	public static final String MESSAGE_ERROR_JSON = "{\"error\" : \"true\", \"message\": " + "ERROR:--> ";
+    
+	// delegaciones Provinciales
+	public static final String DELEGACIONPROVINCIALAZUAY = "DAZU";
+	public static final String DELEGACIONPROVINCIALBOLIVAR = "DBOL";
+	public static final String DELEGACIONPROVINCIALCANAR = "DCAN";
+	public static final String DELEGACIONPROVINCIALCARCHI = "DCAR";
+	public static final String DELEGACIONPROVINCIALCOTOPAXI = "DCOT";
+	public static final String DELEGACIONPROVINCIALCHIMBORAZO = "DCHI";
+	public static final String DELEGACIONPROVINCIALELORO = "DEOR";
+	public static final String DELEGACIONPROVINCIALESMERALDAS = "DESM";
+	public static final String DELEGACIONPROVINCIAGALAPAGOS = "DGAL";
+	public static final String DELEGACIONPROVINCIALGUAYAS = "DGYE";
+	public static final String DELEGACIONPROVINCIALIMBABURA = "DIMB";
+	public static final String DELEGACIONPROVINCIALLOJA = "DLOJ";
+	public static final String DELEGACIONPROVINCIALLOSRIOS = "DLRI";
+	public static final String DELEGACIONPROVINCIALMANABI = "DMAN";
+	public static final String DELEGACIONPROVINCIALMORONASANTIAGO = "DMSA";
+	public static final String DELEGACIONPROVINCIALNAPO = "DNAP";
+	public static final String DELEGACIONPROVINCIALORELLANA = "DORE";
+	public static final String DELEGACIONPROVINCIALPAZTAZA = "DPAS";
+	public static final String DELEGACIONPROVINCIALSANTAELENA = "DSEL";
+	public static final String DELEGACIONPROVINCIALSANTODOMINGO = "DSDO";
+	public static final String DELEGACIONPROVINCIALSUCUMBIOS = "DSUC";
+	public static final String DELEGACIONPROVINCIALTUNGURAHUA = "DTUN";
+	public static final String DELEGACIONPROVINCIALZAMORA = "DZCH";
+	
+
+	// url = "consultarWebServiceBSG";
+	// url="consultarValidarIdentificacionSinWebServices"
+	public static final String URL_WEB_SERVICES_VALIDACION_BSG = "consultarWebServiceBSG";
+	public static final String URL_WEB_SERVICES_VALIDACION_BSG1 = "consultarWebServiceBSG1";
+	
+	// Rendicion de Cuentas
+
+	public static final String RUTA_ARCHIVOS_APLICACION1 = "/usr/share/nginx/html/archivos/";
+	public static final String RUTA_ARCHIVOS_MODULO_ADMISION_REPORTES = RUTA_ARCHIVOS_APLICACION1 + "reportes/";
+	public static final String REPRESENTANTE_LEGAL = "REPRESENTANTE LEGAL";
+	public static final String RESPONSABLE_RENDICION = "RESPONSABLE RENDICION";
+	public static final String RESPONSABLE_REGISTRO = "RESPONSABLE REGISTRO";
+	public static final String NOTA_CORREOS_SISTEMA="Este correo es de carácter informativo, no constituye un medio de verificación del proceso; fue generado automáticamente y no requiere de respuesta. Si tiene alguna inquietud respecto a este mensaje, comuníquese a los números del:";
+	public static final String URL_DIRECTORIO_ASITENCIAS_TECNICAS="<a href='http://www.cpccs.gob.ec/wp-content/uploads/2021/04/DIRECTORIO-DE-ASISTENCIA-TECNICA-RENDICION-DE-CUENTAS.pdf'>Directorio de asistencias técnicas</a>";
+	public static final String TIPO_REGISTRO_AUTORIDAD = "autoridad";
+	public static final String TIPO_REGISTRO_INSTITUCION = "institucion";
+	public static final String TIPO_REGISTRO_TECNICO = "tecnico";
+	public static final String TIPO_INFORME_ESTADO_MATRIZ = "matriz";
+	public static final String TIPO_INFORME_ESTADO_VACIO = "vacio";
+	public static final String FASE0 = "FASE 0";
+	public static final String FASE1 = "FASE 1";
+	public static final String FASE2 = "FASE 2";
+	public static final String FASE3 = "FASE 3";
+	public static final String FASE4 = "FASE 4";
+	public static final Integer ROL_NACIONAL = 10;
+	public static final Integer ROL_PROVINCIAL = 11;
+	public static final Integer ROL_ADMINISTRADOR = 12;
+	public static final Integer ROL_SUBCOORDINADOR = 13;
+	//Constante para tabla Historial institucion
+	public static final String ACCION_INSERT = "INSERT";
+	public static final String ACCION_UPDATE = "UPDATE";
+	public static final String ACCION_DELETE = "DELETE";
+	public static final String ESTADO_ELIMINADO = "eliminado";
+	public static final String DESCRIPCION_INCLUCION_CATASTRO = "Inclusión de catastro:";
+	public static final String DESCRIPCION_ILIMINACION_CATASTRO= "Eiminación de catastro:";
+	public static final String DESCRIPCION_ACTIVACION_CATASTRO="Activación de Catastro:";
+
+	//public static final String CARPETA_REPORTES="ReportesRendicion";
+	public static final String CARPETA_REPORTES="ReportesRendicionProduccion";
+	public static final String URL_SERVIDOR_REPORTES = "https://informe.cpccs.gob.ec/ReportesConsejo/Pages/ReportViewer.aspx?%2f"+CARPETA_REPORTES+"%2f";
+
+
+	public static final String DESCRIPCION_ACTUALIZACION_CATASTRO="Actualización de Catastro:";
+
+	
+	//pruebas
+	 /*
+	public static final String FECHA_BLOQUEO_SISTEMA_AUTORIDAD_ASAMBLEISTA = "16/07/2021";
+	public static final String FECHA_BLOQUEO_SISTEMA_AUTORIDAD = "16/08/2021";
+	public static final String FECHA_BLOQUEO_SISTEMA_FUNCIONES = "16/07/2021";
+	public static final String FECHA_BLOQUEO_SISTEMA_GADS = "16/08/2021";
+
+  public static final String FECHA_CIERRE_INFORME_AUTORIDAD_ASAMBLEISTA = "01/07/2021"; 
+  public static final String FECHA_CIERRE_INFORME_AUTORIDAD = "01/08/2021";
+  
+  public static final String FECHA_CIERRE_INFORME_FUNCIONES_ESTADO = "01/07/2021"; 
+  public static final String FECHA_CIERRE_INFORME_FUNCIONES_ESTADO_EP = "01/07/2021"; 
+  public static final String FECHA_CIERRE_INFORME_EDUCACION_SUPERIOR = "01/07/2021"; 
+  public static final String FECHA_CIERRE_INFORME_MEDIOS_COMUNICACION = "01/07/2021"; 
+  public static final String FECHA_CIERRE_INFORME_IESS = "01/07/2021";	  
+ 
+  public static final String FECHA_CIERRE_INFORME_GAD = "01/08/2021"; 
+  public static final String FECHA_CIERRE_INFORME_GAD_EP = "01/08/2021"; 
+  public static final String FECHA_CIERRE_INFORME_GAD_VINCULADAS = "01/08/2021";
+	*/	
+	//pruebas
+	
+	//produccion
+		
+	
+	
+	
+/*	  
+ 	//Estas fechas cierran el sitema se pone un dia despues de la fecha de cierre 
+      public static final String FECHA_CIERRE_INFORME_AUTORIDAD_ASAMBLEISTA = "01/05/2022"; 
+	  public static final String FECHA_CIERRE_INFORME_AUTORIDAD = "01/06/2022";
+	  
+	  public static final String FECHA_CIERRE_INFORME_FUNCIONES_ESTADO = "01/05/2022"; 
+	  public static final String FECHA_CIERRE_INFORME_FUNCIONES_ESTADO_EP = "01/05/2022"; 
+	  public static final String FECHA_CIERRE_INFORME_EDUCACION_SUPERIOR = "01/05/2022"; 
+	  public static final String FECHA_CIERRE_INFORME_MEDIOS_COMUNICACION = "01/05/2022"; 
+	  public static final String FECHA_CIERRE_INFORME_IESS = "01/05/2022";	  
+	 
+	  public static final String FECHA_CIERRE_INFORME_GAD = "01/06/2022"; 
+	  public static final String FECHA_CIERRE_INFORME_GAD_EP = "01/06/2022"; 
+	  public static final String FECHA_CIERRE_INFORME_GAD_VINCULADAS = "01/06/2022";
+	 
+	 //Estas fechas reabren el sistema se pone un dia despues de la fecha tope que son 15 dias despues del bloqueo del sistema
+		public static final String FECHA_BLOQUEO_SISTEMA_FUNCIONES = "16/05/2022";
+		public static final String FECHA_BLOQUEO_SISTEMA_AUTORIDAD_ASAMBLEISTA = "16/05/2022";
+
+		public static final String FECHA_BLOQUEO_SISTEMA_AUTORIDAD = "16/06/2022";
+		public static final String FECHA_BLOQUEO_SISTEMA_GADS = "16/06/2022";*/
+	
+	// proceso 2022
+/*	public static final String FECHA_CIERRE_INFORME_AUTORIDAD_ASAMBLEISTA = "01/07/2023"; 
+	public static final String FECHA_CIERRE_INFORME_AUTORIDAD = "01/07/2023";
+	  
+	public static final String FECHA_CIERRE_INFORME_FUNCIONES_ESTADO = "01/07/2023"; 
+	public static final String FECHA_CIERRE_INFORME_FUNCIONES_ESTADO_EP = "01/07/2023"; 
+	public static final String FECHA_CIERRE_INFORME_EDUCACION_SUPERIOR = "01/07/2023"; 
+	public static final String FECHA_CIERRE_INFORME_MEDIOS_COMUNICACION = "01/07/2023"; 
+	public static final String FECHA_CIERRE_INFORME_IESS = "01/07/2023";	  
+	 
+	public static final String FECHA_CIERRE_INFORME_GAD = "01/07/2023"; 
+	public static final String FECHA_CIERRE_INFORME_GAD_EP = "01/07/2023"; 
+	public static final String FECHA_CIERRE_INFORME_GAD_VINCULADAS = "01/07/2023";
+	
+	public static final String FECHA_BLOQUEO_SISTEMA_FUNCIONES = "16/07/2023";
+	public static final String FECHA_BLOQUEO_SISTEMA_AUTORIDAD_ASAMBLEISTA = "16/07/2023";
+
+	public static final String FECHA_BLOQUEO_SISTEMA_AUTORIDAD = "16/07/2023";
+	public static final String FECHA_BLOQUEO_SISTEMA_GADS = "16/07/2023";
+	  */
+	
+	// proceso 2023
+	public static final String FECHA_CIERRE_INFORME_AUTORIDAD_ASAMBLEISTA = "20/06/2023"; 
+	public static final String FECHA_CIERRE_INFORME_AUTORIDAD = "20/06/2023";
+	  
+	public static final String FECHA_CIERRE_INFORME_FUNCIONES_ESTADO = "20/06/2023"; 
+	public static final String FECHA_CIERRE_INFORME_FUNCIONES_ESTADO_EP = "20/06/2023"; 
+	public static final String FECHA_CIERRE_INFORME_EDUCACION_SUPERIOR = "20/06/2023"; 
+	public static final String FECHA_CIERRE_INFORME_MEDIOS_COMUNICACION = "20/06/2023"; 
+	public static final String FECHA_CIERRE_INFORME_IESS = "20/06/2023";	  
+	 
+	public static final String FECHA_CIERRE_INFORME_GAD = "20/06/2023"; 
+	public static final String FECHA_CIERRE_INFORME_GAD_EP = "20/06/2023"; 
+	public static final String FECHA_CIERRE_INFORME_GAD_VINCULADAS = "20/06/2023";
+	
+	public static final String FECHA_BLOQUEO_SISTEMA_FUNCIONES = "28/06/2023";
+	public static final String FECHA_BLOQUEO_SISTEMA_AUTORIDAD_ASAMBLEISTA = "28/06/2023";
+
+	public static final String FECHA_BLOQUEO_SISTEMA_AUTORIDAD = "28/06/2023";
+	public static final String FECHA_BLOQUEO_SISTEMA_GADS = "28/06/2023";	
+	
+/*	//Proceso 2024
+	//Estas fechas cierran el sitema se pone un dia despues de la fecha de cierre 
+	public static final String FECHA_CIERRE_INFORME_AUTORIDAD_ASAMBLEISTA = "01/05/2023"; 
+	public static final String FECHA_CIERRE_INFORME_AUTORIDAD = "01/06/2023";
+	  
+	public static final String FECHA_CIERRE_INFORME_FUNCIONES_ESTADO = "01/05/2023"; 
+	public static final String FECHA_CIERRE_INFORME_FUNCIONES_ESTADO_EP = "01/05/2023"; 
+	public static final String FECHA_CIERRE_INFORME_EDUCACION_SUPERIOR = "01/05/2023"; 
+	public static final String FECHA_CIERRE_INFORME_MEDIOS_COMUNICACION = "01/05/2023"; 
+	public static final String FECHA_CIERRE_INFORME_IESS = "01/05/2023";	  
+	 
+	public static final String FECHA_CIERRE_INFORME_GAD = "01/06/2023"; 
+	public static final String FECHA_CIERRE_INFORME_GAD_EP = "01/06/2023"; 
+	public static final String FECHA_CIERRE_INFORME_GAD_VINCULADAS = "01/06/2023";	
+	
+	 //Estas fechas reabren el sistema se pone un dia despues de la fecha tope que son 15 dias despues del bloqueo del sistema
+	public static final String FECHA_BLOQUEO_SISTEMA_FUNCIONES = "16/05/2023";
+	public static final String FECHA_BLOQUEO_SISTEMA_AUTORIDAD_ASAMBLEISTA = "16/05/2023";
+
+	public static final String FECHA_BLOQUEO_SISTEMA_AUTORIDAD = "16/06/2023";
+	public static final String FECHA_BLOQUEO_SISTEMA_GADS = "16/06/2023";	 
+	*/
+	//produccion
+	//CAMM Año estatitico para inicio de consultas
+		public static final String PERIODP_INICIO_SISTEMA = "2020";
+
+		public static final Integer periodo() {
+			//para produccion
+			return Calendar.getInstance().get(Calendar.YEAR) - 1;
+			// para pruebas si esta el año en curso
+			//return Calendar.getInstance().get(Calendar.YEAR);
+		}
+
+		public static final String fechaRegistroEmail() {
+			Date date = new Date();
+			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			return formatter.format(date);
+		}
+
+	public static final String getTypeFile(String inputFile) {
+
+		return FilenameUtils.getExtension(inputFile);
+
+	}
+
+	public static final boolean hasRole(String role) {
+
+		SecurityContext context = SecurityContextHolder.getContext();
+
+		if (context == null) {
+			return false;
+		}
+
+		Authentication auth = context.getAuthentication();
+
+		if (auth == null) {
+			return false;
+		}
+
+		Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
+
+		return authorities.contains(new SimpleGrantedAuthority(role));
+
+	}
+
+	public static final String[] ListaCompetenciasExclusivasGadMunicipal() {
+
+		String[] CompetenciasExclusivas = new String[14];
+
+		CompetenciasExclusivas[0] = "A) PLANIFICAR, JUNTO CON OTRAS INSTITUCIONES DEL SECTOR PÚBLICO Y ACTORES DE LA SOCIEDAD, EL DESARROLLO CANTONAL Y FORMULAR LOS CORRESPONDIENTES PLANES DE ORDENAMIENTO TERRITORIAL, DE MANERA ARTICULADA CON LA PLANIFICACIÓN NACIONAL, REGIONAL, PROVINCIAL Y PARROQUIAL, CON EL FIN DE REGULAR EL USO Y LA OCUPACIÓN DEL SUELO URBANO Y RURAL, EN EL MARCO DE LA INTERCULTURALIDAD Y PLURINACIONALIDAD Y EL RESPETO A LA DIVERSIDAD; ";
+
+		CompetenciasExclusivas[1] = "B) EJERCER EL CONTROL SOBRE EL USO Y OCUPACIÓN DEL SUELO EN EL CANTÓN;";
+
+		CompetenciasExclusivas[2] = "C) PLANIFICAR, CONSTRUIR Y MANTENER LA VIALIDAD URBANA;";
+
+		CompetenciasExclusivas[3] = "D) PRESTAR LOS SERVICIOS PÚBLICOS DE AGUA POTABLE, ALCANTARILLADO, DEPURACIÓN DE AGUAS RESIDUALES, MANEJO DE DESECHOS SOLIDOS, ACTIVIDADES DE SANEAMIENTO AMBIENTAL Y AQUELLOS QUE ESTABLEZCA LA LEY;"; 
+
+		CompetenciasExclusivas[4] = "E) CREAR, MODIFICAR, EXONERAR O SUPRIMIR MEDIANTE ORDENANZAS, TASAS, TARIFAS Y CONTRIBUCIONES ESPECIALES DE MEJORAS;";
+		
+		CompetenciasExclusivas[5] = "F) PLANIFICAR, REGULAR Y CONTROLAR EL TRÁNSITO Y EL TRANSPORTE TERRESTRE DENTRO DE SU CIRCUNSCRIPCIÓN CANTONAL;";
+		
+		CompetenciasExclusivas[6] = "G) PLANIFICAR, CONSTRUIR Y MANTENER LA INFRAESTRUCTURA FÍSICA Y LOS EQUIPAMIENTOS DE LOS ESPACIOS PÚBLICOS DESTINADOS AL DESARROLLO SOCIAL, CULTURAL Y DEPORTIVO, DE ACUERDO CON LA LEY. PREVIA AUTORIZACIÓN DEL ENTE RECTOR DE LA POLÍTICA PUBLICA, A TRAVÉS DE CONVENIO, LOS GOBIERNOS AUTÓNOMOS DESCENTRALIZADOS MUNICIPALES PODRÁN CONSTRUIR Y MANTENER INFRAESTRUCTURA FÍSICA Y LOS EQUIPAMIENTOS DE SALUD Y EDUCACIÓN, EN SU JURISDICCIÓN TERRITORIAL.";
+		
+		CompetenciasExclusivas[7] = "H) PRESERVAR, MANTENER Y DIFUNDIR EL PATRIMONIO ARQUITECTÓNICO, CULTURAL Y NATURAL DEL CANTÓN Y CONSTRUIR LOS ESPACIOS PÚBLICOS PARA ESTOS FINES;";
+		
+		CompetenciasExclusivas[8] = "I) ELABORAR Y ADMINISTRAR LOS CATASTROS INMOBILIARIOS URBANOS Y RURALES;";
+		
+		CompetenciasExclusivas[9] = "J) DELIMITAR, REGULAR, AUTORIZAR Y CONTROLAR EL USO DE LAS PLAYAS DE MAR, RIBERAS Y LECHOS DE RÍOS, LAGOS Y LAGUNAS, SIN PERJUICIO DE LAS LIMITACIONES QUE ESTABLEZCA LA LEY;";
+		
+		CompetenciasExclusivas[10] = "K) PRESERVAR Y GARANTIZAR EL ACCESO EFECTIVO DE LAS PERSONAS AL USO DE LAS PLAYAS DE MAR, RIBERAS DE RÍOS, LAGOS Y LAGUNAS;";
+		
+		CompetenciasExclusivas[11] = "L) REGULAR, AUTORIZAR Y CONTROLAR LA EXPLOTACIÓN DE MATERIALES ÁRIDOS Y PÉTREOS, QUE SE ENCUENTREN EN LOS LECHOS DE LOS RÍOS, LAGOS, PLAYAS DE MAR Y CANTERAS;";
+		
+		CompetenciasExclusivas[12] = "M) GESTIONAR LOS SERVICIOS DE PREVENCIÓN, PROTECCIÓN, SOCORRO Y EXTINCIÓN DE INCENDIOS;";
+		
+		CompetenciasExclusivas[13] = "N) GESTIONAR LA COOPERACIÓN INTERNACIONAL PARA EL CUMPLIMIENTO DE SUS COMPETENCIAS.";
+
+		return CompetenciasExclusivas;
+
+	}
+	
+	public static final String[] ListaCompetenciasExclusivasGadProvincial() {
+
+		String[] CompetenciasExclusivas = new String[8];
+
+		CompetenciasExclusivas[0] = "A) PLANIFICAR, JUNTO CON OTRAS INSTITUCIONES DEL SECTOR PÚBLICO Y ACTORES DE LA SOCIEDAD, EL DESARROLLO PROVINCIAL Y FORMULAR LOS CORRESPONDIENTES PLANES DE ORDENAMIENTO TERRITORIAL, EN EL ÁMBITO DE SUS COMPETENCIAS, DE MANERA ARTICULADA CON LA PLANIFICACIÓN NACIONAL, REGIONAL, CANTONAL Y PARROQUIAL, EN EL MARCO DE LA INTERCULTURALIDAD Y PLURINACIONALIDAD Y EL RESPETO A LA DIVERSIDAD;";
+
+		CompetenciasExclusivas[1] = "B) PLANIFICAR, CONSTRUIR Y MANTENER EL SISTEMA VIAL DE ÁMBITO PROVINCIAL, QUE NO INCLUYA LAS ZONAS URBANAS;";
+
+		CompetenciasExclusivas[2] = "C) EJECUTAR, EN COORDINACIÓN CON EL GOBIERNO REGIONAL Y LOS DEMÁS GOBIERNOS AUTÓNOMOS DESCENTRALIZADOS, OBRAS EN CUENCAS Y MICRO CUENCAS;";
+
+		CompetenciasExclusivas[3] = "D) LA GESTIÓN AMBIENTAL PROVINCIAL;";
+
+		CompetenciasExclusivas[4] = "E) PLANIFICAR, CONSTRUIR, OPERAR Y MANTENER SISTEMAS DE RIEGO DE ACUERDO CON LA CONSTITUCIÓN Y LA LEY;";
+		
+		CompetenciasExclusivas[5] = "F) FOMENTAR LAS ACTIVIDADES PRODUCTIVAS PROVINCIALES, ESPECIALMENTE LAS AGROPECUARIAS;";
+		
+		CompetenciasExclusivas[6] = "M) GESTIONAR LA COOPERACIÓN INTERNACIONAL PARA EL CUMPLIMIENTO DE SUS COMPETENCIAS.";
+		
+		CompetenciasExclusivas[7] = "N) DETERMINAR LAS POLÍTICAS DE INVESTIGACIÓN E INNOVACIÓN DEL CONOCIMIENTO, DESARROLLO Y TRANSFERENCIA DE TECNOLOGÍAS NECESARIAS PARA EL DESARROLLO PROVINCIAL, EN EL MARCO DE LA PLANIFICACIÓN NACIONAL. ";
+		
+		return CompetenciasExclusivas;
+
+	}
+	
+	public static final String[] ListaCompetenciasExclusivasGadParroquial() {
+
+		String[] CompetenciasExclusivas = new String[8];
+
+		CompetenciasExclusivas[0] = "A) PLANIFICAR JUNTO CON OTRAS INSTITUCIONES DEL SECTOR PÚBLICO Y ACTORES DE LA SOCIEDAD EL DESARROLLO PARROQUIAL Y SU CORRESPONDIENTE ORDENAMIENTO TERRITORIAL, EN COORDINACIÓN CON EL GOBIERNO CANTONAL Y PROVINCIAL EN EL MARCO DE LA INTERCULTURALIDAD Y PLURINACIONALIDAD Y EL RESPETO A LA DIVERSIDAD;";
+
+		CompetenciasExclusivas[1] = "B) PLANIFICAR, CONSTRUIR Y MANTENER LA INFRAESTRUCTURA FÍSICA, LOS EQUIPAMIENTOS Y LOS ESPACIOS PÚBLICOS DE LA PARROQUIA, CONTENIDOS EN LOS PLANES DE DESARROLLO E INCLUIDOS EN LOS PRESUPUESTOS PARTICIPATIVOS ANUALES;";
+
+		CompetenciasExclusivas[2] = "C) PLANIFICAR Y MANTENER, EN COORDINACIÓN CON LOS GOBIERNOS PROVINCIALES, LA VIALIDAD PARROQUIAL RURAL;";
+		
+		CompetenciasExclusivas[3] = "D) INCENTIVAR EL DESARROLLO DE ACTIVIDADES PRODUCTIVAS COMUNITARIAS LA PRESERVACIÓN DE LA BIODIVERSIDAD Y LA PROTECCIÓN DEL AMBIENTE;";
+
+		CompetenciasExclusivas[4] = "E) GESTIONAR, COORDINAR Y ADMINISTRAR LOS SERVICIOS PÚBLICOS QUE LE SEAN DELEGADOS O DESCENTRALIZADOS POR OTROS NIVELES DE GOBIERNO;";
+
+		CompetenciasExclusivas[5] = "F) PROMOVER LA ORGANIZACIÓN DE LOS CIUDADANOS DE LAS COMUNAS, RECINTOS Y DEMÁS ASENTAMIENTOS RURALES CON EL CARÁCTER DE ORGANIZACIONES TERRITORIALES DE BASE;";
+		
+		CompetenciasExclusivas[6] = "G) GESTIONAR LA COOPERACIÓN INTERNACIONAL PARA EL CUMPLIMIENTO DE SUS COMPETENCIAS;";
+		
+		CompetenciasExclusivas[7] = "H) VIGILAR LA EJECUCIÓN DE OBRAS Y LA CALIDAD DE LOS SERVICIOS PÚBLICOS.";
+		
+		return CompetenciasExclusivas;
+
+	}
+	public static String getClientIpAddr(HttpServletRequest request) {  
+	    String ip = request.getHeader("X-Forwarded-For");  
+	    if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {  
+	        ip = request.getHeader("Proxy-Client-IP");  
+	    }  
+	    if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {  
+	        ip = request.getHeader("WL-Proxy-Client-IP");  
+	    }  
+	    if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {  
+	        ip = request.getHeader("HTTP_X_FORWARDED_FOR");  
+	    }  
+	    if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {  
+	        ip = request.getHeader("HTTP_X_FORWARDED");  
+	    }  
+	    if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {  
+	        ip = request.getHeader("HTTP_X_CLUSTER_CLIENT_IP");  
+	    }  
+	    if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {  
+	        ip = request.getHeader("HTTP_CLIENT_IP");  
+	    }  
+	    if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {  
+	        ip = request.getHeader("HTTP_FORWARDED_FOR");  
+	    }  
+	    if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {  
+	        ip = request.getHeader("HTTP_FORWARDED");  
+	    }  
+	    if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {  
+	        ip = request.getHeader("HTTP_VIA");  
+	    }  
+	    if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {  
+	        ip = request.getHeader("REMOTE_ADDR");  
+	    }  
+	    if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {  
+	        ip = request.getRemoteAddr();  
+	    }  
+	    return ip;  
+	}
+}

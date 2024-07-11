@@ -1,0 +1,1085 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CumplimientoInstituciones2" pageWidth="1191" pageHeight="842" orientation="Landscape" whenNoDataType="NoPages" columnWidth="1151" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="047e7764-6706-4d03-a8db-4d8e955df0f3">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DatasetCumplimiento" uuid="ccd1811e-3317-4a39-b75a-00b4aee4cdf4">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<parameter name="periodo" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+	esq_catalogos.tbl_institucion.inst_ruc AS ruc, 
+	esq_catalogos.tbl_institucion.inst_nom AS institucion, 
+	esq_catalogos.tbl_localizacion.nombre AS provincia, 
+	esq_catalogos.tbl_tipo_informe.tf_nom AS formulario, 
+	esq_rendicioncuentas.tbl_informe.inf_cod AS numeroinforme, 
+	esq_catalogos.tbl_institucion.inst_verificador AS cumplimiento, 
+	esq_rendicioncuentas.tbl_informe.inf_verificador AS estado, 
+	esq_rendicioncuentas.tbl_informe.inf_fechafin AS fechafinalizacion
+FROM
+	esq_catalogos.tbl_institucion
+	INNER JOIN
+	esq_catalogos.tbl_tipo_informe
+	ON 
+		esq_catalogos.tbl_institucion.inst_tf_cod = esq_catalogos.tbl_tipo_informe.tf_cod
+	INNER JOIN
+	esq_catalogos.tbl_localizacion
+	ON 
+		esq_catalogos.tbl_institucion.prov_cod = esq_catalogos.tbl_localizacion.id_localizacion
+	INNER JOIN
+	esq_rendicioncuentas.tbl_informe
+	ON 
+		esq_catalogos.tbl_institucion.inst_cod = esq_rendicioncuentas.tbl_informe.inst_cod
+WHERE
+	esq_catalogos.tbl_institucion.inst_estado <> 'eliminado' AND esq_catalogos.tbl_institucion.inst_periodo =  $P{periodo}]]>
+		</queryString>
+		<field name="ruc" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="ruc"/>
+			<property name="com.jaspersoft.studio.field.label" value="ruc"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_institucion"/>
+		</field>
+		<field name="institucion" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="institucion"/>
+			<property name="com.jaspersoft.studio.field.label" value="institucion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_institucion"/>
+		</field>
+		<field name="provincia" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="provincia"/>
+			<property name="com.jaspersoft.studio.field.label" value="provincia"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_localizacion"/>
+		</field>
+		<field name="formulario" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="formulario"/>
+			<property name="com.jaspersoft.studio.field.label" value="formulario"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_tipo_informe"/>
+		</field>
+		<field name="numeroinforme" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.name" value="numeroinforme"/>
+			<property name="com.jaspersoft.studio.field.label" value="numeroinforme"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_informe"/>
+		</field>
+		<field name="cumplimiento" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="cumplimiento"/>
+			<property name="com.jaspersoft.studio.field.label" value="cumplimiento"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_institucion"/>
+		</field>
+		<field name="estado" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="estado"/>
+			<property name="com.jaspersoft.studio.field.label" value="estado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_informe"/>
+		</field>
+		<field name="fechafinalizacion" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.name" value="fechafinalizacion"/>
+			<property name="com.jaspersoft.studio.field.label" value="fechafinalizacion"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_informe"/>
+		</field>
+		<group name="ruc">
+			<groupExpression><![CDATA[$F{ruc}]]></groupExpression>
+		</group>
+		<group name="institucion">
+			<groupExpression><![CDATA[$F{institucion}]]></groupExpression>
+		</group>
+		<group name="provincia">
+			<groupExpression><![CDATA[$F{provincia}]]></groupExpression>
+		</group>
+		<group name="formulario">
+			<groupExpression><![CDATA[$F{formulario}]]></groupExpression>
+		</group>
+		<group name="numeroinforme">
+			<groupExpression><![CDATA[$F{numeroinforme}]]></groupExpression>
+		</group>
+		<group name="cumplimiento">
+			<groupExpression><![CDATA[$F{cumplimiento}]]></groupExpression>
+		</group>
+		<group name="estado">
+			<groupExpression><![CDATA[$F{estado}]]></groupExpression>
+		</group>
+		<group name="fechafinalizacion">
+			<groupExpression><![CDATA[$F{fechafinalizacion}]]></groupExpression>
+		</group>
+	</subDataset>
+	<subDataset name="DatasetGrafico" uuid="02c7dacb-4c94-4896-8401-8eee46a9645e">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PostgresCapacitacion"/>
+		<parameter name="periodo" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[select (select tip.tf_nom from esq_catalogos.tbl_tipo_informe as tip where tip.tf_cod = inst.inst_tf_cod) as formulario,
+
+SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A TIEMPO'
+			and inst.inst_tf_cod = 1
+		) 
+	) AS atiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A DESTIEMPO'
+			and inst.inst_tf_cod = 1
+		) 
+	) AS destiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador <> 'A DESTIEMPO'
+			and inf.inf_verificador <> 'A TIEMPO'
+			and inst.inst_tf_cod = 1
+		) 
+	) AS activo
+
+from esq_catalogos.tbl_institucion as inst
+
+where inst.inst_tf_cod = 1 and inst.inst_periodo =  $P{periodo} 
+
+GROUP BY inst.inst_tf_cod
+
+UNION
+
+select (select tip.tf_nom from esq_catalogos.tbl_tipo_informe as tip where tip.tf_cod = inst.inst_tf_cod) as formulario,
+
+SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A TIEMPO'
+			and inst.inst_tf_cod = 2
+		) 
+	) AS atiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A DESTIEMPO'
+			and inst.inst_tf_cod = 2
+		) 
+	) AS destiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador <> 'A DESTIEMPO'
+			and inf.inf_verificador <> 'A TIEMPO'
+			and inst.inst_tf_cod = 2
+		) 
+	) AS activo
+
+from esq_catalogos.tbl_institucion as inst
+ 
+where inst.inst_tf_cod = 2 and inst.inst_periodo =  $P{periodo} 
+
+GROUP BY inst.inst_tf_cod
+
+UNION
+
+select (select tip.tf_nom from esq_catalogos.tbl_tipo_informe as tip where tip.tf_cod = inst.inst_tf_cod) as formulario,
+
+SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A TIEMPO'
+			and inst.inst_tf_cod = 3
+		) 
+	) AS atiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A DESTIEMPO'
+			and inst.inst_tf_cod = 3
+		) 
+	) AS destiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador <> 'A DESTIEMPO'
+			and inf.inf_verificador <> 'A TIEMPO'
+			and inst.inst_tf_cod = 3
+		) 
+	) AS activo
+
+from esq_catalogos.tbl_institucion as inst
+
+where inst.inst_tf_cod = 3 and inst.inst_periodo =  $P{periodo} 
+
+GROUP BY inst.inst_tf_cod
+
+UNION
+
+select (select tip.tf_nom from esq_catalogos.tbl_tipo_informe as tip where tip.tf_cod = inst.inst_tf_cod) as formulario,
+
+SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A TIEMPO'
+			and inst.inst_tf_cod = 4
+		) 
+	) AS atiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A DESTIEMPO'
+			and inst.inst_tf_cod = 4
+		) 
+	) AS destiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador <> 'A DESTIEMPO'
+			and inf.inf_verificador <> 'A TIEMPO'
+			and inst.inst_tf_cod = 4
+		) 
+	) AS activo
+
+from esq_catalogos.tbl_institucion as inst
+
+where inst.inst_tf_cod = 4 and inst.inst_periodo =  $P{periodo} 
+
+GROUP BY inst.inst_tf_cod
+
+UNION
+
+select (select tip.tf_nom from esq_catalogos.tbl_tipo_informe as tip where tip.tf_cod = inst.inst_tf_cod) as formulario,
+
+SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A TIEMPO'
+			and inst.inst_tf_cod = 5
+		) 
+	) AS atiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A DESTIEMPO'
+			and inst.inst_tf_cod = 5
+		) 
+	) AS destiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador <> 'A DESTIEMPO'
+			and inf.inf_verificador <> 'A TIEMPO'
+			and inst.inst_tf_cod = 5
+		) 
+	) AS activo
+
+from esq_catalogos.tbl_institucion as inst
+
+where inst.inst_tf_cod = 5 and inst.inst_periodo =  $P{periodo} 
+
+GROUP BY inst.inst_tf_cod
+
+UNION
+
+select (select tip.tf_nom from esq_catalogos.tbl_tipo_informe as tip where tip.tf_cod = inst.inst_tf_cod) as formulario,
+
+SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A TIEMPO'
+			and inst.inst_tf_cod = 6
+		) 
+	) AS atiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A DESTIEMPO'
+			and inst.inst_tf_cod = 6
+		) 
+	) AS destiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador <> 'A DESTIEMPO'
+			and inf.inf_verificador <> 'A TIEMPO'
+			and inst.inst_tf_cod = 6
+		) 
+	) AS activo
+
+from esq_catalogos.tbl_institucion as inst
+
+where inst.inst_tf_cod = 6 and inst.inst_periodo =  $P{periodo} 
+
+GROUP BY inst.inst_tf_cod
+
+UNION
+
+select (select tip.tf_nom from esq_catalogos.tbl_tipo_informe as tip where tip.tf_cod = inst.inst_tf_cod) as formulario,
+
+SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A TIEMPO'
+			and inst.inst_tf_cod = 7
+		) 
+	) AS atiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A DESTIEMPO'
+			and inst.inst_tf_cod = 7
+		) 
+	) AS destiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador <> 'A DESTIEMPO'
+			and inf.inf_verificador <> 'A TIEMPO'
+			and inst.inst_tf_cod = 7
+		) 
+	) AS activo
+
+from esq_catalogos.tbl_institucion as inst
+
+where inst.inst_tf_cod = 7 and inst.inst_periodo =  $P{periodo} 
+
+GROUP BY inst.inst_tf_cod
+
+UNION
+
+select (select tip.tf_nom from esq_catalogos.tbl_tipo_informe as tip where tip.tf_cod = inst.inst_tf_cod) as formulario,
+
+SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A TIEMPO'
+			and inst.inst_tf_cod = 8
+		) 
+	) AS atiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador ='A DESTIEMPO'
+			and inst.inst_tf_cod = 8
+		) 
+	) AS destiempo,
+	
+	SUM (
+		(
+		SELECT COUNT
+			( inf.inf_cod ) 
+		FROM
+			esq_rendicioncuentas.tbl_informe AS inf
+		WHERE
+			inf.inst_cod = inst.inst_cod
+			and 
+			inf.inf_verificador <> 'A DESTIEMPO'
+			and inf.inf_verificador <> 'A TIEMPO'
+			and inst.inst_tf_cod = 8
+		) 
+	) AS activo
+
+from esq_catalogos.tbl_institucion as inst
+
+where inst.inst_tf_cod = 8 and inst.inst_periodo =  $P{periodo} 
+
+GROUP BY inst.inst_tf_cod]]>
+		</queryString>
+		<field name="formulario" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="formulario"/>
+			<property name="com.jaspersoft.studio.field.label" value="formulario"/>
+		</field>
+		<field name="atiempo" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="atiempo"/>
+			<property name="com.jaspersoft.studio.field.label" value="atiempo"/>
+		</field>
+		<field name="destiempo" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="destiempo"/>
+			<property name="com.jaspersoft.studio.field.label" value="destiempo"/>
+		</field>
+		<field name="activo" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="activo"/>
+			<property name="com.jaspersoft.studio.field.label" value="activo"/>
+		</field>
+	</subDataset>
+	<parameter name="Periodo" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT * from esq_catalogos.tbl_funcion WHERE fun_est='activo']]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="490" splitType="Stretch">
+			<staticText>
+				<reportElement x="385" y="10" width="380" height="20" uuid="e2a26d3c-1f09-4ddc-88e2-693e2909eb59"/>
+				<textElement textAlignment="Center">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUMPLIMIENTO DE INFORMES DE INSTITUCIONES]]></text>
+			</staticText>
+			<barChart>
+				<chart isShowLegend="false" evaluationTime="Report" theme="default">
+					<reportElement x="0" y="50" width="1150" height="200" uuid="6e6abfcd-f76f-4d30-8336-047e8c99839b"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset resetType="Report">
+						<datasetRun subDataset="DatasetGrafico" uuid="a6948a03-75b4-48c9-961d-c1e92adaeebd">
+							<datasetParameter name="periodo">
+								<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+							</datasetParameter>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{formulario}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{formulario}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{atiempo}]]></valueExpression>
+						<labelExpression><![CDATA[$F{formulario}]]></labelExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot orientation="Horizontal"/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<componentElement>
+				<reportElement x="20" y="280" width="490" height="210" uuid="ed94bed8-e843-4f42-b7e9-536d3e8bfb3b">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DatasetGrafico" uuid="6dd8486e-3265-426d-b90e-7961d4426265">
+						<datasetParameter name="periodo">
+							<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="320" uuid="0d5b7743-485d-4fc4-942a-ee2cfe91e7a4">
+						<jr:columnHeader style="Table 1_CH" height="30">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="320" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="0654e206-47a1-4e84-90dd-b9ce5f3d56ec"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[formulario]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 1_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="320" height="30" uuid="f5631324-b8fa-4c0d-89ae-6f566bcbda5b"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{formulario}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="a2d8da45-d9fa-4c23-801d-8567014f697b">
+						<jr:columnHeader style="Table 1_CH" height="30">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="d4f08ea3-5a21-41a2-a095-9a973697b5b9"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[atiempo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 1_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="6c8468e3-7c40-4847-b70e-67fde1115484"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{atiempo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="24a03e59-374b-42aa-8e91-f7dbfe3d7952">
+						<jr:columnHeader style="Table 1_CH" height="30">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="47ecd452-4e38-4512-9283-6e959df5b9b8"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[destiempo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 1_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="85c6e6a9-d009-4df3-a334-3d08b95f0d5a"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{destiempo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="5b49e6b6-6f6d-4028-8281-efc3a2c81a7b">
+						<jr:columnHeader style="Table 1_CH" height="30">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="e74cead5-a5fa-4c55-8b89-a0d8c349211b"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<text><![CDATA[activo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 1_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="30" uuid="68c0d9ed-5b35-4763-9e64-9ea24c823195"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{activo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</title>
+	<detail>
+		<band height="85" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="-10" y="10" width="1160" height="70" uuid="088e17d7-ba2b-45e8-a067-42a868873440">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="Blank">
+					<datasetRun subDataset="DatasetCumplimiento" uuid="db44ed18-c41e-4f22-9866-2bde3207abfa">
+						<datasetParameter name="periodo">
+							<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="145" uuid="63a11c1f-0fe0-41a3-a83c-abb36c6e472e">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="145" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="7e20ec6e-2eda-4e0a-a83f-2006e38be666"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[ruc]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="145" height="30" uuid="c4842c05-f87d-40a7-8d0f-a3b646564786"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ruc}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="145" uuid="039ed2c5-462d-4555-a7a8-1bc756b3e9a7">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="145" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="97fc533d-417f-4281-9f5a-4eb7adbd5139"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[institucion]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="145" height="30" uuid="58b8327d-4549-4901-945e-d488700737c5"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{institucion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="145" uuid="7c1332e4-f280-49e4-b2fb-d4b9ab11f961">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="145" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b531f1eb-1d26-4866-9927-8e5eec439a4c"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[provincia]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="145" height="30" uuid="8d34d6ef-2762-43bd-b82b-f6d3ffbdb7ec"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="145" uuid="0af502c3-cb7a-4345-b446-b8997a8ff967">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="145" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="45063b30-555c-4c71-b889-8cd3669c300f"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[formulario]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="145" height="30" uuid="ae501aa4-b03f-4e08-8d37-7470ab4467ba"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{formulario}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="145" uuid="271f7645-6264-49dc-970c-63013568bf41">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="145" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="69fadcca-0bbc-40fd-bd76-1ae4ddb0e0d9"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[numeroinforme]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="145" height="30" uuid="f8876991-f4e5-4d45-add2-dc0781384af8"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{numeroinforme}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="145" uuid="6e60dceb-5e43-4d92-b624-36cfe01e0d75">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="145" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="eae5c2ac-881c-4b31-9ae5-42c33f97c15d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[cumplimiento]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="145" height="30" uuid="c1eb8cc2-946c-425f-be70-5b808f4214e7"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{cumplimiento}==null?" ":$F{cumplimiento}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="145" uuid="30ae3e13-1ff5-41f0-ba63-179708857955">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="145" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="6ddd30fa-8686-4b61-88db-a3e7120f7fa7"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[estado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="145" height="30" uuid="d870c78f-da0a-44e0-86e7-22f68983d20d"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{estado}==null?" ":$F{estado}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="145" uuid="c77b0195-2050-4af8-b96a-9898b34bf304">
+						<jr:columnHeader style="Table_CH" height="30">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="145" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="cd8751bd-d151-417d-a82b-1438b164ddce"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[fechafinalizacion]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="145" height="30" uuid="45c3abbc-8413-4439-aa70-6ad069b3b9cb"/>
+								<box>
+									<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+									<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{fechafinalizacion}==null?" ":$F{fechafinalizacion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="22" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>

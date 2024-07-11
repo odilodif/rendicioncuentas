@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PresupuestoParticipativo" pageWidth="1191" pageHeight="842" orientation="Landscape" whenNoDataType="NoPages" columnWidth="1181" leftMargin="5" rightMargin="5" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="f0971d6c-de57-4368-afaa-7cd4e7b20a24">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="272"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NO_DATA_ADAPTER"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Listado" uuid="b3ed1bc6-bbae-48c2-9080-744f5328f82d">
+		<parameter name="periodo" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[		select t3.nombre,t3.provincia,t3.funcion,t3.sector,t1.inf_periodo,t1.inf_cod,t3.inst_cod,t3.inst_ruc,t2.proy_descripcion,t2.proy_montoplan,t2.proy_montoejec,t4.inf_tieneprespar,t2.proy_porc_avance from (select info.inf_cod,info.inf_periodo,info.inst_cod from esq_rendicioncuentas.tbl_informe info WHERE info.inf_estado='finalizado' and info.inf_periodo=  $P{periodo}    )t1
+	INNER JOIN(select inf_cod,proy_descripcion,proy_montoplan,proy_montoejec,proy_porc_avance from esq_rendicioncuentas.tbl_proy_presupuesto_participativo )t2 on t2.inf_cod=t1.inf_cod
+	left JOIN(select insti.inst_cod,insti.inst_ruc, inst_nom nombre,
+	(select lc.nombre from esq_catalogos.tbl_localizacion lc WHERE lc.id_localizacion=insti.prov_cod and lc.categoria=1) provincia,
+	(SELECT fu.fun_des from esq_catalogos.tbl_funcion fu WHERE fu.fun_cod=insti.inst_fun_cod) funcion,insti.inst_tip_des sector from esq_catalogos.tbl_institucion insti where insti.inst_estado <>'eliminado'and insti.inst_periodo= $P{periodo}   and insti.inst_tf_cod=1)t3 on t1.inst_cod=t3.inst_cod
+	inner JOIN(select inf_tieneprespar,inf_cod from esq_rendicioncuentas.tbl_porcentaje_presupuesto)t4 on t4.inf_cod=t1.inf_cod ORDER BY t3.inst_cod asc]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="provincia" class="java.lang.String"/>
+		<field name="funcion" class="java.lang.String"/>
+		<field name="sector" class="java.lang.String"/>
+		<field name="proy_descripcion" class="java.lang.String"/>
+		<field name="inst_ruc" class="java.lang.String"/>
+		<field name="proy_montoplan" class="java.lang.String"/>
+		<field name="proy_montoejec" class="java.lang.String"/>
+		<field name="inf_tieneprespar" class="java.lang.String"/>
+		<field name="proy_porc_avance" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="Graficatabla" uuid="12a83d2a-1900-4fb2-8b45-196fabe18d77">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="201"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="793"/>
+		<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="752"/>
+		<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="237"/>
+		<parameter name="periodo" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[	(	SELECT '0'as nombre,sum(t2.total) total from(select info.inf_cod,inst_cod from esq_rendicioncuentas.tbl_informe info WHERE info.inf_estado='finalizado'  AND info.inf_periodo=$P{periodo}  )t1 
+	inner JOIN(select count(inf_cod)as total,inf_cod from esq_rendicioncuentas.tbl_proy_presupuesto_participativo WHERE   proy_porc_avance='0' GROUP BY inf_cod)t2 on t1.inf_cod=t2.inf_cod
+	INNER JOIN(select inst_cod,inst_tf_cod from esq_catalogos.tbl_institucion WHERE inst_periodo=$P{periodo}  and inst_estado<>'eliminado' and inst_tf_cod=1 )t3 on t3.inst_cod=t1.inst_cod 
+	UNION
+			SELECT '1-25'as nombre,sum(t2.total) from(select info.inf_cod,inst_cod from esq_rendicioncuentas.tbl_informe info WHERE info.inf_estado='finalizado'  AND info.inf_periodo=$P{periodo}  )t1 
+	inner JOIN(select count(inf_cod)as total,inf_cod from esq_rendicioncuentas.tbl_proy_presupuesto_participativo WHERE   proy_porc_avance='1-25' GROUP BY inf_cod)t2 on t1.inf_cod=t2.inf_cod
+	INNER JOIN(select inst_cod,inst_tf_cod from esq_catalogos.tbl_institucion WHERE inst_periodo=$P{periodo}  and inst_estado<>'eliminado' and inst_tf_cod=1 )t3 on t3.inst_cod=t1.inst_cod 
+		UNION
+			SELECT '25-50'as nombre,sum(t2.total) from(select info.inf_cod,inst_cod from esq_rendicioncuentas.tbl_informe info WHERE info.inf_estado='finalizado'  AND info.inf_periodo=$P{periodo}  )t1 
+	inner JOIN(select count(inf_cod)as total,inf_cod from esq_rendicioncuentas.tbl_proy_presupuesto_participativo WHERE   proy_porc_avance='25-50' GROUP BY inf_cod)t2 on t1.inf_cod=t2.inf_cod
+	INNER JOIN(select inst_cod,inst_tf_cod from esq_catalogos.tbl_institucion WHERE inst_periodo=$P{periodo}  and inst_estado<>'eliminado' and inst_tf_cod=1 )t3 on t3.inst_cod=t1.inst_cod 
+	UNION
+			SELECT '51-75'as nombre,sum(t2.total) from(select info.inf_cod,inst_cod from esq_rendicioncuentas.tbl_informe info WHERE info.inf_estado='finalizado'  AND info.inf_periodo=$P{periodo}  )t1 
+	inner JOIN(select count(inf_cod)as total,inf_cod from esq_rendicioncuentas.tbl_proy_presupuesto_participativo WHERE   proy_porc_avance='51-75' GROUP BY inf_cod)t2 on t1.inf_cod=t2.inf_cod
+	INNER JOIN(select inst_cod,inst_tf_cod from esq_catalogos.tbl_institucion WHERE inst_periodo=$P{periodo}  and inst_estado<>'eliminado' and inst_tf_cod=1 )t3 on t3.inst_cod=t1.inst_cod 
+		UNION
+			SELECT '76-100'as nombre,sum(t2.total) from(select info.inf_cod,inst_cod from esq_rendicioncuentas.tbl_informe info WHERE info.inf_estado='finalizado'  AND info.inf_periodo=$P{periodo}  )t1 
+	inner JOIN(select count(inf_cod)as total,inf_cod from esq_rendicioncuentas.tbl_proy_presupuesto_participativo WHERE   proy_porc_avance='76-100' GROUP BY inf_cod)t2 on t1.inf_cod=t2.inf_cod
+	INNER JOIN(select inst_cod,inst_tf_cod from esq_catalogos.tbl_institucion WHERE inst_periodo=$P{periodo}  and inst_estado<>'eliminado' and inst_tf_cod=1 )t3 on t3.inst_cod=t1.inst_cod) ORDER BY nombre asc ]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="total" class="java.lang.Integer"/>
+		<variable name="Vtotal" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{total}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="Periodo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * from esq_catalogos.tbl_funcion WHERE fun_est='activo']]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="316" splitType="Stretch">
+			<staticText>
+				<reportElement x="340" y="0" width="220" height="16" uuid="26a08c47-dbad-44f4-822a-801cf45a1e61"/>
+				<text><![CDATA[ANÁLISIS PRESUPUESTO PARTICIPATIVO]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="-5" y="22" width="1125" height="294" uuid="14dbf479-1da5-4812-b5e0-73a47ff8b59b"/>
+				<barChart>
+					<chart evaluationTime="Report">
+						<reportElement x="90" y="0" width="490" height="280" uuid="010ab1d6-209d-4877-ba3d-24cce74cd43d"/>
+						<chartTitle/>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset resetType="Report">
+							<datasetRun subDataset="Graficatabla" uuid="acea52d2-c8b7-45d3-9ce5-93f51a1947d0">
+								<datasetParameter name="periodo">
+									<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+								</datasetParameter>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{nombre}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{nombre}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{total}]]></valueExpression>
+							<labelExpression><![CDATA[$F{nombre}]]></labelExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+				<componentElement>
+					<reportElement x="600" y="20" width="380" height="90" uuid="60d485c8-5a78-41ab-b05c-b6a7de6a4072">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
+						<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
+					</reportElement>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="Graficatabla" uuid="f8253e66-2c8f-439e-bb13-7370bc52bdfe">
+							<datasetParameter name="periodo">
+								<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column width="170" uuid="eb47d60d-3e7c-498c-86c2-fe9bfcaea572">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+							<jr:columnHeader style="Table_TH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="170" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="7633f3de-28b8-4d74-9288-742ce1500d94"/>
+									<textElement textAlignment="Center"/>
+									<text><![CDATA[Rango]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table_TD" height="30">
+								<textField>
+									<reportElement x="0" y="0" width="170" height="30" uuid="14165319-f9a1-47a2-8427-fba9c8cd560c"/>
+									<textElement textAlignment="Center"/>
+									<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:columnGroup width="210" uuid="80eaecda-a3db-44c9-9bb4-087b494b31dc">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [1]"/>
+							<jr:tableHeader style="Table_TH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="210" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="56fc8045-0610-4ad4-9020-08a31fae4bc5"/>
+									<textElement textAlignment="Center"/>
+									<text><![CDATA[Resultados]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:columnFooter style="Table_CH" height="30" rowSpan="1">
+								<textField>
+									<reportElement mode="Opaque" x="0" y="0" width="210" height="30" uuid="b3d35548-7016-4f8f-b6bf-6a6fc9e4d09c"/>
+									<textElement textAlignment="Center"/>
+									<textFieldExpression><![CDATA[$V{Vtotal}]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:column width="210" uuid="6d282315-df3f-4bcd-929b-b48d367dbdf7">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+								<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="210" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="8fcfba33-757f-4dde-a1dd-65a119e3f941"/>
+										<textElement textAlignment="Center"/>
+										<text><![CDATA[]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="Table_TD" height="30">
+									<textField>
+										<reportElement x="0" y="0" width="210" height="30" uuid="b9a92fc3-b124-4216-9121-e798b9822b93"/>
+										<textElement textAlignment="Center"/>
+										<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
+					</jr:table>
+				</componentElement>
+			</frame>
+		</band>
+	</title>
+	<detail>
+		<band height="74" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT} == 1]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="6" y="0" width="1104" height="60" uuid="82ccf656-55a6-49b8-8df6-3485e9c64374">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Listado" uuid="46270216-2238-428c-9e92-cd161f826dd9">
+						<datasetParameter name="periodo">
+							<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="30" uuid="842c83b7-e43b-4d4d-9caa-744362e8f912">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="30" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="a2bc7c08-7b41-4469-8e7f-a2b73f8633da"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[No.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="30" height="40" uuid="ee8ce01e-404e-4efb-85f1-3338c82092db"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="200" uuid="fabd288d-419e-4f80-b780-469a15c3b81f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="200" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b6c059e2-7d41-4bfe-bbcf-c9b089e6c0e4"/>
+								<textElement textAlignment="Center">
+									<font size="12"/>
+								</textElement>
+								<text><![CDATA[Nombre Institución]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="200" height="40" uuid="1eaf02ec-324d-4b53-b69f-27ae5c071e09"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="52ef7add-b125-4200-a6d8-f105ab5863e4">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="70" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="35a6deb4-e4d1-4b64-8bd6-0b43e284e6bf"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Ruc]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="70" height="40" uuid="c1c598b1-21be-48ba-9b09-9ce1bdbf25de"/>
+								<textElement textAlignment="Center">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{inst_ruc}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="bd8b851a-d841-4142-bb72-45fcc6035055">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="100" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="f971f685-c142-47d3-8556-777c2e0330b3"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Provincia]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="100" height="40" uuid="7e7745c2-16f0-43e4-b041-070eed08cdaa"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="5ae3ed81-9739-47f6-bc4f-7ad54fa8742c">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="c78923b4-8324-4bdf-895b-b4868466dc1b"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Función]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="40" uuid="40ef1474-dd29-47d1-bddc-ae01cd63de6d"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{funcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="0292ee5e-0beb-40ff-a8c3-679cd4708b46">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="44d13f39-5ed4-40f3-b962-8897d252d4a3"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Sector]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="40" uuid="8c73cf41-65ec-423c-993d-e7f85b53aa75"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{sector}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="210" uuid="737fa961-89d2-401b-bae3-dee4e8675f39">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="210" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="56e49036-2868-48b4-aaa7-9fb1b2603afc"/>
+								<textElement textAlignment="Center">
+									<font size="7"/>
+								</textElement>
+								<text><![CDATA[		
+					
+Programas y proyectos generados a partir de la priorización participativa de la inversión]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="210" height="40" isPrintWhenDetailOverflows="true" uuid="77c2941f-068d-4534-9eb3-8fe023502849"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{proy_descripcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="dce1f298-341d-4437-b267-f8bb1d844284">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="70" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="8b8324bf-9880-41be-bb8d-06c485dca7b4"/>
+								<textElement textAlignment="Center">
+									<font size="7"/>
+								</textElement>
+								<text><![CDATA[Monto Panificado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="70" height="40" uuid="eccffa0c-96bc-49cf-8bdf-dc9f78930e6f"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{proy_montoplan}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="a21d4e19-9bb3-47d5-9e1f-1dfaebdf3b43">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="80" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="1c1565ab-41d5-4c36-981c-b97a819ad14f"/>
+								<textElement textAlignment="Center">
+									<font size="7"/>
+								</textElement>
+								<text><![CDATA[Monto Ejecutado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="80" height="40" uuid="e88d43c4-2405-4a21-a344-2f8d81dd057a"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{proy_montoejec}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="83630ebc-3994-4ea1-8ed2-2498c3052d75">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="70" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="46d18098-7988-4ca5-bd41-4fe91f511d26"/>
+								<textElement textAlignment="Center">
+									<font size="7"/>
+								</textElement>
+								<text><![CDATA[ SI O NO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="70" height="40" uuid="c182d5b1-0dca-4b12-a715-5ccc71e1c758"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{inf_tieneprespar}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="41841c67-2b56-49e7-b96c-7823483dc6df">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="100" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="5b26d810-5ab5-45ad-b8b7-6d87b85beb39"/>
+								<textElement textAlignment="Center">
+									<font size="7"/>
+								</textElement>
+								<text><![CDATA[% de avance de la implementación del programa/proyecto]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="100" height="40" uuid="ab80d07c-2a20-420b-9c63-2878267517e3"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{proy_porc_avance}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

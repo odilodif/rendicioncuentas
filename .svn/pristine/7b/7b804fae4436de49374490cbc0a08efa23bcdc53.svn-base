@@ -1,0 +1,75 @@
+package gob.cpccs.repository.catalogos;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import gob.cpccs.model.catalogos.TblInstitucion;
+import gob.cpccs.model.usuario.TblAutoridad;
+
+@Repository
+@Transactional
+public interface InstitucionRepository extends JpaRepository<TblInstitucion, String> {
+	
+	//findByCategoriaAndEstadoOrderByNombreAsc
+	
+	List<TblInstitucion> findByInstRucAndInstEstadoAndInstPeriodo(@Param("instRuc") String instRuc, @Param("instEstado") String instEstado,@Param("instPeriodo") Integer instPeriodo);
+	List<TblInstitucion> findByProvCodAndInstEstadoAndInstPeriodo(@Param("provCod") Integer provCod, @Param("instEstado") String instEstado,@Param("instPeriodo") Integer instPeriodo);
+
+	@Query("SELECT t from TblInstitucion t where t.instEstado=:instEstado and t.instPeriodo=:instPeriodo order by t.instCod asc")
+	List<TblInstitucion> findByInstEstadoInactivoYInstPeriodo(@Param("instEstado") String instEstado,@Param("instPeriodo") Integer instPeriodo);
+	
+	TblInstitucion findByinstCodAndInstEstadoAndInstPeriodo(@Param("instCod") Integer instCod, @Param("instEstado") String instEstado,@Param("instPeriodo") Integer instPeriodo);
+    
+	TblInstitucion findByInstCod(@Param("instCod") Integer instCod);     
+	/*
+	 @Modifying(clearAutomatically = true)
+    @Query("update TblMatriculaDocumento t set t.valida=:valida WHERE t.idDocumentoMatricula=:idDocumentoMatricula")
+    void gestionarActualizarMatriculadocumento(@Param("idDocumentoMatricula") Integer idDocumentoMatricula, @Param("valida") String valida);
+	 * */
+	
+	@Modifying(clearAutomatically = true)
+    @Query("update TblInstitucion t set t.provCod=:provCod, t.cantCod=:cantCod, t.parroCod=:parroCod, t.instDir=:instDir, t.instTel=:instTel,"
+    		+ "t.instEma=:instEma, t.instPag=:instPag, t.instFechaRegistro=:instFechaRegistro, t.instRucDoc=:instRucDoc, t.instEstado=:instEstado where t.instCod=:instCod ")
+	void ActualizarDatosIntitucion(@Param("provCod")Integer provCod,@Param("cantCod") Integer cantCod, @Param("parroCod") Integer parroCod,@Param("instDir") String instDir,
+			@Param("instTel") String instTel,@Param("instEma") String instEma,@Param("instPag") String  instPag,@Param("instFechaRegistro") Date instFechaRegistro,
+			@Param("instCod")Integer instCod,@Param("instRucDoc") String instRucDoc,@Param("instEstado") String instEstado);
+    
+	TblInstitucion findByinstCodAndInstPeriodo(@Param("instCod") Integer instCod,@Param("instPeriodo") Integer instPeriodo);
+	
+	
+	@Query("SELECT COUNT(*)  from TblInstitucion WHERE instEstado=:instEstado and instPeriodo=:instPeriodo and instVerificador IS NULL")
+	Integer contarInstituciones(@Param("instPeriodo") int instPeriodo, @Param("instEstado")String instEstado);
+	
+	@Query("SELECT COUNT(*)  from TblInstitucion WHERE instVerificador=:instVerificador and instPeriodo=:instPeriodo")
+	Integer contarEstadoProcesoInstituciones(@Param("instPeriodo") int instPeriodo, @Param("instVerificador")String instVerificador);
+	
+	@Query("SELECT COUNT(*)  from TblInforme WHERE infVerificador=:infVerificador and infPeriodo=:infPeriodo")
+	Integer contarEstadoProcesoInformes(@Param("infPeriodo") int infPeriodo, @Param("infVerificador")String infVerificador);
+	
+	@Query("SELECT COUNT(*)  from TblInstitucion where instPeriodo=:instPeriodo and instEstado!=:instEstado")
+	Integer contarCatastro(@Param("instPeriodo") int instPeriodo, @Param("instEstado")String instEstado);
+	
+	@Modifying(clearAutomatically = true)
+    @Query("update TblInstitucion t set t.instVerificador=:instVerificador where t.instCod=:instCod and t.instPeriodo=:instPeriodo ")
+	void ActualizarDatosInstVerificadorIntitucion(@Param("instCod")Integer instCod, @Param("instPeriodo")Integer instPeriodo, @Param("instVerificador") String instVerificador);
+	
+	@Query("SELECT COUNT(*)  from TblInstitucion WHERE instEstado=:instEstado and instPeriodo=:instPeriodo and instVerificador IS NULL and provCod=:provCod")
+	Integer contarInstitucionesxprovincia(@Param("instPeriodo") int instPeriodo, @Param("instEstado")String instEstado, @Param("provCod") Integer provCod );
+	
+	@Query("SELECT COUNT(*)  from TblInstitucion where instPeriodo=:instPeriodo and provCod=:provCod and instEstado <> 'eliminado'")
+	Integer contarCatastroxPeriodoxProvincia(@Param("instPeriodo") int instPeriodo, @Param("provCod") Integer provCod);
+	/*
+	 @Query(value = "select T1.* ,T1_4.inf_estado,T1_4.inf_fechaini,T1_4.inf_fechafin,t1_4.inf_verificador,T1_1.respon_nombre AS nombrerepresentante, T1_1.respon_email AS emailrepresentante, T1_1.respon_celular AS celularrepresentante,T1_2.respon_nombre AS nombreresponsable, T1_2.respon_email AS emailresponsable, T1_2.respon_celular AS celularresponsable, T1_3.respon_nombre AS nombreregistro, T1_3.respon_email AS emailregistro, T1_3.respon_celular AS celularregistro  from	(SELECT	ins.inst_cod, ins.inst_nom,	ins.inst_ruc, ( SELECT fun.fun_des FROM esq_catalogos.tbl_funcion fun WHERE fun.fun_cod = ins.inst_fun_cod ) AS funcion, ( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.prov_cod ) AS provincia,( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.cant_cod ) AS canton, ins.inst_tip_des, ins.inst_estado, ins.inst_fecha_registro, ins.inst_fecha_activar FROM	esq_catalogos.tbl_institucion ins WHERE  inst_estado in('activo','registrado','inactivo')and ins.inst_periodo =:periodo	) T1 LEFT JOIN ( SELECT respon.respon_nombre, respon.respon_email, respon.respon_celular, respon_cod_refe FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo = 'REPRESENTANTE LEGAL' ) T1_1 ON T1.inst_cod = T1_1.respon_cod_refe	LEFT JOIN ( SELECT respon.respon_nombre, respon.respon_email, respon.respon_celular, respon_cod_refe FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo = 'RESPONSABLE RENDICION' ) T1_2 ON T1.inst_cod = T1_2.respon_cod_refe LEFT JOIN ( SELECT respon.respon_nombre, respon.respon_email, respon.respon_celular, respon_cod_refe FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo = 'RESPONSABLE REGISTRO' ) T1_3 ON T1.inst_cod = T1_3.respon_cod_refe LEFT JOIN ( SELECT inst_cod,inf_estado,inf_fechaini,inf_fechafin,inf_verificador FROM esq_rendicioncuentas.tbl_informe  ) T1_4 ON T1.inst_cod = T1_4.inst_cod ORDER BY provincia",nativeQuery = true)
+		List<Object[]> findSeguiminetoAutoridad(@Param("periodo") Integer periodo);*/
+	 @Query(value = "SELECT T1.inst_cod,T1.inst_nom,T1.inst_ruc,T1.funcion,T1.provincia,T1.canton,T1.inst_tip_des,T1.inst_estado ,CAST(T1.inst_fecha_registro AS VARCHAR(16)), CAST(T1.inst_fecha_activar AS VARCHAR(16)),T1_4.inf_estado,CAST(T1_4.inf_fechaini AS VARCHAR(16)) , CAST(T1_4.inf_fechafin AS VARCHAR(16)) ,t1_4.inf_verificador,T1_1.respon_nombre AS nombrerepresentante, T1_1.respon_email AS emailrepresentante, T1_1.respon_celular AS celularrepresentante,T1_2.respon_nombre AS nombreresponsable, T1_2.respon_email AS emailresponsable, T1_2.respon_celular AS celularresponsable, T1_3.respon_nombre AS nombreregistro, T1_3.respon_email AS emailregistro, T1_3.respon_celular AS celularregistro  from	(SELECT	ins.inst_cod, ins.inst_nom,	ins.inst_ruc, ( SELECT fun.fun_des FROM esq_catalogos.tbl_funcion fun WHERE fun.fun_cod = ins.inst_fun_cod ) AS funcion, ( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.prov_cod ) AS provincia,( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.cant_cod ) AS canton, ins.inst_tip_des, ins.inst_estado, ins.inst_fecha_registro, ins.inst_fecha_activar FROM	esq_catalogos.tbl_institucion ins WHERE  inst_estado in('activo','registrado','inactivo')and ins.inst_periodo =:periodo	) T1 LEFT JOIN ( SELECT respon.respon_nombre, respon.respon_email, respon.respon_celular, respon_cod_refe FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo = 'REPRESENTANTE LEGAL' ) T1_1 ON T1.inst_cod = T1_1.respon_cod_refe	LEFT JOIN ( SELECT respon.respon_nombre, respon.respon_email, respon.respon_celular, respon_cod_refe FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo = 'RESPONSABLE RENDICION' ) T1_2 ON T1.inst_cod = T1_2.respon_cod_refe LEFT JOIN ( SELECT respon.respon_nombre, respon.respon_email, respon.respon_celular, respon_cod_refe FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo = 'RESPONSABLE REGISTRO' ) T1_3 ON T1.inst_cod = T1_3.respon_cod_refe LEFT JOIN ( SELECT inst_cod,inf_estado,inf_fechaini,inf_fechafin,inf_verificador FROM esq_rendicioncuentas.tbl_informe  ) T1_4 ON T1.inst_cod = T1_4.inst_cod ORDER BY provincia",nativeQuery = true)
+		List<Object[]> findSeguiminetoAutoridad(@Param("periodo") Integer periodo);
+	
+	
+}

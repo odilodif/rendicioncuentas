@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<security:http pattern="/guardarUsuarioExterno*"
+		security="none" />
+	<security:http pattern="/guardarUsuarioIntitucion*"
+		security="none" />
+    <security:http pattern="/guardarAutoridad*"
+		security="none" />
+	<security:http pattern="/generarClave*" security="none" />
+	<!--entry-point-ref="loginUrlAuthenticationEntryPoint" -->
+	<security:http auto-config="false" use-expressions="true"
+		entry-point-ref="loginUrlAuthenticationEntryPoint">
+		<security:session-management
+			session-authentication-strategy-ref="sas" />
+		<security:http-basic />
+		<security:csrf disabled="false" />
+		<security:access-denied-handler
+			ref="accessDeniedHandler" />  <!-- (2) -->
+		<security:intercept-url pattern="favicon.ico"
+			access="permitAll" />
+		<security:intercept-url pattern="/login*"
+			access="permitAll" />
+		<security:intercept-url pattern="/"
+			access="permitAll" />
+		<security:intercept-url
+			pattern="/consultarWebServiceBSG" access="permitAll" />
+		<security:intercept-url pattern="/registro*"
+			access="permitAll" />
+			<security:intercept-url pattern="/RegistroInstitucion*"
+			access="permitAll" />
+			<security:intercept-url pattern="/registroAutoridad*"
+			access="permitAll" />
+		<security:intercept-url
+			pattern="/recuperarClave*" access="permitAll" />
+		<security:intercept-url pattern="/resources/**"
+			access="permitAll" />
+		<!-- "hasRole('ROLE_USER')" "isAuthenticated()" access="isFullyAuthenticated()" 
+			method="POST" requires-channel="https" -->
+		<security:intercept-url pattern="/index*"
+			access="isAuthenticated()" />
+		<!-- <security:intercept-url pattern="/archivos/**" access="ROLE_ADMIN"/> -->
+
+		<security:custom-filter
+			position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter" />
+		<security:custom-filter
+			position="FORM_LOGIN_FILTER" ref="ReCaptchaAuthenticationFilter" />
+
+
+		<!-- <security:logout invalidate-session="true" logout-success-url="/login?logout" 
+			delete-cookies="JSESSIONID" /> -->
+		<!-- <security:logout invalidate-session="true" logout-url="/logout" delete-cookies="JSESSIONID" 
+			success-handler-ref="customUrlLogoutSuccessHandler" /> -->
+		<security:logout
+			success-handler-ref="customUrlLogoutSuccessHandler" />
+
+	</security:http>
+
+	<bean id="loginUrlAuthenticationEntryPoint"
+		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<constructor-arg value="/" />
+	</bean>
+
+	<bean id="customUrlLogoutSuccessHandler"
+		class="gob.cpccs.controller.CustomLogoutSuccessHandler" />
+
+	<bean id="redirectSessionInformationExpiredStrategy"
+		class="org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy">
+		<constructor-arg name="invalidSessionUrl"
+			value="/session-expired.htm" />
+	</bean><!-- /login?error=4 -->
+
+	<bean id="concurrencyFilter"
+		class="org.springframework.security.web.session.ConcurrentSessionFilter">
+		<constructor-arg name="sessionRegistry"
+			ref="sessionRegistry" />
+		<constructor-arg
+			name="sessionInformationExpiredStrategy"
+			ref="redirectSessionInformationExpiredStrategy" />
+	</bean>
+
+	<!-- <bean id="myAuthFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter"> -->
+	<bean id="ReCaptchaAuthenticationFilter"
+		class="gob.cpccs.utilidades.ReCaptchaAuthenticationFilter">
+		<property name="sessionAuthenticationStrategy" ref="sas" />
+
+		<property name="authenticationSuccessHandler"
+			ref="successHandler" />
+		<property name="authenticationFailureHandler"
+			ref="failureHandler" />
+		<property name="authenticationManager"
+			ref="authenticationManager" />
+
+	</bean>
+
+	<!-- <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter"> 
+		</bean> -->
+
+
+
+	<bean id="failureHandler"
+		class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+		<property name="exceptionMappings">
+			<props>
+				<prop
+					key="org.springframework.security.authentication.BadCredentialsException">/login?error=1</prop>
+				<prop
+					key="org.springframework.security.authentication.AuthenticationServiceException">/login?error=4</prop>
+				<prop
+					key="org.springframework.security.authentication.DisabledException">/login?error=9</prop>
+				
+			</props>
+		</property>
+		<property name="defaultFailureUrl" value="/login?error=5" />
+	</bean>
+
+	<bean id="successHandler"
+		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<property name="defaultTargetUrl" value="/index" />
+	</bean>
+
+	<bean id="sas"
+		class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">
+		<constructor-arg>
+			<list>
+				<bean
+					class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">
+					<constructor-arg ref="sessionRegistry" />
+					<property name="maximumSessions" value="2" />
+					<property name="exceptionIfMaximumExceeded" value="true" />
+				</bean>
+				<bean
+					class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy">
+				</bean>
+				<bean
+					class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy">
+					<constructor-arg ref="sessionRegistry" />
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="sessionRegistry"
+		class="org.springframework.security.core.session.SessionRegistryImpl" />
+
+	<security:authentication-manager
+		id="authenticationManager">
+		<security:authentication-provider>
+			<security:password-encoder
+				ref="bCryptPasswordEncoder" />
+		<security:jdbc-user-service
+				data-source-ref="dataSource"
+				users-by-username-query="select usu.email, usu.password, usu.estado from esq_usuario.tbl_usuario usu where usu.email =?  and usu.periodo=(SELECT date_part('year', now())-1)"
+				authorities-by-username-query="SELECT usu.email,rol.rol_descripcion FROM esq_usuario.tbl_usuario AS usu 
+				INNER JOIN esq_usuario.tbl_usuario_rol AS usurol ON usu.id_user = usurol.id_user 
+				INNER JOIN esq_usuario.tbl_rol AS rol ON rol.id_rol = usurol.id_rol 
+				WHERE usu.email =? and usu.periodo=(SELECT date_part('year', now())-1)"  /> 
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<bean id="bCryptPasswordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+	</bean>
+
+	<bean id="accessDeniedHandler"
+		class="org.springframework.security.web.access.DelegatingAccessDeniedHandler">  <!-- (3) -->
+		<constructor-arg index="0">  <!-- (4) -->
+			<map>
+				<entry
+					key="org.springframework.security.web.csrf.InvalidCsrfTokenException">  <!-- (5) -->
+					<bean
+						class="org.springframework.security.web.access.AccessDeniedHandlerImpl">  <!-- (5) -->
+						<property name="errorPage" value="/login?error=6" />  <!-- (5) -->
+					</bean>
+				</entry>
+				<entry
+					key="org.springframework.security.web.csrf.MissingCsrfTokenException">  <!-- (6) -->
+					<bean
+						class="org.springframework.security.web.access.AccessDeniedHandlerImpl">  <!-- (6) -->
+						<property name="errorPage" value="/login?error=7" />  <!-- (6) -->
+					</bean>
+				</entry>
+				
+			</map>
+		</constructor-arg>
+		<constructor-arg index="1">  <!-- (7) -->
+			<bean
+				class="org.springframework.security.web.access.AccessDeniedHandlerImpl">  <!-- (8) -->
+				<property name="errorPage" value="/login?error=8" />  <!-- (8) -->
+			</bean>
+		</constructor-arg>
+		<!-- <constructor-arg index="2"> <bean class="org.baeldung.security.CustomAccessDeniedHandlerl"> 
+			<property name="errorPage" value="/login?error=8" /> </bean> </constructor-arg> -->
+	</bean>
+
+
+</beans>

@@ -1,0 +1,31 @@
+body{
+	background-color: #f3f3f4;
+	    font-family: sans-serif;
+}
+
+#error{
+	margin-top: 11%;	
+}
+
+#errorRuta{
+	margin-top: 2%;	
+}
+
+#error,#errorRuta {
+	
+	color: #6f6f6f;;
+	text-align: center;
+	font-size: 30px;
+}
+
+#error:after {
+	    margin-top: 3%;
+	display: block;
+	content: "";
+	background: url(../../img/ventanaError.png) center no-repeat;
+	height: 283px;
+}
+
+#error span {
+	    font-size: 40px;
+	}

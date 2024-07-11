@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MecanismoControlSocial" pageWidth="1500" pageHeight="595" orientation="Landscape" whenNoDataType="NoPages" columnWidth="1460" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="eccfe52c-976e-4fbe-86e9-1a238bbb0eca">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DatosMecanismo" uuid="e0fc191d-d7b7-4c88-98f4-dbd6a7b3975b">
+		<property name="com.jaspersoft.studio.data.sql.tables">
+			<![CDATA[ZXNxX3JlbmRpY2lvbmN1ZW50YXMudGJsX21lY2FuaXNtb3NfY29udG9sX3NvY2lhbCBBUyAsMTUs
+MTUsYjdiMDA1YWItZTdlMy00ZmIxLWIyNzctMDRkZmExNWVjZjBiO2VzcV9yZW5kaWNpb25jdWVu
+dGFzLnRibF9pbmZvcm1lICwyNTYsMTUsMmFlNTE3YTUtNjQxNy00ZWExLTliNGEtOTkyMzZmNWM4
+N2I0Ow==]]>
+		</property>
+		<parameter name="Periodo" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[--VEEDURÍAS CIUDADANAS
+SELECT 
+	mec.mec_nombre nombre,
+	sum((SELECT count(mec1.mec_implementado) FROM	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 	
+	WHERE mec1.mec_nombre='VEEDURÍAS CIUDADANAS' and mec1.mec_implementado='SI' and mec1.mec_cod=mec.mec_cod)) as SI,
+	sum((SELECT count(mec1.mec_implementado) FROM	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1
+	WHERE mec1.mec_nombre='VEEDURÍAS CIUDADANAS' and mec1.mec_implementado='NO' and mec1.mec_cod=mec.mec_cod)) as NO,
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf WHERE  inf.inf_cod NOT IN( SELECT mc.inf_cod
+    FROM esq_rendicioncuentas.tbl_mecanismos_contol_social mc  WHERE mc.mec_nombre =mec.mec_nombre ) and inf_estado='finalizado') as BLANCOS
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec ,esq_rendicioncuentas.tbl_informe info
+	
+	WHERE info.inf_cod=mec.inf_cod and mec.mec_nombre='VEEDURÍAS CIUDADANAS'  and info.inf_estado='finalizado' and info.inf_periodo=    $P{Periodo}     
+	
+GROUP BY mec.mec_nombre
+
+--OBSERVATORIOS CIUDADANOS
+UNION
+
+SELECT 
+	mec.mec_nombre nombre,
+	sum((SELECT count(mec1.mec_implementado) FROM	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 	
+	WHERE mec1.mec_nombre='OBSERVATORIOS CIUDADANOS' and mec1.mec_implementado='SI' and mec1.mec_cod=mec.mec_cod)) as SI,
+	sum((SELECT count(mec1.mec_implementado) FROM	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1
+	WHERE mec1.mec_nombre='OBSERVATORIOS CIUDADANOS' and mec1.mec_implementado='NO' and mec1.mec_cod=mec.mec_cod)) as NO,
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf WHERE  inf.inf_cod NOT IN( SELECT mc.inf_cod
+    FROM esq_rendicioncuentas.tbl_mecanismos_contol_social mc  WHERE mc.mec_nombre =mec.mec_nombre ) and inf_estado='finalizado') as BLANCOS
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec ,esq_rendicioncuentas.tbl_informe info
+	
+	WHERE info.inf_cod=mec.inf_cod and mec.mec_nombre='OBSERVATORIOS CIUDADANOS'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}  
+	
+GROUP BY mec.mec_nombre
+
+--DEFENSORÍAS COMUNITARIAS
+UNION
+
+SELECT 
+	mec.mec_nombre nombre,
+	sum((SELECT count(mec1.mec_implementado) FROM	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 	
+	WHERE mec1.mec_nombre='DEFENSORÍAS COMUNITARIAS' and mec1.mec_implementado='SI' and mec1.mec_cod=mec.mec_cod)) as SI,
+	sum((SELECT count(mec1.mec_implementado) FROM	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1
+	WHERE mec1.mec_nombre='DEFENSORÍAS COMUNITARIAS' and mec1.mec_implementado='NO' and mec1.mec_cod=mec.mec_cod)) as NO,
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf WHERE  inf.inf_cod NOT IN( SELECT mc.inf_cod
+    FROM esq_rendicioncuentas.tbl_mecanismos_contol_social mc  WHERE mc.mec_nombre =mec.mec_nombre ) and inf_estado='finalizado') as BLANCOS
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec ,esq_rendicioncuentas.tbl_informe info
+	
+	WHERE info.inf_cod=mec.inf_cod and mec.mec_nombre='DEFENSORÍAS COMUNITARIAS'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}  
+	
+GROUP BY mec.mec_nombre
+
+--COMITÉS DE USUARIOS DE SERVICIOS
+UNION
+
+SELECT 
+	mec.mec_nombre nombre,
+	sum((SELECT count(mec1.mec_implementado) FROM	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 	
+	WHERE mec1.mec_nombre='COMITÉS DE USUARIOS DE SERVICIOS' and mec1.mec_implementado='SI' and mec1.mec_cod=mec.mec_cod)) as SI,
+	sum((SELECT count(mec1.mec_implementado) FROM	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1
+	WHERE mec1.mec_nombre='COMITÉS DE USUARIOS DE SERVICIOS' and mec1.mec_implementado='NO' and mec1.mec_cod=mec.mec_cod)) as NO,
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf WHERE  inf.inf_cod NOT IN( SELECT mc.inf_cod
+    FROM esq_rendicioncuentas.tbl_mecanismos_contol_social mc  WHERE mc.mec_nombre =mec.mec_nombre ) and inf_estado='finalizado') as BLANCOS
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec ,esq_rendicioncuentas.tbl_informe info
+	
+	WHERE info.inf_cod=mec.inf_cod and mec.mec_nombre='COMITÉS DE USUARIOS DE SERVICIOS'  and info.inf_estado='finalizado' and info.inf_periodo=    $P{Periodo}      
+	
+GROUP BY mec.mec_nombre
+--OTROS
+UNION
+
+SELECT 
+	mec.mec_nombre nombre,
+	sum((SELECT count(mec1.mec_implementado) FROM	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 	
+	WHERE mec1.mec_nombre='OTROS' and mec1.mec_implementado='SI' and mec1.mec_cod=mec.mec_cod)) as SI,
+	sum((SELECT count(mec1.mec_implementado) FROM	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1
+	WHERE mec1.mec_nombre='OTROS' and mec1.mec_implementado='NO' and mec1.mec_cod=mec.mec_cod)) as NO,
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf WHERE  inf.inf_cod NOT IN( SELECT mc.inf_cod
+    FROM esq_rendicioncuentas.tbl_mecanismos_contol_social mc  WHERE mc.mec_nombre =mec.mec_nombre ) and inf_estado='finalizado') as BLANCOS
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec ,esq_rendicioncuentas.tbl_informe info
+	
+	WHERE info.inf_cod=mec.inf_cod and mec.mec_nombre='OTROS'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}      
+	
+GROUP BY mec.mec_nombre]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="SI" class="java.lang.Integer"/>
+		<field name="NO" class="java.lang.Integer"/>
+		<field name="BLANCOS" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="GraficoMecanismo" uuid="a123de09-48f3-45e2-bd87-8e8eb56a3e2e">
+		<parameter name="Periodo" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[--VEEDURÍAS CIUDADANAS
+SELECT
+	CONCAT(mec1.mec_nombre ,' ',mec1.mec_implementado)nombre,sum((SELECT count(mec.mec_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec 	WHERE mec.mec_nombre='VEEDURÍAS CIUDADANAS' 
+	and mec.mec_implementado='SI' and mec1.mec_cod=mec.mec_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=mec1.inf_cod and mec1.mec_nombre='VEEDURÍAS CIUDADANAS' 
+	and mec1.mec_implementado='SI'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}
+	GROUP BY mec1.mec_nombre,mec1.mec_implementado
+	
+	UNION
+	
+	SELECT
+	CONCAT(mec1.mec_nombre ,' ',mec1.mec_implementado)nombre,sum((SELECT count(mec.mec_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec 	WHERE mec.mec_nombre='VEEDURÍAS CIUDADANAS' 
+	and mec.mec_implementado='NO' and mec1.mec_cod=mec.mec_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=mec1.inf_cod and mec1.mec_nombre='VEEDURÍAS CIUDADANAS' 
+	and mec1.mec_implementado='NO'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}
+	GROUP BY mec1.mec_nombre,mec1.mec_implementado
+	
+	UNION
+
+SELECT DISTINCT
+	CONCAT('VEEDURÍAS CIUDADANAS' ,' ','BLANCOS')nombre,
+	
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf WHERE  inf.inf_cod NOT IN(
+   SELECT mec.inf_cod  FROM esq_rendicioncuentas.tbl_mecanismos_contol_social mec
+  WHERE mec.mec_nombre ='VEEDURÍAS CIUDADANAS'
+) and inf_estado='finalizado') as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info
+
+	WHERE info.inf_cod=mec1.inf_cod and info.inf_estado='finalizado'  AND info.inf_periodo=  $P{Periodo}
+		GROUP BY mec1.mec_nombre,mec1.mec_implementado
+	
+	--OBSERVATORIOS CIUDADANOS
+	UNION
+	
+	SELECT
+	CONCAT(mec1.mec_nombre ,' ',mec1.mec_implementado)nombre,sum((SELECT count(mec.mec_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec 	WHERE mec.mec_nombre='OBSERVATORIOS CIUDADANOS' 
+	and mec.mec_implementado='SI' and mec1.mec_cod=mec.mec_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=mec1.inf_cod and mec1.mec_nombre='OBSERVATORIOS CIUDADANOS' 
+	and mec1.mec_implementado='SI'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}
+	GROUP BY mec1.mec_nombre,mec1.mec_implementado
+	
+	UNION
+	
+	SELECT
+	CONCAT(mec1.mec_nombre ,' ',mec1.mec_implementado)nombre,sum((SELECT count(mec.mec_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec 	WHERE mec.mec_nombre='OBSERVATORIOS CIUDADANOS' 
+	and mec.mec_implementado='NO' and mec1.mec_cod=mec.mec_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=mec1.inf_cod and mec1.mec_nombre='OBSERVATORIOS CIUDADANOS' 
+	and mec1.mec_implementado='NO'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}
+	GROUP BY mec1.mec_nombre,mec1.mec_implementado
+	
+	UNION
+
+SELECT DISTINCT
+	CONCAT('OBSERVATORIOS CIUDADANOS' ,' ','BLANCOS')nombre,
+	
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf WHERE  inf.inf_cod NOT IN(
+   SELECT mec.inf_cod  FROM esq_rendicioncuentas.tbl_mecanismos_contol_social mec
+  WHERE mec.mec_nombre ='OBSERVATORIOS CIUDADANOS'
+) and inf_estado='finalizado') as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info
+
+	WHERE info.inf_cod=mec1.inf_cod and info.inf_estado='finalizado'  AND info.inf_periodo=  $P{Periodo}
+		GROUP BY mec1.mec_nombre,mec1.mec_implementado
+		
+--DEFENSORÍAS COMUNITARIAS
+UNION
+	
+	SELECT
+	CONCAT(mec1.mec_nombre ,' ',mec1.mec_implementado)nombre,sum((SELECT count(mec.mec_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec 	WHERE mec.mec_nombre='DEFENSORÍAS COMUNITARIAS' 
+	and mec.mec_implementado='SI' and mec1.mec_cod=mec.mec_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=mec1.inf_cod and mec1.mec_nombre='DEFENSORÍAS COMUNITARIAS' 
+	and mec1.mec_implementado='SI'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}
+	GROUP BY mec1.mec_nombre,mec1.mec_implementado
+	
+	UNION
+	
+	SELECT
+	CONCAT(mec1.mec_nombre ,' ',mec1.mec_implementado)nombre,sum((SELECT count(mec.mec_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec 	WHERE mec.mec_nombre='DEFENSORÍAS COMUNITARIAS' 
+	and mec.mec_implementado='NO' and mec1.mec_cod=mec.mec_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=mec1.inf_cod and mec1.mec_nombre='DEFENSORÍAS COMUNITARIAS' 
+	and mec1.mec_implementado='NO'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}
+	GROUP BY mec1.mec_nombre,mec1.mec_implementado
+	
+	UNION
+
+SELECT DISTINCT
+	CONCAT('DEFENSORÍAS COMUNITARIAS' ,' ','BLANCOS')nombre,
+	
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf WHERE  inf.inf_cod NOT IN(
+   SELECT mec.inf_cod  FROM esq_rendicioncuentas.tbl_mecanismos_contol_social mec
+  WHERE mec.mec_nombre ='DEFENSORÍAS COMUNITARIAS'
+) and inf_estado='finalizado') as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info
+
+	WHERE info.inf_cod=mec1.inf_cod and info.inf_estado='finalizado'  AND info.inf_periodo=  $P{Periodo}
+		GROUP BY mec1.mec_nombre,mec1.mec_implementado
+
+--COMITÉS DE USUARIOS DE SERVICIOS
+UNION
+	
+	SELECT
+	CONCAT(mec1.mec_nombre ,' ',mec1.mec_implementado)nombre,sum((SELECT count(mec.mec_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec 	WHERE mec.mec_nombre='COMITÉS DE USUARIOS DE SERVICIOS' 
+	and mec.mec_implementado='SI' and mec1.mec_cod=mec.mec_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=mec1.inf_cod and mec1.mec_nombre='COMITÉS DE USUARIOS DE SERVICIOS' 
+	and mec1.mec_implementado='SI'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}
+	GROUP BY mec1.mec_nombre,mec1.mec_implementado
+	
+	UNION
+	
+	SELECT
+	CONCAT(mec1.mec_nombre ,' ',mec1.mec_implementado)nombre,sum((SELECT count(mec.mec_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec 	WHERE mec.mec_nombre='COMITÉS DE USUARIOS DE SERVICIOS' 
+	and mec.mec_implementado='NO' and mec1.mec_cod=mec.mec_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=mec1.inf_cod and mec1.mec_nombre='COMITÉS DE USUARIOS DE SERVICIOS' 
+	and mec1.mec_implementado='NO'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}
+	GROUP BY mec1.mec_nombre,mec1.mec_implementado
+	
+	UNION
+
+SELECT DISTINCT
+	CONCAT('COMITÉS DE USUARIOS DE SERVICIOS' ,' ','BLANCOS')nombre,
+	
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf WHERE  inf.inf_cod NOT IN(
+   SELECT mec.inf_cod  FROM esq_rendicioncuentas.tbl_mecanismos_contol_social mec
+  WHERE mec.mec_nombre ='COMITÉS DE USUARIOS DE SERVICIOS'
+) and inf_estado='finalizado') as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info
+
+	WHERE info.inf_cod=mec1.inf_cod and info.inf_estado='finalizado'  AND info.inf_periodo=  $P{Periodo}
+		GROUP BY mec1.mec_nombre,mec1.mec_implementado
+
+--OTROS
+UNION
+	
+	SELECT
+	CONCAT(mec1.mec_nombre ,' ',mec1.mec_implementado)nombre,sum((SELECT count(mec.mec_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec 	WHERE mec.mec_nombre='OTROS' 
+	and mec.mec_implementado='SI' and mec1.mec_cod=mec.mec_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=mec1.inf_cod and mec1.mec_nombre='OTROS' 
+	and mec1.mec_implementado='SI'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}
+	GROUP BY mec1.mec_nombre,mec1.mec_implementado
+	
+	UNION
+	
+	SELECT
+	CONCAT(mec1.mec_nombre ,' ',mec1.mec_implementado)nombre,sum((SELECT count(mec.mec_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec 	WHERE mec.mec_nombre='OTROS' 
+	and mec.mec_implementado='NO' and mec1.mec_cod=mec.mec_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info	
+	WHERE info.inf_cod=mec1.inf_cod and mec1.mec_nombre='OTROS' 
+	and mec1.mec_implementado='NO'  and info.inf_estado='finalizado' and info.inf_periodo=  $P{Periodo}
+	GROUP BY mec1.mec_nombre,mec1.mec_implementado
+	
+	UNION
+
+SELECT DISTINCT
+	CONCAT('OTROS' ,' ','BLANCOS')nombre,
+	
+	(SELECT count(inf.inf_cod) FROM esq_rendicioncuentas.tbl_informe inf WHERE  inf.inf_cod NOT IN(
+   SELECT mec.inf_cod  FROM esq_rendicioncuentas.tbl_mecanismos_contol_social mec
+  WHERE mec.mec_nombre ='OTROS'
+) and inf_estado='finalizado') as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_contol_social AS mec1 ,esq_rendicioncuentas.tbl_informe info
+
+	WHERE info.inf_cod=mec1.inf_cod and info.inf_estado='finalizado'  AND info.inf_periodo=  $P{Periodo}
+		GROUP BY mec1.mec_nombre,mec1.mec_implementado]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="total" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="Mecanismo" uuid="02917cc6-c791-4ba2-b9bf-c502e7776cd7">
+		<parameter name="Periodo" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT 
+insti.inst_nom nombre,
+insti.inst_ruc,
+insti.provincia,
+insti.funcion,
+insti.inst_tip_des sector,
+info.periodo,
+info.inf_cod,
+insti.inst_cod,
+v1.mec_implementado variable1,
+v2.mec_implementado variable2,
+v3.mec_implementado variable3,
+v4.mec_implementado variable4,
+v5.mec_implementado variable5
+
+FROM
+(SELECT   f.inf_cod, f.inf_periodo periodo,f.inst_cod  FROM	esq_rendicioncuentas.tbl_informe f WHERE  
+	  f.inf_estado in('finalizado') and f.inf_periodo=  2020	) info	
+	FULL JOIN  (SELECT 	ins.inst_cod, ins.inst_nom,	ins.inst_ruc, 
+	( SELECT fun.fun_des FROM esq_catalogos.tbl_funcion fun WHERE fun.fun_cod = ins.inst_fun_cod ) AS funcion, 
+	( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.prov_cod ) AS provincia,
+	( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.cant_cod ) AS canton, 
+	ins.inst_tip_des, ins.inst_estado, ins.inst_fecha_registro, ins.inst_fecha_activar
+	FROM	esq_catalogos.tbl_institucion ins  WHERE ins.inst_periodo=2020 )	insti  ON info.inst_cod = insti.inst_cod
+  LEFT JOIN	(SELECT mec.inf_cod, mec.mec_implementado FROM esq_rendicioncuentas. tbl_mecanismos_contol_social  mec WHERE  mec.mec_nombre='VEEDURÍAS CIUDADANAS') v1 on v1.inf_cod=info.inf_cod
+	LEFT JOIN (SELECT  mec.inf_cod,mec.mec_implementado  FROM esq_rendicioncuentas.tbl_mecanismos_contol_social  mec WHERE  mec.mec_nombre='OBSERVATORIOS CIUDADANOS' ) v2 on v2.inf_cod=info.inf_cod
+	LEFT JOIN	(SELECT mec.inf_cod,mec.mec_implementado  FROM esq_rendicioncuentas. tbl_mecanismos_contol_social  mec WHERE  mec.mec_nombre='DEFENSORÍAS COMUNITARIAS') v3 on v3.inf_cod=info.inf_cod
+	LEFT JOIN (SELECT mec.inf_cod, mec.mec_implementado  FROM esq_rendicioncuentas. tbl_mecanismos_contol_social  mec WHERE  mec.mec_nombre='COMITÉS DE USUARIOS DE SERVICIOS' ) v4 on v4.inf_cod=info.inf_cod
+	LEFT JOIN (SELECT   mec.inf_cod,mec.mec_implementado  FROM esq_rendicioncuentas. tbl_mecanismos_contol_social  mec WHERE  mec.mec_nombre='OTROS' ) v5 on v5.inf_cod=info.inf_cod
+	ORDER BY insti.inst_cod]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="inst_ruc" class="java.lang.String"/>
+		<field name="provincia" class="java.lang.String"/>
+		<field name="funcion" class="java.lang.String"/>
+		<field name="sector" class="java.lang.String"/>
+		<field name="variable1" class="java.lang.String"/>
+		<field name="variable2" class="java.lang.String"/>
+		<field name="variable3" class="java.lang.String"/>
+		<field name="variable4" class="java.lang.String"/>
+		<field name="variable5" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="Periodo" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT * from esq_catalogos.tbl_funcion WHERE fun_est='activo']]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="282" splitType="Stretch">
+			<staticText>
+				<reportElement x="540" y="10" width="390" height="31" uuid="69cf3766-e403-456d-ac3f-861d6cf74a9b"/>
+				<textElement textAlignment="Center">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MECANISMOS DE CONTROL SOCIAL]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="10" y="180" width="629" height="100" uuid="fddd859a-180d-422e-a1eb-05070e69c509">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DatosMecanismo" uuid="e4b5a441-8d83-4007-baab-8b72bc6adafa">
+						<datasetParameter name="Periodo">
+							<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="370" uuid="7906a3e6-6bb4-4ac4-ab14-9e58664af2fb">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="370" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="fe38099d-ec0e-4157-997a-227cc268a540"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Variables]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table 1_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="370" height="30" uuid="a6746862-57ea-4b28-971a-898f1ddd2f15"/>
+								<textElement>
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:columnGroup width="230" uuid="fb3dcd69-84fa-46ad-bc18-b848c4bf4c65">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [4]"/>
+						<jr:tableHeader style="Table 1_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="230" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="ecacc2fe-f3fe-4a09-b085-ed21ff0b36ef"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Resultados]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:column width="56" uuid="246345b8-bf10-4a00-bf99-cce4a9cadf42">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+							<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="56" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b09f283c-7bab-4ae6-ba9e-4f17d688d727"/>
+									<textElement textAlignment="Center"/>
+									<text><![CDATA[SI]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 1_TD" height="30">
+								<textField>
+									<reportElement x="0" y="0" width="56" height="30" uuid="d452a5f5-775f-4efb-88c9-905c4c671073"/>
+									<textElement textAlignment="Center">
+										<font size="6"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{SI}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="54" uuid="69058f45-8f8a-4e74-a774-29b8cc61147f">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+							<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="54" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="ad0b7500-f849-4891-ae84-1d3a9a8b6b38"/>
+									<textElement textAlignment="Center"/>
+									<text><![CDATA[NO]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 1_TD" height="30">
+								<textField>
+									<reportElement x="0" y="0" width="54" height="30" uuid="75ca57da-63da-4bd5-98a0-850ea6eae5d0"/>
+									<textElement textAlignment="Center">
+										<font size="6"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{NO}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="66" uuid="412a1cee-105a-418d-8d57-6d38c19d458a">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+							<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="66" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="31f06e6c-95ac-4309-affc-719ce592e5cc"/>
+									<textElement textAlignment="Center"/>
+									<text><![CDATA[Blancos]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 1_TD" height="30">
+								<textField>
+									<reportElement x="0" y="0" width="66" height="30" uuid="38b15e37-1980-4f4a-a37a-6d130fb1ea62"/>
+									<textElement textAlignment="Center">
+										<font size="6"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{BLANCOS}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="54" uuid="915ed6f0-1fbc-4a5b-b94f-2688460b157a">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+							<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="54" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="219a3723-7cc1-41f1-b1fe-d78a03d42a53"/>
+									<textElement textAlignment="Center"/>
+									<text><![CDATA[Total]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 1_TD" height="30">
+								<textField>
+									<reportElement x="0" y="0" width="54" height="30" uuid="b564afb2-cb96-4b8d-a41b-b88f7b9c35a6"/>
+									<textElement textAlignment="Center">
+										<font size="6"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{SI}+$F{NO}+$F{BLANCOS}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:columnGroup>
+				</jr:table>
+			</componentElement>
+			<frame>
+				<reportElement x="10" y="41" width="1435" height="130" uuid="378d745d-dd56-4d76-b0ff-6b43245d472b"/>
+				<stackedBar3DChart>
+					<chart evaluationTime="Report">
+						<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="1435" height="130" uuid="1eee7970-aa13-4db8-96c2-2e5f02bc6c3e"/>
+						<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+							<pen lineWidth="1.0" lineStyle="Dotted"/>
+						</box>
+						<chartTitle/>
+						<chartSubtitle/>
+						<chartLegend position="Left"/>
+					</chart>
+					<categoryDataset>
+						<dataset resetType="Report">
+							<datasetRun subDataset="DatosMecanismo" uuid="ac879f38-a002-4cb4-b722-d8cebd26630b">
+								<datasetParameter name="Periodo">
+									<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+								</datasetParameter>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{nombre}]]></seriesExpression>
+							<categoryExpression><![CDATA["SI"]]></categoryExpression>
+							<valueExpression><![CDATA[$F{SI}]]></valueExpression>
+							<labelExpression><![CDATA[$F{SI}.toString()]]></labelExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{nombre}]]></seriesExpression>
+							<categoryExpression><![CDATA["NO"]]></categoryExpression>
+							<valueExpression><![CDATA[$F{NO}]]></valueExpression>
+							<labelExpression><![CDATA[$F{NO}.toString()]]></labelExpression>
+						</categorySeries>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{nombre}]]></seriesExpression>
+							<categoryExpression><![CDATA["BLANCOS"]]></categoryExpression>
+							<valueExpression><![CDATA[$F{BLANCOS}]]></valueExpression>
+							<labelExpression><![CDATA[$F{BLANCOS}.toString()]]></labelExpression>
+						</categorySeries>
+					</categoryDataset>
+					<bar3DPlot isShowLabels="true">
+						<plot backcolor="#030303" orientation="Horizontal" backgroundAlpha="0.65" foregroundAlpha="0.75"/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</bar3DPlot>
+				</stackedBar3DChart>
+			</frame>
+		</band>
+	</title>
+	<detail>
+		<band height="106" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT}==1]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="2" y="30" width="1450" height="60" uuid="02d7d650-769c-4465-afde-d2f7fc24d267">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Mecanismo" uuid="3ca59556-7837-46b8-8887-84d398bf53b2">
+						<datasetParameter name="Periodo">
+							<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="60" uuid="988ebfbc-c40d-4ca6-8ab1-77bb471fd3e3">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="3de01897-2a0d-4b43-9cf7-f24129e82890"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[No.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="30" uuid="1987e796-547b-4a54-9d21-3e9b349fe3e2"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="438" uuid="5bf91730-0a6a-4a5a-a61d-9bd4da42765a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="438" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="fee16ea9-4ae9-411d-87c3-d61a5d26ae96"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Nombre Institución]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="438" height="30" uuid="092f6de8-5a21-449d-a8cb-7e14b779bacd"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="81" uuid="760cdf25-62b6-481f-a5a8-2ce4424bdc74">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="81" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="7516753a-c7b8-4036-a817-da6672e8914b"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Ruc]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="81" height="30" uuid="11fd830f-4921-48b5-9599-b1820c3c4193"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{inst_ruc}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="109" uuid="75ca0f35-f660-472b-8a85-110a05275003">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="109" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="f853aeb1-996c-4268-b32b-37c17667e310"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Provincia]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="109" height="30" uuid="bafd0dcc-2a02-4ade-9e7e-da5ae1e31a23"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110" uuid="ee65bf79-95ae-4df0-a135-050ff1a201a6">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="110" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="07dc6f76-daed-46a3-9ee5-f42450b82fce"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Función]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="30" uuid="75a4e00c-0e40-4b4f-a8bb-30380144fa3b"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{funcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="109" uuid="c7b8d31a-3281-40ef-8266-2f04642cf9a5">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="109" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="fb967389-bd18-4906-a43b-be06cb931f8d"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Sector]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="109" height="30" uuid="5724af0b-0ac1-4f16-b73e-ee01c512db2c"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{sector}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="109" uuid="095e24ac-fdba-4621-a797-92673c8f0b24">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="109" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="be400768-a446-4493-a964-c1634c8704fc"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Veedurías ciudadanas]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="109" height="30" uuid="70183864-3f48-4f5b-82d9-4d9529002ed8"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{variable1}==null?"BLANCOS":$F{variable1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="109" uuid="b6a9e6ee-8114-4b8a-8b74-afa39f988a10">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="109" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="e2c2dac2-7bc7-483c-8223-e61b79e9d22c"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Observatorios ciudadanos]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="109" height="30" uuid="785009b6-97d5-46d2-88de-44b9d2a9913d"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{variable2}==null?"BLANCOS":$F{variable2}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="109" uuid="5d9d34b1-c8bb-4e6d-8053-1ac88f515e7c">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="109" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="06d6d3c1-5f7a-40b4-b92d-3ae44f47fc30"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Defensorías comunitarias]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="109" height="30" uuid="1c30676b-46ba-4221-8ad4-892585990ae2"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{variable3}==null?"BLANCOS":$F{variable3}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="108" uuid="f2509aaf-7c78-4b0b-bcc2-fcf9ac1ccd7e">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="108" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="e2e79109-9c86-446d-be0d-ecae8a2c473c"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Comités de usuarios de servicios]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="108" height="30" uuid="ebfa08b7-53ac-4a64-a7d3-dd7066d3de86"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{variable4}==null?"BLANCOS":$F{variable4}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="108" uuid="4d85b5cd-588a-4565-946a-f9c8e2e2cb83">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
+						<jr:columnHeader style="Table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="108" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="fb01fb7c-47fa-4a98-b8ba-00cfa81d7c0b"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Otros]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="108" height="30" uuid="e1f8debd-550c-4219-adf9-ed41c1e15f31"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{variable5}==null?"BLANCOS":$F{variable5}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.11.0.final using JasperReports Library version 6.11.0-0c4056ccaa4d25a5a8c45672d2f764ea3498bebb  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TrasparenciaInformacion" pageWidth="1191" pageHeight="842" orientation="Landscape" whenNoDataType="NoPages" columnWidth="1181" leftMargin="5" rightMargin="5" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="f0971d6c-de57-4368-afaa-7cd4e7b20a24">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="272"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NO_DATA_ADAPTER"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="ListadoTabla" uuid="b3ed1bc6-bbae-48c2-9080-744f5328f82d">
+		<parameter name="periodo" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT 
+	insti.inst_nom nombre,(select lc.nombre from esq_catalogos.tbl_localizacion lc WHERE lc.id_localizacion=insti.prov_cod and lc.categoria=1) provincia,(SELECT fu.fun_des from esq_catalogos.tbl_funcion fu WHERE fu.fun_cod=insti.inst_fun_cod) funcion,insti.inst_tip_des sector,info.inf_periodo periodo,info.inf_cod,insti.inst_cod,insti.inst_ruc,(SELECT pp.mecani_implementado FROM esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf pp WHERE pp.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DE LOS CONTENIDOS ESTABLECIDOS EN EL ART. 7 DE LA LOTAIP' and pp.inf_cod=info.inf_cod)variable1,(SELECT pp.mecani_implementado  FROM esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf pp WHERE pp.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DEL INFORME DE RENDICIÓN DE CUENTAS Y SUS MEDIOS DE VERIFICACIÓN ESTABLECIDOS EN EL LITERAL M, DEL ART. 7 DE LA LOTAIP' and pp.inf_cod=info.inf_cod)variable2,(SELECT pp.mecani_implementado  FROM esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf pp WHERE pp.mecani_nombre='HA DIFUNDIDO SUS POLÍTICAS EDITORIALES E INFORMATIVAS' and pp.inf_cod=info.inf_cod)variable3,(SELECT pp.mecani_implementado  FROM esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf pp WHERE pp.mecani_nombre='HA DIFUNDIDO SU CÓDIGO DEONTOLÓGICO' and pp.inf_cod=info.inf_cod)variable4
+FROM
+	 esq_rendicioncuentas.tbl_informe info
+	
+	INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+
+	WHERE info.inf_estado='finalizado' and insti.inst_fun_cod=6 and info.inf_periodo= $P{periodo}]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="provincia" class="java.lang.String"/>
+		<field name="funcion" class="java.lang.String"/>
+		<field name="sector" class="java.lang.String"/>
+		<field name="variable1" class="java.lang.String"/>
+		<field name="inst_ruc" class="java.lang.String"/>
+		<field name="variable2" class="java.lang.String"/>
+		<field name="variable3" class="java.lang.String"/>
+		<field name="variable4" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="Graficatabla" uuid="12a83d2a-1900-4fb2-8b45-196fabe18d77">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="201"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="793"/>
+		<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="752"/>
+		<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="237"/>
+		<parameter name="periodo" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT
+	CONCAT(pp1.mecani_nombre ,' ',pp1.mecani_implementado)nombre,sum((SELECT count(pp.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp 
+	
+	WHERE pp.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DE LOS CONTENIDOS ESTABLECIDOS EN EL ART. 7 DE LA LOTAIP' and pp.mecani_implementado='SI' and pp1.mecani_cod=pp.mecani_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 ,esq_rendicioncuentas.tbl_informe info
+	INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+
+	WHERE info.inf_cod=pp1.inf_cod and pp1.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DE LOS CONTENIDOS ESTABLECIDOS EN EL ART. 7 DE LA LOTAIP' and pp1.mecani_implementado='SI'  and info.inf_estado='finalizado' and insti.inst_fun_cod=6 AND info.inf_periodo=$P{periodo}   
+	GROUP BY pp1.mecani_nombre,pp1.mecani_implementado
+	union
+SELECT
+	CONCAT(pp1.mecani_nombre ,' ',pp1.mecani_implementado)nombre,sum((SELECT count(pp.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp 
+	
+	WHERE pp.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DE LOS CONTENIDOS ESTABLECIDOS EN EL ART. 7 DE LA LOTAIP' and pp.mecani_implementado='NO' and pp1.mecani_cod=pp.mecani_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 ,esq_rendicioncuentas.tbl_informe info
+	
+INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+	WHERE info.inf_cod=pp1.inf_cod and pp1.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DE LOS CONTENIDOS ESTABLECIDOS EN EL ART. 7 DE LA LOTAIP' and pp1.mecani_implementado='NO'  and info.inf_estado='finalizado' and insti.inst_fun_cod=6 and info.inf_periodo=$P{periodo}   
+	GROUP BY pp1.mecani_nombre,pp1.mecani_implementado
+	union
+	SELECT DISTINCT
+	CONCAT('PUBLICACIÓN EN LA PÁG. WEB DE LOS CONTENIDOS ESTABLECIDOS EN EL ART. 7 DE LA LOTAIP' ,' ','BLANCOS')nombre,(SELECT count(inf.inf_cod)
+FROM esq_rendicioncuentas.tbl_informe inf
+WHERE 
+ inf.inf_cod NOT IN(
+SELECT pl.inf_cod
+  FROM esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf pl
+  WHERE pl.mecani_nombre ='PUBLICACIÓN EN LA PÁG. WEB DE LOS CONTENIDOS ESTABLECIDOS EN EL ART. 7 DE LA LOTAIP'
+) and inf_estado='finalizado')as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 ,esq_rendicioncuentas.tbl_informe info
+	INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+
+	WHERE info.inf_cod=pp1.inf_cod and info.inf_estado='finalizado' and insti.inst_fun_cod=6 AND info.inf_periodo=$P{periodo}   
+GROUP BY pp1.mecani_nombre,pp1.mecani_implementado
+union
+SELECT
+	CONCAT(pp1.mecani_nombre ,' ',pp1.mecani_implementado)nombre,sum((SELECT count(pp.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp 
+	
+	WHERE pp.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DEL INFORME DE RENDICIÓN DE CUENTAS Y SUS MEDIOS DE VERIFICACIÓN ESTABLECIDOS EN EL LITERAL M, DEL ART. 7 DE LA LOTAIP' and pp.mecani_implementado='SI' and pp1.mecani_cod=pp.mecani_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 ,esq_rendicioncuentas.tbl_informe info
+	INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+
+	WHERE info.inf_cod=pp1.inf_cod and pp1.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DEL INFORME DE RENDICIÓN DE CUENTAS Y SUS MEDIOS DE VERIFICACIÓN ESTABLECIDOS EN EL LITERAL M, DEL ART. 7 DE LA LOTAIP' and pp1.mecani_implementado='SI'  and info.inf_estado='finalizado' and insti.inst_fun_cod=6 AND info.inf_periodo=$P{periodo}   
+	GROUP BY pp1.mecani_nombre,pp1.mecani_implementado
+	union
+SELECT
+	CONCAT(pp1.mecani_nombre ,' ',pp1.mecani_implementado)nombre,sum((SELECT count(pp.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp 
+	
+	WHERE pp.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DEL INFORME DE RENDICIÓN DE CUENTAS Y SUS MEDIOS DE VERIFICACIÓN ESTABLECIDOS EN EL LITERAL M, DEL ART. 7 DE LA LOTAIP' and pp.mecani_implementado='NO' and pp1.mecani_cod=pp.mecani_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 ,esq_rendicioncuentas.tbl_informe info
+	
+INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+	WHERE info.inf_cod=pp1.inf_cod and pp1.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DEL INFORME DE RENDICIÓN DE CUENTAS Y SUS MEDIOS DE VERIFICACIÓN ESTABLECIDOS EN EL LITERAL M, DEL ART. 7 DE LA LOTAIP' and pp1.mecani_implementado='NO'  and info.inf_estado='finalizado' and insti.inst_fun_cod=6 and info.inf_periodo=$P{periodo}
+	GROUP BY pp1.mecani_nombre,pp1.mecani_implementado
+	union
+	SELECT DISTINCT
+	CONCAT('PUBLICACIÓN EN LA PÁG. WEB DEL INFORME DE RENDICIÓN DE CUENTAS Y SUS MEDIOS DE VERIFICACIÓN ESTABLECIDOS EN EL LITERAL M, DEL ART. 7 DE LA LOTAIP' ,' ','BLANCOS')nombre,(SELECT count(inf.inf_cod)
+FROM esq_rendicioncuentas.tbl_informe inf
+WHERE 
+ inf.inf_cod NOT IN(
+SELECT pl.inf_cod
+  FROM esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf pl
+  WHERE pl.mecani_nombre ='PUBLICACIÓN EN LA PÁG. WEB DEL INFORME DE RENDICIÓN DE CUENTAS Y SUS MEDIOS DE VERIFICACIÓN ESTABLECIDOS EN EL LITERAL M, DEL ART. 7 DE LA LOTAIP'
+) and inf_estado='finalizado')as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 ,esq_rendicioncuentas.tbl_informe info
+		INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+
+	WHERE info.inf_cod=pp1.inf_cod and info.inf_estado='finalizado' and insti.inst_fun_cod=6 AND info.inf_periodo=$P{periodo}   
+GROUP BY pp1.mecani_nombre,pp1.mecani_implementado
+union
+SELECT
+	CONCAT(pp1.mecani_nombre ,' ',pp1.mecani_implementado)nombre,sum((SELECT count(pp.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp 
+	
+	WHERE pp.mecani_nombre='HA DIFUNDIDO SU CÓDIGO DEONTOLÓGICO' and pp.mecani_implementado='SI' and pp1.mecani_cod=pp.mecani_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 ,esq_rendicioncuentas.tbl_informe info
+	INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+
+	WHERE info.inf_cod=pp1.inf_cod and pp1.mecani_nombre='HA DIFUNDIDO SU CÓDIGO DEONTOLÓGICO' and pp1.mecani_implementado='SI'  and info.inf_estado='finalizado' and insti.inst_fun_cod=6 AND info.inf_periodo=$P{periodo}   
+	GROUP BY pp1.mecani_nombre,pp1.mecani_implementado
+	union
+SELECT
+	CONCAT(pp1.mecani_nombre ,' ',pp1.mecani_implementado)nombre,sum((SELECT count(pp.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp 
+	
+	WHERE pp.mecani_nombre='HA DIFUNDIDO SU CÓDIGO DEONTOLÓGICO' and pp.mecani_implementado='NO' and pp1.mecani_cod=pp.mecani_cod )) as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 ,esq_rendicioncuentas.tbl_informe info
+	
+INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+	WHERE info.inf_cod=pp1.inf_cod and pp1.mecani_nombre='HA DIFUNDIDO SU CÓDIGO DEONTOLÓGICO' and pp1.mecani_implementado='NO'  and info.inf_estado='finalizado' and insti.inst_fun_cod=6 and info.inf_periodo=$P{periodo}   
+	GROUP BY pp1.mecani_nombre,pp1.mecani_implementado
+	union
+	SELECT DISTINCT
+	CONCAT('HA DIFUNDIDO SU CÓDIGO DEONTOLÓGICO' ,' ','BLANCOS')nombre,(SELECT count(inf.inf_cod)
+FROM esq_rendicioncuentas.tbl_informe inf
+WHERE 
+ inf.inf_cod NOT IN(
+SELECT pl.inf_cod
+  FROM esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf pl
+  WHERE pl.mecani_nombre <>'HA DIFUNDIDO SU CÓDIGO DEONTOLÓGICO'
+) and inf_estado='finalizado')as total
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 ,esq_rendicioncuentas.tbl_informe info
+	
+	INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+	WHERE info.inf_cod=pp1.inf_cod and info.inf_estado='finalizado' and insti.inst_fun_cod=6  AND info.inf_periodo=$P{periodo}   
+GROUP BY pp1.mecani_nombre,pp1.mecani_implementado]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="total" class="java.lang.Integer"/>
+	</subDataset>
+	<subDataset name="datos" uuid="7a907a79-c71b-4d06-8b57-9516c24063bc">
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="253"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="738"/>
+		<parameter name="periodo" class="java.lang.Integer"/>
+		<queryString>
+			<![CDATA[SELECT 
+	pp.mecani_nombre nombre,sum((SELECT count(pp1.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 
+	
+	WHERE pp1.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DE LOS CONTENIDOS ESTABLECIDOS EN EL ART. 7 DE LA LOTAIP' and pp1.mecani_implementado='SI' and pp1.mecani_cod=pp.mecani_cod)) as SI,sum((SELECT count(pp1.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1
+	WHERE pp1.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DE LOS CONTENIDOS ESTABLECIDOS EN EL ART. 7 DE LA LOTAIP' and pp1.mecani_implementado='NO' and pp1.mecani_cod=pp.mecani_cod)) as NO,
+	(SELECT count(inf.inf_cod)
+FROM esq_rendicioncuentas.tbl_informe inf
+WHERE 
+ inf.inf_cod NOT IN(
+SELECT pl.inf_cod
+  FROM esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf pl
+
+  WHERE pl.mecani_nombre =pp.mecani_nombre
+) and inf_estado='finalizado'  ) as blancos
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp ,esq_rendicioncuentas.tbl_informe info
+	INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+	WHERE info.inf_cod=pp.inf_cod and pp.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DE LOS CONTENIDOS ESTABLECIDOS EN EL ART. 7 DE LA LOTAIP'  and info.inf_estado='finalizado' and insti.inst_fun_cod=6 and info.inf_periodo=$P{periodo} 
+	
+GROUP BY pp.mecani_nombre 
+union
+SELECT 
+	pp.mecani_nombre nombre,sum((SELECT count(pp1.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 
+	
+	WHERE pp1.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DEL INFORME DE RENDICIÓN DE CUENTAS Y SUS MEDIOS DE VERIFICACIÓN ESTABLECIDOS EN EL LITERAL M, DEL ART. 7 DE LA LOTAIP' and pp1.mecani_implementado='SI' and pp1.mecani_cod=pp.mecani_cod)) as SI,sum((SELECT count(pp1.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1
+	WHERE pp1.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DEL INFORME DE RENDICIÓN DE CUENTAS Y SUS MEDIOS DE VERIFICACIÓN ESTABLECIDOS EN EL LITERAL M, DEL ART. 7 DE LA LOTAIP' and pp1.mecani_implementado='NO' and pp1.mecani_cod=pp.mecani_cod)) as NO,
+	(SELECT count(inf.inf_cod)
+FROM esq_rendicioncuentas.tbl_informe inf
+WHERE 
+ inf.inf_cod NOT IN(
+SELECT pl.inf_cod
+  FROM esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf pl
+  WHERE pl.mecani_nombre =pp.mecani_nombre
+) and inf_estado='finalizado') as blancos
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp ,esq_rendicioncuentas.tbl_informe info
+	INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+	WHERE info.inf_cod=pp.inf_cod and pp.mecani_nombre='PUBLICACIÓN EN LA PÁG. WEB DEL INFORME DE RENDICIÓN DE CUENTAS Y SUS MEDIOS DE VERIFICACIÓN ESTABLECIDOS EN EL LITERAL M, DEL ART. 7 DE LA LOTAIP'  and info.inf_estado='finalizado' and insti.inst_fun_cod=6 and info.inf_periodo= $P{periodo}   
+	
+GROUP BY pp.mecani_nombre 
+union
+SELECT 
+	pp.mecani_nombre nombre,sum((SELECT count(pp1.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 
+	
+	WHERE pp1.mecani_nombre='HA DIFUNDIDO SUS POLÍTICAS EDITORIALES E INFORMATIVAS' and pp1.mecani_implementado='SI' and pp1.mecani_cod=pp.mecani_cod)) as SI,sum((SELECT count(pp1.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1
+	WHERE pp1.mecani_nombre='HA DIFUNDIDO SUS POLÍTICAS EDITORIALES E INFORMATIVAS' and pp1.mecani_implementado='NO' and pp1.mecani_cod=pp.mecani_cod)) as NO,
+	(SELECT count(inf.inf_cod)
+FROM esq_rendicioncuentas.tbl_informe inf
+WHERE 
+ inf.inf_cod NOT IN(
+SELECT pl.inf_cod
+  FROM esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf pl
+  WHERE pl.mecani_nombre <>pp.mecani_nombre
+) and inf_estado='finalizado') as blancos
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp ,esq_rendicioncuentas.tbl_informe info
+	INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+	WHERE info.inf_cod=pp.inf_cod and pp.mecani_nombre='HA DIFUNDIDO SUS POLÍTICAS EDITORIALES E INFORMATIVAS'  and info.inf_estado='finalizado' and insti.inst_fun_cod=6 and info.inf_periodo= $P{periodo}
+	
+GROUP BY pp.mecani_nombre 
+union
+SELECT 
+	pp.mecani_nombre nombre,sum((SELECT count(pp1.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1 
+	
+	WHERE pp1.mecani_nombre='HA DIFUNDIDO SU CÓDIGO DEONTOLÓGICO' and pp1.mecani_implementado='SI' and pp1.mecani_cod=pp.mecani_cod)) as SI,sum((SELECT count(pp1.mecani_implementado) FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp1
+	WHERE pp1.mecani_nombre='HA DIFUNDIDO SU CÓDIGO DEONTOLÓGICO' and pp1.mecani_implementado='NO' and pp1.mecani_cod=pp.mecani_cod)) as NO,
+	(SELECT count(inf.inf_cod)
+FROM esq_rendicioncuentas.tbl_informe inf
+WHERE 
+ inf.inf_cod NOT IN(
+SELECT pl.inf_cod
+  FROM esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf pl
+  WHERE pl.mecani_nombre <>pp.mecani_nombre
+) and inf_estado='finalizado') as blancos
+FROM
+	esq_rendicioncuentas.tbl_mecanismos_tranparencia_acc_inf AS pp ,esq_rendicioncuentas.tbl_informe info
+	INNER JOIN
+	esq_catalogos.tbl_institucion insti	ON insti.inst_cod=info.inst_cod
+	WHERE info.inf_cod=pp.inf_cod and pp.mecani_nombre='HA DIFUNDIDO SU CÓDIGO DEONTOLÓGICO'  and info.inf_estado='finalizado' and insti.inst_fun_cod=6 and info.inf_periodo= $P{periodo}   
+	
+GROUP BY pp.mecani_nombre ]]>
+		</queryString>
+		<field name="nombre" class="java.lang.String"/>
+		<field name="si" class="java.lang.Integer"/>
+		<field name="no" class="java.lang.Integer"/>
+		<field name="blancos" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="Periodo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="periodo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT * from esq_catalogos.tbl_funcion WHERE fun_est='activo']]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="360" splitType="Stretch">
+			<staticText>
+				<reportElement x="280" y="0" width="520" height="16" uuid="26a08c47-dbad-44f4-822a-801cf45a1e61"/>
+				<text><![CDATA[ANÁLISIS TRASPARENCIA Y ACCESO A LA INFORMACIÓN SOLO MEDIOS DE COMUNICACIÓN]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="-5" y="22" width="995" height="338" uuid="14dbf479-1da5-4812-b5e0-73a47ff8b59b"/>
+				<componentElement>
+					<reportElement x="20" y="236" width="440" height="90" uuid="dd00c419-2e4f-4d86-8d58-b1e4e76feb77">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+						<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
+						<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
+						<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
+					</reportElement>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="datos" uuid="f379099c-f3b9-40b3-9379-8efd8ae5a39b">
+							<datasetParameter name="periodo">
+								<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column width="240" uuid="d4dd09f4-ab26-473c-b834-7f360ef1ce62">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+							<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="240" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="1357a9f8-e1f9-4deb-8c00-693bcfe5be63"/>
+									<text><![CDATA[Variables]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:detailCell style="Table 1_TD" height="30">
+								<textField>
+									<reportElement x="0" y="0" width="240" height="30" uuid="822182aa-ee8e-4289-ba69-77fd3efa31ef"/>
+									<textElement textAlignment="Center">
+										<font size="7"/>
+									</textElement>
+									<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:columnGroup width="170" uuid="c539dbf6-f850-4b71-8faf-8b33dc6aab61">
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [4]"/>
+							<jr:tableHeader style="Table 1_TH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement mode="Opaque" x="0" y="0" width="170" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b3a70377-d716-429a-9a55-12c182c75be9"/>
+									<textElement textAlignment="Center"/>
+									<text><![CDATA[Resultados]]></text>
+								</staticText>
+							</jr:tableHeader>
+							<jr:column width="40" uuid="5e3fd9a0-c238-4b99-90c8-20f7503bf75a">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+								<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="40" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="94d6a1b3-03b4-4d85-82c1-1db5569f1310"/>
+										<textElement textAlignment="Center"/>
+										<text><![CDATA[SI]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="Table 1_TD" height="30">
+									<textField>
+										<reportElement x="0" y="0" width="40" height="30" uuid="339faf29-3072-45b8-82c0-c67440dbb020"/>
+										<textElement textAlignment="Center"/>
+										<textFieldExpression><![CDATA[$F{si}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="40" uuid="3a6d639b-4513-4da6-b5fd-5f30718d7371">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+								<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="40" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="9360b630-46e3-4d5c-ab87-600ca1ddff4d"/>
+										<textElement textAlignment="Center"/>
+										<text><![CDATA[NO]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="Table 1_TD" height="30">
+									<textField>
+										<reportElement x="0" y="0" width="40" height="30" uuid="9bd9fc52-e3f3-4e56-8320-b12ddd114508"/>
+										<textElement textAlignment="Center"/>
+										<textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="50" uuid="3c77fdc7-604c-4e2a-a591-df3515e19866">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+								<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="50" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="f4547f83-c9a7-4f7c-9c6b-c3e3278f37db"/>
+										<textElement textAlignment="Center"/>
+										<text><![CDATA[Blancos]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="Table 1_TD" height="30">
+									<textField>
+										<reportElement x="0" y="0" width="50" height="30" uuid="57180670-95a1-4464-ba72-6d3908bb3681"/>
+										<textElement textAlignment="Center"/>
+										<textFieldExpression><![CDATA[$F{blancos}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+							<jr:column width="40" uuid="9440eacb-79dd-44a8-90e8-b1ba6c8b0621">
+								<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+								<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
+									<staticText>
+										<reportElement mode="Opaque" x="0" y="0" width="40" height="30" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b39e7b62-fe30-47a0-8479-591230179901"/>
+										<textElement textAlignment="Center"/>
+										<text><![CDATA[Total]]></text>
+									</staticText>
+								</jr:columnHeader>
+								<jr:detailCell style="Table 1_TD" height="30">
+									<textField>
+										<reportElement x="0" y="0" width="40" height="30" uuid="45e4d95f-0bfd-4f15-8402-2ed00a556906"/>
+										<textElement textAlignment="Center"/>
+										<textFieldExpression><![CDATA[$F{si}+$F{no}+$F{blancos}]]></textFieldExpression>
+									</textField>
+								</jr:detailCell>
+							</jr:column>
+						</jr:columnGroup>
+					</jr:table>
+				</componentElement>
+				<barChart>
+					<chart evaluationTime="Report">
+						<reportElement x="10" y="10" width="970" height="220" uuid="568f29a7-2ef5-42d5-9c2b-e3aed732412a"/>
+						<chartTitle/>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<categoryDataset>
+						<dataset resetType="Report">
+							<datasetRun subDataset="Graficatabla" uuid="2ff490a1-a4f8-4566-8862-2b21206a6f7d">
+								<datasetParameter name="periodo">
+									<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+								</datasetParameter>
+							</datasetRun>
+						</dataset>
+						<categorySeries>
+							<seriesExpression><![CDATA[$F{nombre}]]></seriesExpression>
+							<categoryExpression><![CDATA[$F{nombre}]]></categoryExpression>
+							<valueExpression><![CDATA[$F{total}]]></valueExpression>
+						</categorySeries>
+					</categoryDataset>
+					<barPlot>
+						<plot/>
+						<itemLabel/>
+						<categoryAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</categoryAxisFormat>
+						<valueAxisFormat>
+							<axisFormat labelColor="#000000" tickLabelColor="#000000" axisLineColor="#000000"/>
+						</valueAxisFormat>
+					</barPlot>
+				</barChart>
+			</frame>
+		</band>
+	</title>
+	<detail>
+		<band height="60" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT} == 1]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="6" y="0" width="1124" height="60" uuid="82ccf656-55a6-49b8-8df6-3485e9c64374">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="ListadoTabla" uuid="7678101c-fb2c-4999-82d3-41a6f074b7d7">
+						<datasetParameter name="periodo">
+							<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="30" uuid="842c83b7-e43b-4d4d-9caa-744362e8f912">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="30" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="a2bc7c08-7b41-4469-8e7f-a2b73f8633da"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[No.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="30" height="40" uuid="ee8ce01e-404e-4efb-85f1-3338c82092db"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="190" uuid="fabd288d-419e-4f80-b780-469a15c3b81f">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="190" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b6c059e2-7d41-4bfe-bbcf-c9b089e6c0e4"/>
+								<textElement textAlignment="Center">
+									<font size="12"/>
+								</textElement>
+								<text><![CDATA[Nombre Institución]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="190" height="40" uuid="1eaf02ec-324d-4b53-b69f-27ae5c071e09"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="52ef7add-b125-4200-a6d8-f105ab5863e4">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="70" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="35a6deb4-e4d1-4b64-8bd6-0b43e284e6bf"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Ruc]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="70" height="40" uuid="c1c598b1-21be-48ba-9b09-9ce1bdbf25de"/>
+								<textElement textAlignment="Center">
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{inst_ruc}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="bd8b851a-d841-4142-bb72-45fcc6035055">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="100" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="f971f685-c142-47d3-8556-777c2e0330b3"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Provincia]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="100" height="40" uuid="7e7745c2-16f0-43e4-b041-070eed08cdaa"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="5ae3ed81-9739-47f6-bc4f-7ad54fa8742c">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="c78923b4-8324-4bdf-895b-b4868466dc1b"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Función]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="40" uuid="40ef1474-dd29-47d1-bddc-ae01cd63de6d"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{funcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="0292ee5e-0beb-40ff-a8c3-679cd4708b46">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="44d13f39-5ed4-40f3-b962-8897d252d4a3"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Sector]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="40" uuid="8c73cf41-65ec-423c-993d-e7f85b53aa75"/>
+								<textElement textAlignment="Center">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{sector}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="110" uuid="737fa961-89d2-401b-bae3-dee4e8675f39">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="110" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="56e49036-2868-48b4-aaa7-9fb1b2603afc"/>
+								<textElement textAlignment="Center">
+									<font size="7"/>
+								</textElement>
+								<text><![CDATA[PUBLICACIÓN EN LA PÁG. WEB DE LOS CONTENIDOS ESTABLECIDOS EN EL ART. 7 DE LA LOTAIP]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="40" uuid="77c2941f-068d-4534-9eb3-8fe023502849"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{variable1}==null?"BLANCOS":$F{variable1}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="dce1f298-341d-4437-b267-f8bb1d844284">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="90" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="8b8324bf-9880-41be-bb8d-06c485dca7b4"/>
+								<textElement textAlignment="Center">
+									<font size="7"/>
+								</textElement>
+								<text><![CDATA[PUBLICACIÓN EN LA PÁG. WEB DEL INFORME DE RENDICIÓN DE CUENTAS Y SUS MEDIOS DE VERIFICACIÓN ESTABLECIDOS EN EL LITERAL M, DEL ART. 7 DE LA LOTAIP]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="40" uuid="eccffa0c-96bc-49cf-8bdf-dc9f78930e6f"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{variable2}==null?"BLANCOS":$F{variable2}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="41f7037c-3711-488c-a70d-85e0608aa78b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="70" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="f066c94c-8df8-49b4-bcf2-8d4ca0b72703"/>
+								<textElement textAlignment="Center">
+									<font size="7"/>
+								</textElement>
+								<text><![CDATA[HA DIFUNDIDO SUS POLÍTICAS EDITORIALES E INFORMATIVAS]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="70" height="40" uuid="a523dc13-a890-45fe-9dcb-8a7a13530f99"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{variable3}==null?"BLANCOS":$F{variable3}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="715cbecb-3e41-416e-a3ab-529acf8fcd27">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
+						<jr:columnHeader style="Table_CH" height="50" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="80" height="50" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="b06f7611-7b5a-4872-8805-79d18af82ef3"/>
+								<textElement textAlignment="Center">
+									<font size="7"/>
+								</textElement>
+								<text><![CDATA[HA DIFUNDIDO SU CÓDIGO DEONTOLÓGICO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="40">
+							<textField>
+								<reportElement x="0" y="0" width="80" height="40" uuid="eb46ccac-995d-4e73-b4d0-607605e3ebd8"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{variable4}==null?"BLANCOS":$F{variable4}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

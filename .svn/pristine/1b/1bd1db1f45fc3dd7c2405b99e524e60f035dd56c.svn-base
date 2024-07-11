@@ -1,0 +1,1506 @@
+
+// Función que permite realizar el ruteo de la seccion donde se va a cargar el
+// contenido de la página
+function abrir(aplicacion, evento, seleccionar) {
+	var elementoDestino = "#" + aplicacion.attr("data-destino");
+	$(".seleccionado").removeClass("seleccionado");
+	elementosSeleccionados = [];
+
+	$("#cantidadItemsSeleccionados").html(elementosSeleccionados.length);
+	if (seleccionar) {
+
+		$(aplicacion).removeClass("itemAbierto");
+		if (elementoDestino == "#detalleItem") {
+			aplicacion.siblings().removeClass("itemAbierto");
+			aplicacion.addClass('itemAbierto');
+		} else {
+			aplicacion.siblings().removeClass("linkAbierto");
+			$("#menuAplicacion .linkAbierto, #menuAplicaciona .linkAbierto").removeClass("linkAbierto");
+			aplicacion.addClass("linkAbierto");
+		}
+	}
+
+	var url = "";
+	var data = null;
+	if (aplicacion.is("form")) {
+		evento.preventDefault();
+		data = aplicacion.serialize();
+		url = "view/" + aplicacion.attr("data-rutaAplicacion") + "/"
+			+ aplicacion.attr("data-opcion");
+	} else {
+		if (elementoDestino == "#seccionVentanaAplicacion") {
+			url = "urlAplicaciones";
+			$("#menuAplicacion").html("");
+			data = {
+				app: aplicacion.attr("data-rutaAplicacion"),
+				nombre: aplicacion.attr("data-nombreAplicacion")
+			};
+		} else if (elementoDestino == "#menuAplicacion" || elementoDestino == '#menuAplicaciona') {
+			url = "urlMenuAplicacion";
+			data = {
+				app: aplicacion.attr("data-rutaAplicacion"),
+				idAplicacion: aplicacion.attr("id"),
+				nombre: aplicacion.attr("data-nombreAplicacion")
+			};
+		} else {
+
+			url = "view/" + aplicacion.attr("data-rutaAplicacion") + "/" + aplicacion.attr("data-opcion");
+			data = {
+				id: aplicacion.attr("id"),
+				opcion: aplicacion.attr("data-idOpcion"),
+				elementos: aplicacion.attr("data-elementos"),
+				nombreOpcion: aplicacion.attr("data-nombre"),
+			};
+		}
+	}
+	if (aplicacion.attr("data-destino") == "EXT") {
+		var new_window = window.open(url + "?id=" + aplicacion.attr("id"), "nw");
+	} else {
+		$.ajax({
+			type: "POST",
+			url: url,
+			headers: {
+				"X-CSRF-TOKEN": csrfToken
+			},
+			data: data,
+			dataType: "text",
+			contentType: "application/x-www-form-urlencoded; charset=latin1",
+			beforeSend: function(jqXHR) {
+				if ((elementoDestino != "#menuAplicaciona" && elementoDestino != "#menuAplicacion" && elementoDestino != "#areaTrabajo")) {
+
+					$(elementoDestino).html("<div id='cargando'>Cargando...</div>").fadeIn();
+				}//else if (elementoDestino=="#menuAplicaciona"){ $("#areaTrabajo").append("<div id='cargando'>Cargando...</div>").fadeIn();
+				//}
+
+			},
+			success: function(html) {
+				if (elementoDestino == '#detalleItem') {
+
+					$(elementoDestino).html(html);
+					toastr.clear();
+					$('#collapseTwo').addClass('show');
+					$('#collapseOne').removeClass('show');
+					$("#headingTwo .panel-title a span").html($("#collapseTwo #detalleItem .card-header h5").html());
+					$("#headingTwo").show();
+				}//else if (elementoDestino == '#menuAplicaciona' ) {
+				//$("#cargando").delay("slow").fadeOut();
+				// $(elementoDestino).html(html)} 
+				else if (elementoDestino == '#menuAplicacion' || elementoDestino == '#menuAplicaciona' || elementoDestino == '#seccionVentanaAplicacion') {
+
+					$(elementoDestino).html(html);
+				} else {
+
+					$(elementoDestino).html(html);
+					$('#headingTwo').removeClass('active');
+					$("#headingOne .panel-title a span").html(" / " + aplicacion.attr("data-nombre"));
+
+					if (elementoDestino == "#areaTrabajo #listadoItems") {
+						$('#collapseOne').addClass('show');
+						$('#collapseTwo').removeClass('show');
+					}
+					$("#headingTwo").hide();
+				}
+
+			},
+			error: function(jqXHR, textStatus) {
+
+				mensajeErrorAjax(jqXHR, textStatus);
+				$(elementoDestino)
+					.html(
+						"<div id='error'>¡Ups!... algo no anda bien.<br />"
+						+ "Se produjo un "
+						+ textStatus
+						+ " "
+						+ "<span style='font-weight: bold;'>"
+						+ jqXHR.status
+						+ "</span>."
+						+ "<br />Disculpe los inconvenientes causados.</div>");
+			},
+			complete: function() {
+			}
+		});
+	}
+}
+// Función que permite realizar el ruteo de la seccion donde se va a cargar el
+// contenido de la página nueva 
+function abrirPaguina(aplicacion, evento, valor) {
+	var elementoDestino = "#" + aplicacion.attr("data-destino");
+	if (valor) {
+		$(aplicacion).removeClass("itemAbierto");
+		if (elementoDestino == "#detalleItem") {
+			aplicacion.siblings().removeClass("itemAbierto");
+			aplicacion.addClass('itemAbierto');
+		} else {
+			aplicacion.siblings().removeClass("linkAbierto");
+			$("#menuAplicacion .linkAbierto, #menuAplicaciona .linkAbierto").removeClass("linkAbierto");
+			aplicacion.addClass("linkAbierto");
+		}
+	}
+
+	var url = "";
+	var data = null;
+	if (aplicacion.is("form")) {
+		evento.preventDefault();
+		data = aplicacion.serialize();
+		url = "view/" + aplicacion.attr("data-rutaAplicacion") + "/"
+			+ aplicacion.attr("data-opcion");
+	} else {
+
+		url = "view/" + aplicacion.attr("data-rutaAplicacion") + "/" + aplicacion.attr("data-opcion");
+		data = {
+			id: aplicacion.attr("id"),
+			opcion: aplicacion.attr("data-idOpcion"),
+			elementos: valor,
+			nombreOpcion: aplicacion.attr("data-nombre"),
+		};
+
+	}
+	if (aplicacion.attr("data-destino") == "EXT") {
+		var new_window = window.open(url + "?id=" + aplicacion.attr("id"), "nw");
+	} else {
+		$.ajax({
+			type: "POST",
+			url: url,
+			headers: {
+				"X-CSRF-TOKEN": csrfToken
+			},
+			data: data,
+			dataType: "text",
+			contentType: "application/x-www-form-urlencoded; charset=latin1",
+			beforeSend: function(jqXHR) {
+				if ((elementoDestino != "#menuAplicaciona" && elementoDestino != "#menuAplicacion" && elementoDestino != "#areaTrabajo")) {
+
+					$(elementoDestino).html("<div id='cargando'>Cargando...</div>").fadeIn();
+				}//else if (elementoDestino=="#menuAplicaciona"){ $("#areaTrabajo").append("<div id='cargando'>Cargando...</div>").fadeIn();
+				//}
+
+			},
+			success: function(html) {
+				if (elementoDestino == '#detalleItem') {
+
+					$(elementoDestino).html(html);
+					toastr.clear();
+					$('#collapseTwo').addClass('show');
+					$('#collapseOne').removeClass('show');
+					$("#headingTwo .panel-title a span").html($("#collapseTwo #detalleItem .card-header h5").html());
+					$("#headingTwo").show();
+				}//else if (elementoDestino == '#menuAplicaciona' ) {
+				//$("#cargando").delay("slow").fadeOut();
+				// $(elementoDestino).html(html)} 
+				else if (elementoDestino == '#menuAplicacion' || elementoDestino == '#menuAplicaciona' || elementoDestino == '#seccionVentanaAplicacion') {
+
+					$(elementoDestino).html(html);
+				} else {
+
+					$(elementoDestino).html(html);
+					$('#headingTwo').removeClass('active');
+					$("#headingOne .panel-title a span").html(" / " + aplicacion.attr("data-nombre"));
+
+					if (elementoDestino == "#areaTrabajo #listadoItems") {
+						$('#collapseOne').addClass('show');
+						$('#collapseTwo').removeClass('show');
+					}
+					$("#headingTwo").hide();
+				}
+
+			},
+			error: function(jqXHR, textStatus) {
+
+				mensajeErrorAjax(jqXHR, textStatus);
+				$(elementoDestino)
+					.html(
+						"<div id='error'>¡Ups!... algo no anda bien.<br />"
+						+ "Se produjo un "
+						+ textStatus
+						+ " "
+						+ "<span style='font-weight: bold;'>"
+						+ jqXHR.status
+						+ "</span>."
+						+ "<br />Disculpe los inconvenientes causados.</div>");
+			},
+			complete: function() {
+			}
+		});
+	}
+}
+// Función para seleccionar los item del listado de registro
+function seleccionar(objeto) {
+	if (objeto.hasClass("seleccionado")) {
+		objeto.removeClass("seleccionado");
+		elementosSeleccionados.splice(elementosSeleccionados.indexOf(objeto.attr("id")), 1);
+		elementosSeleccionados.sort();
+	} else {
+		objeto.removeClass("itemAbierto");
+		objeto.addClass("seleccionado");
+		elementosSeleccionados.push(objeto.attr("id"));
+		elementosSeleccionados.sort();
+	}
+	$(".cantidadItemsSeleccionados").html(elementosSeleccionados.length);
+}
+
+// Función para contruir el menu
+function contruirMenu(fila, nombreApp) {
+	var contuirdatos = function() {
+		var source = [];
+		var items = [];
+		for (var k = 0; k < fila.length; k++) {
+
+			var id = fila[k][0];// id_opcion
+			var label = fila[k][1];// nombre_opcion
+			var icon = fila[k][2];// icono
+			var url = fila[k][3]; // url
+			var orden = fila[k][4];// orden
+			var parentid = fila[k][5];// id_padre
+
+			if (items[parentid]) {
+				var item = {
+					orden: orden,
+					id: id,
+					parentid: parentid,
+					label: label,
+					item: item,
+					url: url,
+					icon: icon,
+					nombreApp: nombreApp
+				};
+				if (!items[parentid].items) {
+					items[parentid].items = [];
+				}
+				items[parentid].items[items[parentid].items.length] = item;
+				items[id] = item;
+			} else {
+				items[id] = {
+					orden: orden,
+					id: id,
+					parentid: parentid,
+					label: label,
+					item: item,
+					url: url,
+					icon: icon,
+					nombreApp: nombreApp
+				};
+				source[orden] = items[id];
+			}
+		}
+
+		return source;
+	}
+
+	var source = contuirdatos();
+	var buildUL = function(parent, items) {
+		var li = "";
+		$
+			.each(
+				items,
+				function() {
+					if (this.constructor === Object) {
+						if ((this.parentid == -1)
+							|| (this.parentid != "" && this.url == "")) {
+							var li = $('<li><a class="has-arrow" href="#"><span class="'
+								+ this.icon
+								+ ' "></span><span class="nav-label"> '
+								+ this.label
+								+ '</span></a></li>');
+						} else {
+							li = $('<li><a  href="#" id="estiloID" data-destino="areaTrabajo #listadoItems" data-rutaAplicacion="'
+								+ this.nombreApp
+								+ '" data-idOpcion="'
+								+ this.id
+								+ '" data-opcion="'
+								+ this.url
+								+ '" data-nombre = "'
+								+ this.label
+								+ '" >  <span class="'
+								+ this.icon
+								+ '"></span><span class="nav-label p-xxslc">'
+								+ this.label
+								+ '</span> </a></li>');
+						}
+
+						li.appendTo(parent);
+
+						if (this.items && this.items.length > 0) {
+							var ul = $("<ul class='mm-collapse'></ul>");
+							ul.appendTo(li);
+							buildUL(ul, this.items);
+						}
+					}
+				});
+	}
+
+	var ul = $("<ul class='metismenu menu' id='menu'></ul>");
+	ul.appendTo(".sidebar-nav");
+	buildUL(ul, source);
+}
+
+// Función que permite minimizar el menú
+function minimizarMenu() {
+	if (!$('body').hasClass('mini-navbar') || $('body').hasClass('body-small')) {
+		$('#side-menu').hide();
+		setTimeout(function() {
+			$('#side-menu').fadeIn(400);
+		}, 200);
+	} else if ($('body').hasClass('fixed-sidebar')) {
+		$('#side-menu').hide();
+		setTimeout(function() {
+			$('#side-menu').fadeIn(400);
+		}, 100);
+	} else {
+		$('#side-menu').removeAttr('style');
+	}
+}
+
+
+
+// Evento que permite realizar el funcionamiento de cada opción del menu
+$("#menuAplicacion, #menuAplicaciona").on("click", "[data-destino='areaTrabajo #listadoItems']",
+	function(e) {
+		$("title").html($(this).attr('data-nombre'));
+		abrir($(this), "#areaTrabajo #listadoItems", true);
+	});
+
+// Evento que permite realizar el funcionamiento de cada acción de los botones
+$("#seccionVentanaAplicacion").on("click", "#listadoItems .botones a", function(e) {
+
+	e.preventDefault();
+	var estilo = $(this).attr("id");
+	switch (estilo) {
+		case "_nuevo":// nuevo
+			abrir($(this), "#" + $(this).attr("data-destino"), false);
+			$('#headingTwo a').click();
+			break;
+
+		case "_actualizar": // actualizar
+			abrir($("#menuAplicacion #menu a.linkAbierto"), "#areaTrabajo #listadoItems", true);
+			break;
+
+		case "_seleccionar": // seleccionar;
+			$(".item").each(function(i, e) {
+				seleccionar($("#listadoItems #" + (e.id).replace(".", "\\.")));
+			});
+			break;
+
+		case "_modificar": // modificar
+			abrir($(this), null, false);
+			$('#headingTwo a').click();
+			break;
+
+		case "_eliminar": // eliminar
+			$(this).attr("data-elementos", elementosSeleccionados);
+			abrir($(this), null, false);
+			$('#headingTwo a').click();
+			break;
+
+		case "_asignar": // eliminar
+			$(this).attr("data-elementos", elementosSeleccionados);
+			abrir($(this), null, false);
+			$('#headingTwo a').click();
+			break;
+
+		case "_gestionar": // eliminar
+			$(this).attr("data-elementos", elementosSeleccionados);
+			abrir($(this), null, false);
+			$('#headingTwo a').click();
+			break;
+
+		case "_abrir": // eliminar
+			$(this).attr("data-elementos", elementosSeleccionados);
+			abrir($(this), null, false);
+			$('#headingTwo a').click();
+			break;
+
+		default:
+			$(this).attr("data-elementos", elementosSeleccionados);
+			abrir($(this), null, false);
+	}
+});
+
+
+/*function ejecutarJson(form, metodoExito, metodoError, buttonTabla) {
+   
+	 if(buttonTabla===undefined){
+		  var $botones = $(form).find("button[type='submit']"); 
+	 }else{
+		  var $botones = $(form).find(buttonTabla); 
+	 }
+	 
+	 var elementoDestino = "#" + $(form).attr("data-destino");
+    
+	 serializedData = $(form).serialize();
+	 url = "view/"+ $(form).attr("data-rutaAplicacion") + "/" + $(form).attr("data-opcion");
+   
+	 $botones.attr("disabled", "disabled");
+    
+	 var resultado = $.ajax({
+			   url: url,
+			   type: "post",
+			   headers: {
+					"X-CSRF-TOKEN": csrfToken
+			   },
+			   data: serializedData,
+			   dataType: "json",
+			   async: false,
+			   beforeSend: function(jqXHR) {
+					if(buttonTabla===undefined){
+					if ( $("#cargando").length ) {
+						 // hacer algo aquí si el elemento existe
+						 $("#detalleItem").find("#cargando").fadeIn();
+					   }else{
+
+							$("#detalleItem").append("<div id='cargando'>Cargando...</div>").fadeIn();
+				    
+					   }
+					}
+				    
+			   },
+			   success: function(msg) {
+
+					if (msg.estado == "exito") {
+						 toastr.clear();
+						 switch ($(form).attr("data-accionEnExito")) {
+							  case "REDIRECCIONAR":
+								   window.location.replace("index");
+							  break;
+							  case "ACTUALIZAR":                                  
+								   abrir($("#menuAplicacion #menu a.linkAbierto"), null, true);
+							  break;
+							  default:
+								   $($(form).attr("data-accionEnExito")).submit();
+								   $("#cargando").delay("slow").fadeOut();
+								   $botones.attr("disabled", false);                                   
+						 }
+						 if (metodoExito != null) {
+							  metodoExito.ejecutar(msg);
+						 } else {
+							  mostrarMensaje(msg.mensaje, "EXITO");
+							  if(msg.hasOwnProperty('codigo')){
+								 $("#codigo").val(msg.codigo);
+								}
+								if(msg.hasOwnProperty('codigo1')){
+								 $("#codigo1").val(msg.codigo1);
+								}
+							   
+							  
+						 }
+
+					} else {
+						 $("#cargando").delay("slow").fadeOut();
+						 $botones.attr("disabled", false);
+						 if (metodoError != null) {
+							  metodoError.ejecutar(msg);
+						 } else {
+							  mostrarMensaje(msg.mensaje, "ERROR");
+						 }
+					}
+			   },
+			   error: function(jqXHR, textStatus) {
+			
+					var msg = '';
+					if (jqXHR.status === 0) {
+						msg = 'No conectaado, Verificar red.';
+					} else if (jqXHR.status == 404) {
+						msg = 'Página solicitada no encontrada. [404]';
+					} else if (jqXHR.status == 500) {
+						msg = 'Error interno del servidor [500].';
+					} else if (textStatus === 'parsererror') {
+						msg = 'El JSON solicitado falló.';
+					} else if (textStatus === 'timeout') {
+						msg = 'Error de tiempo de espera.';
+					} else if (textStatus === 'abort') {
+						msg = 'Ajax petición abortada.';
+					} else {
+						msg = 'Error no detectado.\n' + jqXHR.responseText;
+					}
+				   
+					mostrarMensaje("ERROR: " + textStatus + ", " + errorThrown+":" +jqXHR+":"+msg,"ERROR");
+				  
+			   },
+			   complete: function() {
+			   }
+	 });
+	 return resultado;
+}*/
+function ejecutarJson(form, metodoExito, metodoError, buttonTabla) {
+	if (buttonTabla === undefined) {
+		var $botones = $(form).find("button[type='submit']");
+	} else {
+		var $botones = $(form).find(buttonTabla);
+	}
+
+	var elementoDestino = "#" + $(form).attr("data-destino");
+
+	serializedData = $(form).serialize();
+	url = "view/" + $(form).attr("data-rutaAplicacion") + "/" + $(form).attr("data-opcion");
+
+	$botones.attr("disabled", "disabled");
+
+	var resultado = $.ajax({
+		url: url,
+		type: "post",
+		headers: {
+			"X-CSRF-TOKEN": csrfToken
+		},
+		data: serializedData,
+		dataType: "json",
+		async: false,
+		beforeSend: function(jqXHR) {
+			if (buttonTabla === undefined) {
+				if ($("#cargando").length) {
+					// hacer algo aquí si el elemento existe
+					$("#detalleItem").find("#cargando").fadeIn();
+				} else {
+					$("#detalleItem").append("<div id='cargando'>Cargando...</div>").fadeIn();
+				}
+			}
+		},
+		success: function(msg) {
+			if (msg.estado == "exito") {
+				toastr.clear();
+				switch ($(form).attr("data-accionEnExito")) {
+					case "REDIRECCIONAR":
+						window.location.replace("index");
+						break;
+					case "ACTUALIZAR":
+						abrir($("#menuAplicacion #menu a.linkAbierto"), null, true);
+						break;
+					default:
+						$($(form).attr("data-accionEnExito")).submit();
+						$("#cargando").delay("slow").fadeOut();
+						$botones.attr("disabled", false);
+				}
+				if (metodoExito != null) {
+					metodoExito.ejecutar(msg);
+				} else {
+					mostrarMensaje(msg.mensaje, "EXITO");
+					if (msg.hasOwnProperty('codigo')) {
+						$("#codigo").val(msg.codigo);
+					}
+					if (msg.hasOwnProperty('codigo1')) {
+						$("#codigo1").val(msg.codigo1);
+					}
+				}
+			} else {
+				$("#cargando").delay("slow").fadeOut();
+				$botones.attr("disabled", false);
+				if (metodoError != null) {
+					metodoError.ejecutar(msg);
+				} else {
+					mostrarMensaje(msg.mensaje, "ERROR");
+				}
+			}
+		},
+		/*error: function(jqXHR, textStatus, errorThrown) {
+			var msg = '';
+			if (jqXHR.status === 0) {
+				msg = 'No conectado, verificar red.';
+			} else if (jqXHR.status == 404) {
+				msg = 'Página solicitada no encontrada. [404]';
+			} else if (jqXHR.status == 500) {
+				msg = 'Error interno del servidor [500].';
+			} else if (textStatus === 'parsererror') {
+				msg = 'El JSON solicitado falló.';
+			} else if (textStatus === 'timeout') {
+				msg = 'Error de tiempo de espera.';
+			} else if (textStatus === 'abort') {
+				msg = 'Petición Ajax abortada.';
+			} else {
+				msg = 'Error no detectado.\n' + jqXHR.responseText;
+			}
+			mostrarMensaje("ERROR: " + textStatus + ", " + errorThrown + ":" + jqXHR + ":" + msg, "ERROR");
+		},*/
+		error: function(jqXHR, textStatus, errorThrown) {
+			var msg = '';
+			if (jqXHR.status === 0) {
+				msg = 'No conectado, verificar red.';
+			} else if (jqXHR.status == 404) {
+				msg = 'Página solicitada no encontrada. [404]';
+			} else if (jqXHR.status == 500) {
+				msg = 'Error interno del servidor [500].';
+			} else if (textStatus === 'parsererror') {
+				msg = 'El JSON solicitado falló.';
+			} else if (textStatus === 'timeout') {
+				msg = 'Error de tiempo de espera.';
+			} else if (textStatus === 'abort') {
+				msg = 'Petición Ajax abortada.';
+			} else {
+				msg = 'Error no detectado: ' + textStatus + '. Detalles: ' + jqXHR.responseText;
+			}
+			mostrarMensaje("ERROR: " + msg, "ERROR");
+		},
+		complete: function() { }
+	});
+	return resultado;
+}
+
+
+
+function ejecutarJsonUpdate(form, data, metodoExito, metodoError, buttonTabla) {
+
+	if (buttonTabla === undefined) {
+		var $botones = $(form).find("button[type='submit']");
+	} else {
+		var $botones = $(form).find(buttonTabla);
+	}
+
+	var elementoDestino = "#" + $(form).attr("data-destino");
+
+	url = "view/" + $(form).attr("data-rutaAplicacion") + "/" + $(form).attr("data-opcion");
+
+	$botones.attr("disabled", "disabled");
+
+	var resultado = $.ajax({
+		url: url,
+		type: "post",
+		headers: {
+			"X-CSRF-TOKEN": csrfToken
+		},
+		data: data,
+		dataType: "json",
+		async: true,
+		beforeSend: function(jqXHR) {
+			if (buttonTabla === undefined) {
+				if ($("#cargando").length) {
+					// hacer algo aquí si el elemento existe
+					$("#detalleItem").find("#cargando").fadeIn();
+				} else {
+
+					$("#detalleItem").append("<div id='cargando'>Cargando...</div>").fadeIn();
+
+				}
+			}
+
+		},
+		success: function(msg) {
+			if (msg.estado == "exito") {
+				toastr.clear();
+				switch ($(form).attr("data-accionEnExito")) {
+					case "REDIRECCIONAR":
+						window.location.replace("index");
+						break;
+					case "ACTUALIZAR":
+
+						abrir($("#menuAplicacion #menu a.linkAbierto"), null, true);
+						break;
+					default:
+						$($(form).attr("data-accionEnExito")).submit();
+				}
+				if (metodoExito != null) {
+					metodoExito.ejecutar(msg);
+				} else {
+					mostrarMensaje(msg.mensaje, "EXITO");
+				}
+
+			} else {
+				$("#cargando").delay("slow").fadeOut();
+				$botones.attr("disabled", false);
+				if (metodoError != null) {
+					metodoError.ejecutar(msg);
+				} else {
+					mostrarMensaje(msg.mensaje, "ERROR");
+				}
+			}
+		},
+		error: function(jqXHR, textStatus) {
+
+			var msg = '';
+			if (jqXHR.status === 0) {
+				msg = 'No conectaado, Verificar red.';
+			} else if (jqXHR.status == 404) {
+				msg = 'Página solicitada no encontrada. [404]';
+			} else if (jqXHR.status == 500) {
+				msg = 'Error interno del servidor [500].';
+			} else if (textStatus === 'parsererror') {
+				msg = 'El JSON solicitado falló.';
+			} else if (textStatus === 'timeout') {
+				msg = 'Error de tiempo de espera.';
+			} else if (textStatus === 'abort') {
+				msg = 'Ajax petición abortada.';
+			} else {
+				msg = 'Error no detectado.\n' + jqXHR.responseText;
+			}
+
+
+
+		},
+		complete: function() {
+		}
+	});
+	return resultado;
+}
+(function($) {
+	$.fn.serializeFormJSON = function() {
+		var o = {};
+		var a = this.serializeArray();
+		$.each(a, function() {
+			if (o[this.name]) {
+				if (!o[this.name].push) {
+					o[this.name] = [o[this.name]];
+				}
+				o[this.name].push(this.value || '');
+			} else {
+				o[this.name] = this.value || '';
+			}
+		});
+		return o;
+	};
+
+})(jQuery);
+
+
+// Evento para colapsar los paneles
+$('[data-toggle="collapse"]').on("click", function() {
+	$('.panel-collapse').on('show.bs.collapse', function() {
+		$(this).siblings('.panel-heading').addClass('active');
+	});
+
+	$('.panel-collapse').on('hide.bs.collapse', function() {
+		$(this).siblings('.panel-heading').removeClass('active');
+	});
+});
+
+// Evento que permite abrir cada aplicación del sistema
+$("#seccionVentanaAplicacion").on("click", ".aplicacion", function() {
+	abrir($(this), "#" + $(this).attr("data-destino"), false);
+});
+
+// Evento para volver al inicio de la aplicación
+$(".inicioAplicacion a").on("click", function() {
+	visualizarMensajeConfirmacion('ATENCIÓN', '¿Está seguro de Salir del Módulo?', '', 'Inicio');
+});
+
+
+// Evento que permite realizar la selección de los items de los registros
+$("#seccionVentanaAplicacion").on("click", ".item", function(e) {
+	seleccionar($(this));
+});
+
+// Evento para minimizar el menú
+$('.navbar-minimalize').click(function() {
+	$("body").toggleClass("mini-navbar");
+	minimizarMenu();
+});
+
+/*
+ * $(window).scroll(function() { if ($(window).scrollTop() > 0 &&
+ * !$('body').hasClass('fixed-nav')) {
+ * $('#right-sidebar').addClass('sidebar-top'); } else {
+ * $('#right-sidebar').removeClass('sidebar-top'); } });
+ */
+
+function subirArchivo(item, identificador, carpeta, componente, funcion, tamanio) {
+
+	var data = new FormData();
+	data.append('file', item[0].files[0]);
+	data.append('identificador', identificador);
+	data.append('rutaCarpeta', carpeta);
+	data.append('tamanio', tamanio);
+	var url = 'fileUpload';
+	var elemento = componente;
+	$.ajax({
+		url: url,
+		type: 'POST',
+		headers: {
+			"X-CSRF-TOKEN": csrfToken
+		},
+		async: false,
+		contentType: false,
+		data: data,
+		processData: false,
+		cache: false,
+		beforeSend: function(msg) {
+			funcion.esperar("");
+		},
+		success: function(msg) {
+			if (msg == 'No has podido subir el archivo.'
+				|| msg == 'El archivo se encuentra vacio.' || msg == 'tamaño de archivo superado') {
+				elemento.val('');
+				funcion.error(msg);
+			} else {
+				toastr.clear();
+				elemento.val(msg);
+				funcion.exito(msg);
+				item.attr("disabled", "disabled");
+				mostrarMensaje("El archivo ha sido cargado!", "EXITO-NOTIFICACION", "4000");
+			}
+		},
+		error: function(msg) {
+			elemento.val('');
+			funcion.error("El archivo supera el tamaño permitido.");
+			mostrarMensaje("El archivo supera el tamaño permitido!", "ERROR", "4000");
+		}
+	});
+}
+function subirArchivoQuipux(item, identificador, carpeta, componente, funcion, tamanio, area, areapadre) {
+
+	var data = new FormData();
+	data.append('file', item[0].files[0]);
+	data.append('identificador', identificador);
+	data.append('rutaCarpeta', carpeta);
+	data.append('tamanio', tamanio);
+	data.append('area', area);
+	data.append('areapadre', areapadre);
+	var url = 'fileUploadQuipux';
+	var elemento = componente;
+	$.ajax({
+		url: url,
+		type: 'POST',
+		headers: {
+			"X-CSRF-TOKEN": csrfToken
+		},
+		contentType: false,
+		data: data,
+		processData: false,
+		cache: false,
+		beforeSend: function(msg) {
+			funcion.esperar("");
+		},
+		success: function(msg) {
+			if (msg == 'No has podido subir el archivo.'
+				|| msg == 'El archivo se encuentra vacio.' || msg == 'tamaño de archivo superado') {
+				elemento.val('');
+				funcion.error(msg);
+			} else {
+				toastr.clear();
+				elemento.val(msg);
+				funcion.exito(msg);
+				item.attr("disabled", "disabled");
+				mostrarMensaje("El archivo ha sido cargado!", "EXITO-NOTIFICACION", "4000");
+			}
+		},
+		error: function(msg) {
+			elemento.val('');
+			funcion.error("El archivo supera el tamaño permitido.");
+			mostrarMensaje("El archivo supera el tamaño permitido!", "ERROR", "4000");
+		}
+	});
+}
+function EliminarArchivo(item, archivo, elemento, funcion) {
+
+	var data = new FormData();
+	data.append('file', item);
+	data.append('archivo', archivo);
+	data.append('elemento', elemento);
+	data.append('funcion', funcion);
+
+	var url = 'fileUploaddelete';
+	$.ajax({
+		url: url,
+		type: 'POST',
+		headers: {
+			"X-CSRF-TOKEN": csrfToken
+		},
+		contentType: false,
+		data: data,
+		processData: false,
+		cache: false,
+		beforeSend: function(msg) {
+			if (funcion != '') {
+				funcion.eliminar("");
+			}
+		},
+		success: function(msg) {
+			if (funcion != '') {
+				funcion.exitoeliminar(msg);
+			}
+			if (elemento != '') {
+				elemento.val('');
+			}
+			if (archivo != '') {
+				archivo.removeAttr("disabled");
+			}
+
+
+			mostrarMensaje("El archivo ha sido eliminado!", "ERROR", "4000");
+		}
+	});
+}
+// función para controlar los furmularios
+function comprobarmatriz(cadenaADividir, separador) {
+	if (cadenaADividir == "") {
+	} else {
+		var arrayDeCadenas = cadenaADividir.split(separador);
+		$("#listado").html("");
+		for (var i = 0; i < arrayDeCadenas.length; i++) {
+			if (arrayDeCadenas[i] == "NO" || arrayDeCadenas[i] == "completo") {
+			}
+			else {
+
+				var li = document.createElement("li");
+				li.className = 'list-group-item';
+				var p = document.createElement("p");
+				contenido = arrayDeCadenas[i];
+				p.appendChild(document.createTextNode(contenido));
+				document.querySelector("#listado").appendChild(li).appendChild(p);
+			}
+		}
+	}
+}
+
+// función para controlar los estilos en la carga del archivo , div
+function carga(estado, archivo, boton) {
+
+	this.esperar = function(msg) {
+		estado.html("Cargando el archivo...");
+		archivo.removeClass("rojo");
+		archivo.addClass("amarillo");
+	};
+	this.eliminar = function(msg) {
+		estado.html("eliminando archivo...");
+
+	};
+	this.exito = function(msg) {
+		estado.html("El archivo ha sido cargado.");
+		archivo.removeClass("amarillo");
+		archivo.removeClass("rojo");
+		archivo.removeClass("gris");
+		archivo.addClass("verde");
+
+		if (boton.is('button')) {
+			boton.attr("disabled", "disabled");
+		}
+	};
+	this.exitoeliminar = function(msg) {
+		estado.html("El archivo ha sido eliminado.");
+		archivo.removeClass("verde");
+		archivo.addClass("gris");
+		if (boton.is('button')) {
+			boton.attr("disabled", "disabled");
+		}
+	};
+	this.error = function(msg) {
+		estado.html(msg);
+		archivo.removeClass("amarillo");
+		archivo.addClass("rojo");
+	};
+}
+
+$("#seccionVentanaAplicacion").on("dblclick", " .item", function() {
+	abrir($(this), "#" + $(this).attr("data-destino"), true);
+
+});
+
+//función para cargar Combo por 
+function cargarValorComboPorCodigo(key, val, element, select, url, codigo) {
+	$.ajax({
+		url: url,
+		headers: { "X-CSRF-TOKEN": csrfToken },
+		type: "POST",
+		dataType: 'json',
+		data: { codigo: codigo },
+		success: function(result) {
+			$(element).removeAttr('disabled');
+			$(element).html("");
+			if (result.Error === undefined) {
+				$(element).append('<option value="' + select + '">' + 'Seleccione......' + '</option>');
+				$.each(result.data, function(index) {
+					//alert(this[data[0]);
+					$(element).append('<option value="' + this[key] + '" >' + this[val] + '</option>');
+				});
+			} else {
+				mostrarMensaje(result.Error, "ERROR");
+			}
+		},
+		error: function(result) {
+
+		}
+	});
+}
+
+// función para cargar valor por defecto en combo
+function cargarValorComboPorDefecto(combo, valor) {
+	$('select[name="' + combo + '"]').find('option[value="' + valor + '"]').prop("selected",
+		"selected");
+}
+
+// Función para ajustar el alto de aplicación
+function ajustarAltoVentanaAplicacion() {
+
+
+	var navbarHeigh = $('nav.navbar-default').height();
+	var wrapperHeigh = $('#page-wrapper').height();
+
+	if (navbarHeigh > wrapperHeigh) {
+		$('#page-wrapper').css("min-height", navbarHeigh + "px");
+	}
+
+	if (navbarHeigh < wrapperHeigh) {
+		$('#page-wrapper').css("min-height", $(window).height() + "px");
+	}
+
+	altoBarraGeneral = $("#barraGeneral").height();
+	$("#seccionVentanaAplicacion").height($(window).height() - altoBarraGeneral);
+	$("#contenidoMenu").height($(window).height() - $('.nav-header').height() - 28);
+	$("#areaTrabajo").height($("#seccionVentanaAplicacion").height() - 27);
+
+}
+$(window).resize(function() {
+	ajustarAltoVentanaAplicacion();
+});
+
+// Evento para minimizar(enconder) el menu cuando la pantalla es inferior a 768px
+$(window).bind("resize", function() {
+	if ($(this).width() < 769) {
+		$('body').addClass('body-small')
+	} else {
+		$('body').removeClass('body-small')
+	}
+});
+
+
+
+function allowDrop(ev) {
+	ev.preventDefault();
+}
+
+function drag(ev) {
+	ev.dataTransfer.setData("itemId", ev.target.id);
+}
+
+function drop(ev) {
+	ev.preventDefault();
+	var item = $("#listadoItems #" + (ev.dataTransfer.getData("itemId")).replace(".", "\\."));
+	abrir($(item), "#" + $(item).attr("data-destino"), true);
+}
+
+function visualizarMensajeConfirmacion(titulo, texto, formulario, tipomsg) {
+	//swal("Here's a message!");
+	if (tipomsg == 'basicconfir') {
+		Swal.fire({
+			title: titulo,
+			text: texto,
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonClass: "btn-info",
+			cancelButtonColor: '#d33',
+			confirmButtonText: "Aceptar",
+			cancelButtonText: 'Cancelar',
+		}).then((result) => {
+			if (result.value) {
+				ejecutarJson(formulario);
+			} else {
+				return false;
+			}
+		})
+	} else if (tipomsg == 'Inicio') {
+		Swal.fire({
+			title: titulo,
+			text: texto,
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonClass: "btn-info",
+			cancelButtonColor: '#d33',
+			confirmButtonText: "Aceptar",
+			cancelButtonText: 'Cancelar',
+		}).then((result) => {
+			if (result.value) {
+				abrir($(".inicioAplicacion a"), null, false);
+			} else {
+				return false;
+			}
+		})
+	}
+	else if (tipomsg == 'index') {
+		Swal.fire({
+			title: titulo,
+			text: texto,
+			type: 'info',
+			showConfirmButton: false,
+			timer: 9000
+		})
+	}
+	else if (tipomsg == 'registro') {
+		Swal.fire({
+			title: titulo,
+			text: texto,
+			type: 'info',
+			showConfirmButton: true
+		})
+	}
+
+}
+//Grafica de diagrama
+/**
+ * Funcion Graficar datos
+ * @author Wilmer Guaman
+ * @version 0.1
+ * @name GraficaSimple(datos, url,titulo,subtitulo,seriesnombre,xAxisnombre,grafico)
+ * @param {String} datos Entidad donde trae los datos para graficar la informacion
+ * @param {String} titulo Titulo del grafico
+ * @param {String} subtitulo Subtitulo del grafico
+ * @param {String} seriesnombre Nombres de la series del grafico
+ * @param {String} YAxisnombre Nombres del eje y de la grafica
+ * @param{String} titulointerno Titulo interno del detalle
+ * @param{String} grafico tipo de grafico column,pie,bar,line.spline
+ */
+function GraficaSimple(datos, titulo, subtitulo, seriesnombre, YAxisnombre, grafico) {
+	Highcharts.chart('container',
+		{
+			chart: {
+				type: grafico
+
+			},
+			credits: {
+				enabled: false
+			},
+			title: {
+				text: titulo
+			},
+			subtitle: {
+				text: subtitulo
+			},
+			accessibility: {
+				announceNewData: {
+					enabled: true
+				}
+			},
+			xAxis: {
+				type: 'category',
+				labels: {
+					rotation: -45,
+					style: {
+						fontSize: '11px',
+						fontFamily: 'Verdana, sans-serif'
+					}
+				}
+			},
+			yAxis: {
+				title: {
+					text: YAxisnombre
+				}
+
+			},
+			tooltip: {
+				headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+				pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> Total<br/>'
+			},
+			legend: {
+				enabled: false
+			},
+
+			plotOptions: {
+				series: {
+					pointPadding: 0.2,
+					borderWidth: 0,
+					dataLabels: {
+						enabled: true,
+						format: '{point.name}: {point.y: .1f}%'
+					}
+				}
+			},
+			series: [{
+				name: "Datos",
+				colorByPoint: true,
+				pointWidth: 50,
+				data: datos
+			}],
+		});
+}
+/**
+ * Funcion Graficar datos lineal con dos series
+ * @author Wilmer Guaman
+ * @version 1.0
+ * @name Graficalinea(categories, series1,series2,titulo,subtitulo)
+ * @param {String} categories Entidad donde trae las categorias de el eje x
+ * @param {String} series1 serie de grafica 1
+ * @param {String} series2 serie de grafica 2
+ * @param {String} titulo titulo del grafico
+ * @param {String} subtitulo  subtitulo del grafico
+ */
+function Graficalinea(categories, series1, series2, contenedor, titulo, subtitulo, nombreSerie1, nombreSerie2) {
+
+	Highcharts.chart(contenedor, {
+
+		chart: {
+
+			scrollablePlotArea: {
+				minWidth: 700
+			}
+		},
+
+		title: {
+			text: titulo
+		},
+
+		subtitle: {
+			text: subtitulo
+		},
+
+		xAxis: {
+			categories: categories,
+
+			gridLineWidth: 1,
+
+		},
+
+		yAxis: [{ // left y axis
+			title: {
+				text: null
+			},
+			labels: {
+				align: 'left',
+				x: 3,
+				y: 16,
+				format: '{value:.,0f}'
+			},
+			showFirstLabel: false
+		}, { // right y axis
+			linkedTo: 0,
+			gridLineWidth: 0,
+			opposite: true,
+			title: {
+				text: null
+			},
+			labels: {
+				align: 'right',
+				x: -3,
+				y: 16,
+				format: '{value:.,0f}'
+			},
+			showFirstLabel: false
+		}],
+
+		legend: {
+			align: 'left',
+			verticalAlign: 'top',
+			borderWidth: 0
+		},
+
+		tooltip: {
+			shared: true,
+			crosshairs: true
+		},
+
+		plotOptions: {
+			series: {
+				cursor: 'pointer',
+				className: 'popup-on-click',
+				marker: {
+					lineWidth: 1
+				}
+			}
+		},
+
+		series: [{
+			name: nombreSerie1,
+			marker: {
+				symbol: 'square'
+			},
+			data: series1  //Binding data
+		},
+		{
+			name: nombreSerie2, marker: {
+				symbol: 'diamond'
+			},
+			data: series2
+		},]
+	});
+
+}
+/**
+ * Funcion encargada de llenar las filas de una consulta en una tabla
+ * @author Wilmer Guaman
+ * @version 0.1
+ * @name GraficaChartDetalle(datos, url,titulo,subtitulo,seriesnombre,xAxisnombre,subtitulointerno,grafico)
+ * @param {String} datos Entidad donde trae los datos para graficar la informacion
+ * @param {String} url Direccion donde obtiene la data procesada del sub detalle de la informacion
+ * @param {String} titulo Titulo del grafico
+ * @param {String} subtitulo Subtitulo del grafico
+ * @param {String} seriesnombre Nombres de la series del grafico
+ * @param {String} YAxisnombre Nombres del eje y de la grafica
+ * @param{String} titulointerno Titulo interno del detalle
+ * @param{String} grafico tipo de grafico column,pie,bar
+ */
+function GraficaChartDetalle(datos, url, titulo, subtitulo, seriesnombre, YAxisnombre, titulointerno, grafico) {
+	Highcharts.chart('container',
+		{
+			chart: {
+				type: grafico,
+				events: {
+
+					drilldown: function(e) {
+						if (!e.seriesOptions) {
+							var chart = this;
+							chart.showLoading('Cargando Datos ...');
+							var dataArr = CallChild(e.point.name, url);
+							chart.setTitle({
+								text: titulointerno
+							});
+							data = {
+								name: e.point.name,
+								data: dataArr
+							}
+							setTimeout(function() {
+								chart.hideLoading();
+								chart.addSeriesAsDrilldown(e.point, data);
+							}, 1000);
+						}
+					}
+				}
+			},
+			credits: {
+				enabled: false
+			},
+			title: {
+				text: titulo
+			},
+			subtitle: {
+				text: subtitulo
+			},
+			accessibility: {
+				announceNewData: {
+					enabled: true
+				}
+			},
+			xAxis: {
+				type: 'category',
+				labels: {
+					rotation: -45,
+					style: {
+						fontSize: '11px',
+						fontFamily: 'Verdana, sans-serif'
+					}
+				}
+			},
+			yAxis: {
+				title: {
+					text: YAxisnombre
+				}
+
+			},
+			tooltip: {
+				headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+				pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> Total<br/>'
+			},
+			legend: {
+				enabled: false
+			},
+
+			plotOptions: {
+				series: {
+					pointPadding: 0.2,
+					borderWidth: 0,
+					dataLabels: {
+						enabled: true,
+						format: '{point.name}: {point.y}'
+					}
+				}
+			},
+			series: [{
+				name: seriesnombre,
+				colorByPoint: true,
+				pointWidth: 50,
+				data: datos
+			}],
+
+			drilldown: {
+				series: [{
+					pointWidth: 50
+				}]
+			}
+		});
+}
+
+
+/**
+ * Funcion encargada de llenar las filas de una consulta en una tabla
+ * @author Wilmer Guaman
+ * @version 0.1
+ * @name CallChild(name, url)
+ * @param {String} name Entidad donde trae la informacion
+ * @param {String} url Direccion donde obtiene la data procesada
+ */
+function CallChild(name, url) {
+
+	var Drilldowndata = new Array();
+	$.ajax({
+		type: "POST",
+		url: "Graficaorientacionjuridicadetalle",
+		headers: {
+			"X-CSRF-TOKEN": csrfToken
+		},
+		dataType: "json",
+		data: { provincia: name },
+		success: function(Result) {
+
+			for (var i in Result) {
+				var serie = {
+					name: Result[i].tecnico,
+					y: parseInt(Result[i].total)
+				};
+				Drilldowndata.push(serie);
+			}
+
+		},
+		error: function(Result) {
+			alert("Error");
+		}
+	})
+	return Drilldowndata;
+}
+//funcion para ocultar o mostrar la seccion cargar archivo dependiendo de la seleccion del SELECT
+function HiddeFileDiv(selectName, divName) {
+	//console.log("ingresa funcion", selectName.keys , divName);
+	if (typeof selectName !== 'string') {
+		var selected1 = selectName.id;
+	} else {
+		var selected1 = selectName;
+	}
+	if (typeof divName !== 'string') {
+		var divId = divName.id;
+	} else {
+		var divId = divName;
+	}
+	var selected = $("#" + selected1).val();
+	var elements = divId.replace('div', '');
+	if (selected.includes(". RESPONDE EN 0") || selected.includes(". VACÍO") || selected.includes(". NO APLICA") || selected.includes(". REPORTA NO") || selected.includes(". VACIO") || selected == "NO") {
+		$("#" + divId).hide();
+		$("#" + elements).removeAttr("required");
+	} else {
+		$("#" + divId).show();
+		$("#" + elements).attr("required", "required");
+	}
+}
+//funcion para validar que file Upload se carge.
+function ValidarArchivo(fileUploap) {
+	var respuesta;
+	if (fileUploap == "") {
+		respuesta = true;
+	} else {
+
+		var file = document.getElementById(fileUploap);
+		var attribute = file.getAttribute("class");
+		var attribute1 = file.getAttribute("required");
+		if (attribute1 == 'required') {
+			if (attribute == 'form-control-file archivo verde') {
+				respuesta = true
+			} else {
+				respuesta = false
+			}
+
+		} else {
+			respuesta = true
+		}
+	}
+
+	return respuesta;
+}
+// funcion para ocultar cargar archivo SOLO SI AMBOS SELECT COINCIDEN 
+var contadorHiddeFileDiv2 = 0;
+function HiddeFileDiv2(selectName, divName) {
+
+	var selected1 = selectName.id;
+	var selected = $("#" + selected1).val();
+	var divId = divName.id;
+	if (selected.includes(". RESPONDE EN 0") || selected.includes(". VACÍO") || selected.includes(". NO APLICA") || selected.includes(". REPORTA NO") || selected.includes(". VACIO")) {
+		contadorHiddeFileDiv2 += 1;
+		//$("#"+divId).hide();
+	} else if (contadorHiddeFileDiv2 > 0) {
+		$("#" + divId).show();
+		contadorHiddeFileDiv2--;
+	};
+	if (contadorHiddeFileDiv2 == 2) {
+		$("#" + divId).hide();
+		contadorHiddeFileDiv2 = 0;
+	}
+}
+

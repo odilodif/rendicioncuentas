@@ -1,0 +1,1308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MecanismosParticipacion" pageWidth="2384" pageHeight="1684" orientation="Landscape" whenNoDataType="NoPages" columnWidth="2374" leftMargin="5" rightMargin="5" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="f0971d6c-de57-4368-afaa-7cd4e7b20a24">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="272"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="NO_DATA_ADAPTER"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="DatasetProRC" uuid="4dc304e6-c8a7-4d12-854c-1440ea75f53c">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Produccion"/>
+		<parameter name="periodo" class="java.lang.Integer"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT
+	t1.*,
+	t1_1.mecanismo_fase,
+	t1_1.mecanismo_nombre,
+	t1_1.mecanismo_implementado,
+	t1_2.mecanismo_fase,
+	t1_2.mecanismo_nombre,
+	t1_2.mecanismo_implementado,
+	t1_3.mecanismo_fase,
+	t1_3.mecanismo_nombre,
+	t1_3.mecanismo_implementado,
+	t1_4.mecanismo_fase,
+	t1_4.mecanismo_nombre,
+	t1_4.mecanismo_implementado,
+	t1_5.mecanismo_fase,
+	t1_5.mecanismo_nombre,
+	t1_5.mecanismo_implementado,
+	t1_6.mecanismo_fase,
+	t1_6.mecanismo_nombre,
+	t1_6.mecanismo_implementado,
+	t1_7.mecanismo_fase,
+	t1_7.mecanismo_nombre,
+	t1_7.mecanismo_implementado,
+	t1_8.mecanismo_fase,
+	t1_8.mecanismo_nombre,
+	t1_8.mecanismo_implementado,
+	t1_9.mecanismo_fase,
+	t1_9.mecanismo_nombre,
+	t1_9.mecanismo_implementado,
+	t1_10.mecanismo_fase,
+	t1_10.mecanismo_nombre,
+	t1_10.mecanismo_implementado,
+	t1_11.mecanismo_fase,
+	t1_11.mecanismo_nombre,
+	t1_11.mecanismo_implementado,
+	t1_12.mecanismo_fase,
+	t1_12.mecanismo_nombre,
+	t1_12.mecanismo_implementado
+FROM
+(
+SELECT DISTINCT
+	ins.inst_cod, 
+	ins.inst_nom, 
+	ins.inst_ruc, 
+	( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.prov_cod ) AS provincia, 
+	( SELECT fun.fun_des FROM esq_catalogos.tbl_funcion fun WHERE fun.fun_cod = ins.inst_fun_cod ) AS funcion, 
+	esq_rendicioncuentas.tbl_informe.inf_cod as informe
+FROM
+	esq_catalogos.tbl_institucion AS ins
+	INNER JOIN
+	esq_rendicioncuentas.tbl_informe
+	ON 
+		ins.inst_cod = esq_rendicioncuentas.tbl_informe.inst_cod
+WHERE
+	ins.inst_periodo =  $P{periodo}  and ins.inst_tip_des not like  'G%' and ins.inst_fun_cod <> 8 and ins.inst_fun_cod <> 9 
+
+and ins.inst_fun_cod <> 10  
+and ins.inst_fun_cod <> 11  
+
+
+ORDER BY
+	ins.inst_cod ASC
+)AS t1
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = 'CONFORMACIÓN DEL EQUIPO DE RENDICIÓN DE CUENTAS'
+) AS t1_1
+	ON 
+		t1.informe = t1_1.inf_cod
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = 'DISEÑO DE LA PROPUESTA DEL PROCESO DE RENDICIÓN DE CUENTAS'
+) AS t1_2
+	ON 
+		t1.informe = t1_2.inf_cod
+		
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = 'EVALUACIÓN DE LA GESTIÓN INSTITUCIONAL:'
+) AS t1_3
+	ON 
+		t1.informe = t1_3.inf_cod
+		
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = 'LLENADO DEL FORMULARIO DE INFORME DE RENDICIÓN DE CUENTAS ESTABLECIDO POR EL CPCCS'
+) AS t1_4
+	ON 
+		t1.informe = t1_4.inf_cod
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = 'REDACCIÓN DEL INFORME DE RENDICIÓN DE CUENTAS'
+) AS t1_5
+	ON 
+		t1.informe = t1_5.inf_cod
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = 'SOCIALIZACIÓN INTERNA Y APROBACIÓN DEL INFORME DE RENDICIÓN DE CUENTAS POR PARTE DE LOS RESPONSABLES'
+) AS t1_6
+	ON 
+		t1.informe = t1_6.inf_cod
+		
+LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = 'DIFUSIÓN DEL INFORME DE RENDICIÓN DE CUENTAS A TRAVÉS DE DISTINTOS MEDIOS'
+) AS t1_7
+	ON 
+		t1.informe = t1_7.inf_cod
+		
+		LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = 'INCORPORACIÓN DE LOS APORTES CIUDADANOS EN EL INFORME DE RENDICIÓN DE CUENTAS'
+) AS t1_8
+	ON 
+		t1.informe = t1_8.inf_cod
+	LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = 'PLANIFICACIÓN DE LOS EVENTOS PARTICIPATIVOS'
+) AS t1_9
+	ON 
+		t1.informe = t1_9.inf_cod
+	LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = 'REALIZACIÓN DEL EVENTO DE RENDICIÓN DE CUENTAS A LA CIUDADANÍA'
+) AS t1_10
+	ON 
+		t1.informe = t1_10.inf_cod
+			LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = 'RINDIÓ CUENTAS A LA CIUDADANÍA EN LA PLAZO ESTABLECIDO'
+) AS t1_11
+	ON 
+		t1.informe = t1_11.inf_cod
+				LEFT JOIN
+	(
+select mec1.mecanismo_fase, mec1.mecanismo_nombre, mec1.mecanismo_implementado, mec1.inf_cod from esq_rendicioncuentas.tbl_mecanismo_rendicion_cuentas mec1
+where
+mecanismo_fase <> 'DESCRIBA LOS PRINCIPALES APORTES CIUDADANOS RECIBIDOS:' and mecanismo_nombre = 'ENTREGA DEL INFORME DE RENDICIÓN DE CUENTAS AL CPCCS, A TRAVÉS DEL INGRESO DEL INFORME EN EL SISTEMA VIRTUAL'
+) AS t1_12
+	ON 
+		t1.informe = t1_12.inf_cod]]>
+		</queryString>
+		<field name="inst_cod" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.name" value="inst_cod"/>
+			<property name="com.jaspersoft.studio.field.label" value="inst_cod"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_institucion"/>
+			<fieldDescription><![CDATA[identificador unico de la entidad tbl_institucion]]></fieldDescription>
+		</field>
+		<field name="inst_nom" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="inst_nom"/>
+			<property name="com.jaspersoft.studio.field.label" value="inst_nom"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_institucion"/>
+			<fieldDescription><![CDATA[nombre de la institucion]]></fieldDescription>
+		</field>
+		<field name="inst_ruc" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="inst_ruc"/>
+			<property name="com.jaspersoft.studio.field.label" value="inst_ruc"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_institucion"/>
+			<fieldDescription><![CDATA[ruc de la institucion]]></fieldDescription>
+		</field>
+		<field name="provincia" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="provincia"/>
+			<property name="com.jaspersoft.studio.field.label" value="provincia"/>
+		</field>
+		<field name="funcion" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="funcion"/>
+			<property name="com.jaspersoft.studio.field.label" value="funcion"/>
+		</field>
+		<field name="informe" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.name" value="informe"/>
+			<property name="com.jaspersoft.studio.field.label" value="informe"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_informe"/>
+		</field>
+		<field name="mecanismo_fase" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="mecanismo_nombre" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="mecanismo_implementado" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_10" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_11" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_12" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_13" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_14" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_15" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_16" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_17" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_18" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_19" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_20" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_21" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_22" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_23" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_24" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_25" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_26" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_27" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_28" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_29" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_30" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_31" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_32" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_33" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_34" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_35" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_36" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_37" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_38" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_39" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_40" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_fase"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_41" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_nombre"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+		<field name="COLUMN_42" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.label" value="mecanismo_implementado"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tbl_mecanismo_rendicion_cuentas"/>
+		</field>
+	</subDataset>
+	<parameter name="Periodo" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT * from esq_catalogos.tbl_funcion WHERE fun_est='activo']]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="465" y="0" width="355" height="16" uuid="26a08c47-dbad-44f4-822a-801cf45a1e61"/>
+				<text><![CDATA[PROCESO DE RENDICIÓN DE CUENTAS ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="318" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{REPORT_COUNT} == 1]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="-5" y="10" width="2375" height="300" uuid="214c3ccf-8441-4a85-8401-89b4a07953fd">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="DatasetProRC" uuid="ffdc8196-d145-431b-b885-4fb6ea122fac">
+						<datasetParameter name="periodo">
+							<datasetParameterExpression><![CDATA[$P{Periodo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="58" uuid="0b89e210-46dc-4867-8799-b4ad13c08d80">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="58" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="70ef3fe7-f9f3-44f8-b7bc-ec7401f5a69b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Código]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="58" height="180" uuid="8159f18b-3fd3-4445-a4f0-6f1824923467"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{inst_cod}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="72ff8cab-934a-48f5-992b-c5adf51ec61e">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="58" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="7831c089-8bfb-4b11-910e-67ca53520d4c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="58" height="180" uuid="bb06f226-dab8-4593-84aa-e38b69a15fa7"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{inst_nom}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="e3af01e4-5bd3-4b55-bb7f-b958ec337ab5">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="58" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="17b7f827-b2b6-433c-ac9f-c3db1548318b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Ruc]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="58" height="180" uuid="95c10bbc-0a39-41f6-9f03-948d037c68f0"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{inst_ruc}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="1e1126fb-9c8b-4dbf-a750-0d5f48192615">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="58" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="4784b3d0-541b-4e28-bda6-22f791c37840"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Provincia]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="58" height="180" uuid="c96555ac-127d-4930-9a3c-79f684ef63c5"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{provincia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="89eec3c2-4aef-48ce-ae51-43b8b352bfd1">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="58" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="e220ad6d-69a1-4399-b773-f898b216abf8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Función]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="58" height="180" uuid="fde09b4b-ee5a-4831-89b0-d60f2be686ef"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{funcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="8870ef46-ac57-4bd8-8387-989c868443b2">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="be6c50d9-5825-487c-879e-2534df45d437"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Número de informe]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="fe0a2a9e-abbd-428c-a2c2-b58f1a6ec8e5"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{informe}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="482d66f6-9aec-4afe-a71f-4d6d85fdbc46">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="797776d7-3fb1-437a-a01f-f0eeeb30ad8d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="d3f71f26-d7ad-42cb-ac5e-9d326a3c86f2"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{mecanismo_fase}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="db51892b-f359-4005-ba4d-5e281d1c90d2">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="ab86bede-e65d-498d-a6bd-24fe7659e36f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="43ce4967-d239-451f-b100-eb6d61ee3280"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{mecanismo_nombre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="d251aa27-3bcd-48c7-8870-748a5b2d2e40">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="03972ca8-1dae-4c22-931f-9a90dd5c5175"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="c199076d-7c0e-4466-8a99-8c8c75f9155f"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{mecanismo_implementado}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="882120b3-214d-4f02-9815-fd23f3fc56cc">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="d5803741-12fd-45ff-9612-4e7bdbfda00f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="bf62d3ef-63f6-45fc-b03a-458e0a0a714b"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_10}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="35c1fb33-d66c-4832-bba2-027f5a4efc3e">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="6f76e4ee-dede-4d64-8e4c-24b700f68fd0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="9e34c39b-706c-462d-ab41-f21f4f2a8d8a"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_11}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="cd8b8b8f-b5a7-4298-b78b-138d16ee617a">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="24ab1d0d-0d4d-4886-842e-7cb49399d312"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="e5c1d49c-a6fb-448d-85e0-9f505c8d3792"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_12}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="3f1c1492-5f59-43b7-a8c9-bd38edcc5fd7">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="e8a07a17-9287-4d6d-a74d-771d8d9de7f9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="fb91ad1e-5bcc-4c4e-8812-7da1c279cb6d"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_13}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="64365ba0-eb14-4cbe-991e-8bb36f297940">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="66e4d448-057c-4497-8415-1c4d98939bc0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="bcdad2b5-e304-421c-8582-69482335b378"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_14}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="427c6264-eab8-4a85-8640-7008f8ea3761">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="ac3642de-fa25-4abc-98e5-a0cd6ba0d0bd"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="1b2b9eba-b340-43b3-a537-9ac8231cbb2d"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_15}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="056134de-e3be-4746-9e57-226b10d08c15">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="ee3e5b56-3ed4-47eb-86d2-63758d4c3d77"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="e8b89cbe-3cb1-4b6d-97f2-f9055632d058"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_16}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="cbe0cd4f-e0e9-4bf6-9a46-0f35ff44b6db">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="8c8a7246-9cf5-43e5-8462-734ceb3b5d58"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="ec3d4793-d6dd-4de5-aa4d-c69e24c5e9f4"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_17}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="83aaed38-ebc5-4ec2-9d34-0ba4fe4de388">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="57" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="11d66d92-1edd-4d28-8e67-b95cb21de326"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="180" uuid="d0b40d2b-83ed-4e1d-9fbb-043bd41f774d"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_18}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="3280f9fc-9737-4faf-8236-900accf45dd0">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="37db3ee5-3988-406a-980e-143020d5c411"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="fd17130d-6045-43d1-a7d0-8e554e5ab386"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_19}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="f5f1c9c3-da51-4566-9e20-0d7f4648db66">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="5d666cae-ae56-403a-87a7-65f5498b5037"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="33ddbd4e-57cf-496f-bed3-de4e0e62c73c"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_20}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="ffe622ca-c9ea-41e0-aa47-584094ce2e0e">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="371e2c0f-bbd7-4ddb-892b-420f4e69d3e3"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="5a358992-fdc3-4ab2-b56a-10ef92d01a40"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_21}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="1fb5ade2-063d-41cc-9c6d-595721ce3621">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="ce21f24b-87ae-4ee8-bfaf-68729ade1456"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="39e06584-b266-4aa4-a1e3-6a752d1b95f3"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_22}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="b1ec2fa5-6710-4210-8118-2a3425f0402e">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="a18dff66-5875-4236-b57f-39b1064be9cf"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="e341e2ea-479b-4608-90a3-2d735f4d2533"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_23}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="fb0650b2-f575-4f61-b39d-c03583c8bd7a">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="7ecec129-4815-4f3a-9207-1bf6c76db9ba"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="e42bb0b2-4344-4858-809a-62d328a32503"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_24}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="8c164141-b7b4-4657-bb7b-9c17595eec6a">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="e4532e74-1c2b-4d93-90c0-e8b602ebb445"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="3a3ac534-84f2-41a3-84b7-7667b790ab86"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_25}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="e29128db-91f3-4660-bf65-9c74a8a2046b">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="0103daaf-638b-4d7a-a72b-dc5550a34e3e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="7614b4f2-47cd-4416-969a-21b7ddba70f5"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_26}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="bdb0da01-09d3-41e5-8a75-8cef49877709">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="8b2aa6b1-ed6f-4e0b-b4e0-702a16a6ccc8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="34367ec0-cba2-448e-baae-98cc07b34672"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_27}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="fd4c9ae7-0278-40cc-aba6-7fe214516f0b">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="cda5d4da-1e58-4be1-94c9-d38e420a9524"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="919a18e0-6128-467e-b8f5-0a26db629e28"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_28}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="b37805f5-0f44-4916-9cec-b6ae5af272db">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="d2fb78df-5f49-4800-a4af-f760f45469d5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="a8d566f4-d2a4-4543-8146-5882386212cc"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_29}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="ecd7c2b3-52d2-47c9-916e-a319d01010c1">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="948f89ef-4976-486d-9b76-cb27b2b11f61"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="64eb9566-bfdc-4291-ace7-546f705a0582"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_30}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="1f46cf43-d574-44af-a169-675f5d5be2f2">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="f266f571-1748-47e1-a771-9a6de503eac7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="1338e52d-ea7d-4b6b-adc9-cbd975771ddd"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_31}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="b8c7df5d-fe68-4cf8-8bb6-32bca7df3f90">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="3adf2c94-26a0-4764-9b20-c5e4550e6f50"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="360ce20e-d80c-42c3-99c9-93e1826f3921"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_32}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="9f4dbddc-13a5-4c20-a024-6e310c9dff15">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="e4c3c2c3-a252-43cd-a6ca-cfbb4c436e1b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="bf1dc936-6250-4b8c-a42f-22e2d0175891"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_33}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="672d01a5-b57d-4723-85ce-7dcfc0d43d2f">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="c054a4b7-a267-4974-9043-5b22922fc6e5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="4346bb04-90b7-4d02-8d2c-07e7800e9886"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_34}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="09a036ea-2d5d-4196-a160-a0ad20721b42">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="6b2ea1d7-dc66-43d6-9541-2af7a3fed6d6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="16d4c042-b814-4496-979c-4626eee57000"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_35}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="8c03ba88-15e6-485e-b53a-596e627f2eaa">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="ad23c27e-448e-41be-97a5-baea4462c8b4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="f76cb533-9899-4a69-b62d-7c97b213a92e"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_36}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="9a0f8639-48e9-4442-87a5-65e3c3535ea5">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="dd68c93a-2d46-441e-a7c8-0fca7ff2fc17"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="b845eba1-3d8d-42c2-b46f-20e7445849c3"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_37}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="2e0a7441-c45c-465b-b84e-d3aa2e1639af">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="f9efde5e-e21d-40b8-a9c6-a4bd75762f6a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="a3d2c355-0941-4632-9072-b405cffa3816"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_38}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="082ff447-82ca-46af-a174-44856141efab">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="d7b58a06-7f69-4a7d-8d34-270e9a137c37"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="2dad108f-9e5a-4c12-935a-3850984bfec3"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_39}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="c902a3f5-d04e-4e15-81c6-4c9adbdb04bb">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="522110ac-f599-42b2-875f-928c165cc07e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Fase mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="831f9bef-2279-4c1c-a1dc-230923504349"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_40}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="66f40092-21ee-4f10-843e-2334d2ae2c03">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="958a1e49-e026-41b2-b4a2-e55db8d69857"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Nombre de mecanismo]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="b7e5063f-46bc-4b65-b608-3cd70e66d7ed"/>
+								<textElement rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_41}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="5b5b1f37-5e3f-41b3-8e02-681713374a74">
+						<jr:columnHeader style="Table_CH" height="110">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="56" height="110" forecolor="#FFFFFF" backcolor="#3F85AB" uuid="5f1a6f1f-622a-495f-bb58-48a2611e1ff9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font size="6"/>
+								</textElement>
+								<text><![CDATA[Implementado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="Table_TD" height="180">
+							<textField>
+								<reportElement x="0" y="0" width="56" height="180" uuid="bd1a8f14-fe83-4b4e-855d-5e3e3b54a50e"/>
+								<textElement verticalAlignment="Middle" rotation="None">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{COLUMN_42}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>

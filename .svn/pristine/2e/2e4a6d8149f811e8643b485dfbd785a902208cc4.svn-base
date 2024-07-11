@@ -1,0 +1,962 @@
+package gob.cpccs.repository;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
+
+import org.springframework.stereotype.Component;
+
+import gob.cpccs.model.funcionarios.TblDatosFuncionarios;
+import gob.cpccs.model.usuario.TblAutoridad;
+
+@Component
+public class QuerysNativosRepositoryImpl extends FuncionesSqlRepository<TblAutoridad> 
+implements QuerysNativosRepository {
+
+	public QuerysNativosRepositoryImpl() {
+		super(TblAutoridad.class);
+		// TODO Auto-generated constructor stub
+	}
+	
+	@PersistenceUnit
+	private EntityManagerFactory emf;
+	
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Override
+	public List<Object[]> ObtenerInformeXIdentificador(String estado, Integer periodo, String identificador) {
+		EntityManager em= emf.createEntityManager();
+		List<Object[]> lista=null;
+	try {
+		String sql="SELECT\r\n" + 
+				"	aut.aut_codigo, \r\n" + 
+				"	aut.identificador, \r\n" + 
+				"	aut.nombre, \r\n" + 
+				"	aut.dignidad, \r\n" + 
+				"	(SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = aut.provincia) as provincia, \r\n" + 
+				"	aut.fecha_registro, \r\n" + 
+				"	aut.fecha_activar, \r\n" + 
+				"	inf.inf_aut_cod, \r\n" + 
+				"	inf.inf_aut_fechafin, \r\n" + 
+				"	inf.inf_aut_estado, \r\n" + 
+				"	inf.inf_contador_apertura\r\n" + 
+				"FROM\r\n" + 
+				"	esq_autoridades.tbl_autoridad aut\r\n" + 
+				"	INNER JOIN\r\n" + 
+				"	esq_rendicioncuentas.tbl_informe_autoridad inf\r\n" + 
+				"	ON \r\n" + 
+				"	aut.aut_codigo = inf.identificador\r\n" + 
+				"		\r\n" + 
+				"WHERE \r\n" + 
+				" inf.inf_aut_estado = '"+estado+"' AND\r\n" + 
+				"	inf.inf_aut_periodo = "+periodo+" AND\r\n" + 
+				"	aut.identificador = '"+identificador+"'";
+		Query query=em.createNativeQuery(sql);
+		 lista=query.getResultList();
+	} catch (Exception e) {
+		System.out.println(e.getMessage());
+	}finally {		
+		 em.clear();
+		 em.close();
+		return lista;
+	}
+	}
+	
+	@SuppressWarnings({ "finally", "rawtypes" })
+	@Override
+	public List contarEstadoProcesoInformesXprovincia(int infPeriodo, String infVerificador, int prov_cod) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;
+		try {
+			String sql="SELECT \r\n" + 
+					"	COUNT(*)\r\n" + 
+					"FROM\r\n" + 
+					"	esq_rendicioncuentas.tbl_informe\r\n" + 
+					"	INNER JOIN\r\n" + 
+					"	esq_catalogos.tbl_institucion\r\n" + 
+					"	ON \r\n" + 
+					"		esq_rendicioncuentas.tbl_informe.inst_cod = esq_catalogos.tbl_institucion.inst_cod\r\n" + 
+					"WHERE\r\n" + 
+					"	esq_catalogos.tbl_institucion.prov_cod = "+prov_cod+" AND\r\n" + 
+					"	esq_rendicioncuentas.tbl_informe.inf_periodo = "+infPeriodo+" AND\r\n" + 
+					"	esq_rendicioncuentas.tbl_informe.inf_verificador = '"+infVerificador+"'";
+			Query query=em.createNativeQuery(sql);
+			 lista=query.getResultList();			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+	}
+
+    @SuppressWarnings({"finally", "rawtypes" })
+	@Override
+	public List contarEstadosProcesoInformesAutoridadesxProvincia(int infAutPeriodo, String infAutVerificador, int provincia) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;
+		try {
+			String sql="SELECT COUNT(*)\r\n" + 
+					"FROM\r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad\r\n" + 
+					"	INNER JOIN\r\n" + 
+					"	esq_autoridades.tbl_autoridad\r\n" + 
+					"	ON \r\n" + 
+					"		esq_rendicioncuentas.tbl_informe_autoridad.identificador = esq_autoridades.tbl_autoridad.aut_codigo\r\n" + 
+					"WHERE\r\n" + 
+					"	esq_autoridades.tbl_autoridad.provincia = "+provincia+" and esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_estado <> 'eliminado' and esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_verificador = '"+infAutVerificador+"' and esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_periodo = "+infAutPeriodo+"";
+			Query query=em.createNativeQuery(sql);	   
+			lista=query.getResultList();		
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "finally" })
+	@Override
+	public List<Object[]> ObtenerAutoridadesCumplimineto(String autVerificador, Integer periodo) {
+		EntityManager em= emf.createEntityManager();
+		List<Object[]> lista=null;
+		try {			
+			String sql="SELECT\r\n" + 
+					"	esq_autoridades.tbl_autoridad.aut_codigo, \r\n" + 
+					"	esq_autoridades.tbl_autoridad.identificador AS \"Cedula\", \r\n" + 
+					"	esq_autoridades.tbl_autoridad.nombre AS \"Nombres\", \r\n" + 
+					"	esq_autoridades.tbl_autoridad.dignidad AS \"Dignidad\", \r\n" + 
+					"	esq_autoridades.tbl_autoridad.institucion_dignidad AS \"InstitucionDignidad\", \r\n" + 
+					"	esq_catalogos.tbl_localizacion.nombre AS \"Provincia\", \r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_cod AS \"NumeroInforme\", \r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_fechafin AS \"FechaFinalización\", \r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_verificador AS \"Cumplimiento\"\r\n" + 
+					"FROM\r\n" + 
+					"	esq_autoridades.tbl_autoridad\r\n" + 
+					"	INNER JOIN\r\n" + 
+					"	esq_catalogos.tbl_localizacion\r\n" + 
+					"	ON \r\n" + 
+					"		esq_autoridades.tbl_autoridad.provincia = esq_catalogos.tbl_localizacion.id_localizacion\r\n" + 
+					"	INNER JOIN\r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad\r\n" + 
+					"	ON \r\n" + 
+					"		esq_autoridades.tbl_autoridad.aut_codigo = esq_rendicioncuentas.tbl_informe_autoridad.identificador\r\n" + 
+					"WHERE\r\n" + 
+					"	esq_autoridades.tbl_autoridad.periodo = "+periodo+" AND\r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_verificador = '"+autVerificador+"' ";
+			Query query=em.createNativeQuery(sql);
+		 lista=query.getResultList();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Override
+	public List<Object[]> ObtenerAutoridadesCumpliminetoProvincia(String autVerificador, Integer periodo,  Integer provincia) {
+		EntityManager em= emf.createEntityManager();
+		List<Object[]> lista=null;
+		try {
+			String sql="SELECT\r\n" + 
+					"	esq_autoridades.tbl_autoridad.aut_codigo, \r\n" + 
+					"	esq_autoridades.tbl_autoridad.identificador AS \"Cedula\", \r\n" + 
+					"	esq_autoridades.tbl_autoridad.nombre AS \"Nombres\", \r\n" + 
+					"	esq_autoridades.tbl_autoridad.dignidad AS \"Dignidad\", \r\n" + 
+					"	esq_autoridades.tbl_autoridad.institucion_dignidad AS \"InstitucionDignidad\", \r\n" + 
+					"	esq_catalogos.tbl_localizacion.nombre AS \"Provincia\", \r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_cod AS \"NumeroInforme\", \r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_fechafin AS \"FechaFinalización\", \r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_verificador AS \"Cumplimiento\"\r\n" + 
+					"FROM\r\n" + 
+					"	esq_autoridades.tbl_autoridad\r\n" + 
+					"	INNER JOIN\r\n" + 
+					"	esq_catalogos.tbl_localizacion\r\n" + 
+					"	ON \r\n" + 
+					"		esq_autoridades.tbl_autoridad.provincia = esq_catalogos.tbl_localizacion.id_localizacion\r\n" + 
+					"	INNER JOIN\r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad\r\n" + 
+					"	ON \r\n" + 
+					"		esq_autoridades.tbl_autoridad.aut_codigo = esq_rendicioncuentas.tbl_informe_autoridad.identificador\r\n" + 
+					"WHERE\r\n" + 
+					"	esq_autoridades.tbl_autoridad.periodo = "+periodo+" AND\r\n" + 
+					"	esq_autoridades.tbl_autoridad.provincia = "+provincia+" AND\r\n" +
+					"	esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_verificador = '"+autVerificador+"' ";
+			Query query=em.createNativeQuery(sql);
+			lista=query.getResultList();
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Override
+	public List<Object[]> ObtenerAutoridadesInCumplimineto(String autVerificador, Integer periodo) {
+		EntityManager em= emf.createEntityManager();
+	      
+			List<Object[]> lista=null;
+		try {
+			String sql="SELECT\r\n" + 
+					"	esq_autoridades.tbl_autoridad.aut_codigo, \r\n" + 
+					"	esq_autoridades.tbl_autoridad.identificador AS \"Cedula\", \r\n" + 
+					"	esq_autoridades.tbl_autoridad.nombre AS \"Nombres\", \r\n" + 
+					"	esq_autoridades.tbl_autoridad.dignidad AS \"Dignidad\", \r\n" + 
+					"	esq_autoridades.tbl_autoridad.institucion_dignidad AS \"InstitucionDignidad\", \r\n" + 
+					"	esq_catalogos.tbl_localizacion.nombre AS \"Provincia\", \r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_cod AS \"NumeroInforme\", \r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_fechafin AS \"FechaFinalización\", \r\n" + 
+					"esq_autoridades.tbl_autoridad.aut_verificador\r\n" + 
+					"FROM\r\n" + 
+					"	esq_autoridades.tbl_autoridad\r\n" + 
+					"	INNER JOIN\r\n" + 
+					"	esq_catalogos.tbl_localizacion\r\n" + 
+					"	ON \r\n" + 
+					"		esq_autoridades.tbl_autoridad.provincia = esq_catalogos.tbl_localizacion.id_localizacion\r\n" + 
+					"	INNER JOIN\r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad\r\n" + 
+					"	ON \r\n" + 
+					"		esq_autoridades.tbl_autoridad.aut_codigo = esq_rendicioncuentas.tbl_informe_autoridad.identificador\r\n" + 
+					"WHERE\r\n" + 
+					"	esq_autoridades.tbl_autoridad.periodo = "+periodo+" AND\r\n" + 
+					"	esq_autoridades.tbl_autoridad.aut_verificador = '"+autVerificador+"'";
+			Query query=em.createNativeQuery(sql);
+			lista=query.getResultList();
+	
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "finally" })
+	@Override
+	public List<Object[]> ObtenerAutoridadesInCumpliminetoProvincia(String autVerificador, Integer periodo, Integer provincia) {
+		EntityManager em= emf.createEntityManager();
+		List<Object[]> lista=null;
+		try {
+			String sql="SELECT\r\n" + 
+					"	esq_autoridades.tbl_autoridad.aut_codigo, \r\n" + 
+					"	esq_autoridades.tbl_autoridad.identificador AS \"Cedula\", \r\n" + 
+					"	esq_autoridades.tbl_autoridad.nombre AS \"Nombres\", \r\n" + 
+					"	esq_autoridades.tbl_autoridad.dignidad AS \"Dignidad\", \r\n" + 
+					"	esq_autoridades.tbl_autoridad.institucion_dignidad AS \"InstitucionDignidad\", \r\n" + 
+					"	esq_catalogos.tbl_localizacion.nombre AS \"Provincia\", \r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_cod AS \"NumeroInforme\", \r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad.inf_aut_fechafin AS \"FechaFinalización\", \r\n" + 
+					"esq_autoridades.tbl_autoridad.aut_verificador\r\n" + 
+					"FROM\r\n" + 
+					"	esq_autoridades.tbl_autoridad\r\n" + 
+					"	INNER JOIN\r\n" + 
+					"	esq_catalogos.tbl_localizacion\r\n" + 
+					"	ON \r\n" + 
+					"		esq_autoridades.tbl_autoridad.provincia = esq_catalogos.tbl_localizacion.id_localizacion\r\n" + 
+					"	INNER JOIN\r\n" + 
+					"	esq_rendicioncuentas.tbl_informe_autoridad\r\n" + 
+					"	ON \r\n" + 
+					"		esq_autoridades.tbl_autoridad.aut_codigo = esq_rendicioncuentas.tbl_informe_autoridad.identificador\r\n" + 
+					"WHERE\r\n" + 
+					"	esq_autoridades.tbl_autoridad.periodo = "+periodo+" AND\r\n" + 
+					"	esq_autoridades.tbl_autoridad.provincia = "+provincia+" AND\r\n" + 
+					"	esq_autoridades.tbl_autoridad.aut_verificador = '"+autVerificador+"'";
+			Query query=em.createNativeQuery(sql);
+			 lista=query.getResultList();
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	
+	
+	@SuppressWarnings({ "finally", "rawtypes", "unchecked" })
+	@Override
+	public List qryBuscarInformesNativo(String provincia, String periodo , String funcion , String descripcion) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;
+		try {
+			String sql="SELECT \r\n" + 
+					"	insti.inst_cod,\r\n" + 
+					"	insti.inst_periodo,\r\n" + 
+					"	info.inf_cod \r\n" +
+					"FROM\r\n" + 
+					"	esq_catalogos.tbl_institucion AS insti\r\n" + 
+					"	INNER JOIN esq_rendicioncuentas.tbl_informe AS info ON insti.inst_cod = info.inst_cod\r\n" + 
+					"WHERE\r\n" + 
+					"	info.inf_verificador = 'A TIEMPO' \r\n" + 
+					"	AND insti.inst_fun_cod = ( SELECT func.fun_cod FROM esq_catalogos.tbl_funcion func WHERE func.fun_des = 'FUNCIÓN JUDICIAL' ) \r\n" + 
+					"	AND insti.inst_tip_des = '"+descripcion+"' \r\n" + 
+					"	AND insti.prov_cod = "+provincia+" \r\n" + 
+					"	AND inst_periodo = "+periodo+" \r\n" + 
+					"	AND insti.inst_cod NOT IN ( SELECT inst_cod FROM esq_retroalimentacion.tbl_asignacion asig WHERE asig.estado_asig = 'asignado' )";
+			Query query=em.createNativeQuery(sql);
+			lista=query.getResultList();
+		
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	
+	
+	@SuppressWarnings({ "finally", "unchecked", "rawtypes" })
+	@Override
+	public List qryContarInformesNativo(String provincia, String periodo , String funcion , String descripcion) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;
+		try {
+			String sql="SELECT COUNT\r\n" + 
+					"	( * ) \r\n" + 
+					"FROM\r\n" + 
+					"	esq_catalogos.tbl_institucion AS insti\r\n" + 
+					"	INNER JOIN esq_rendicioncuentas.tbl_informe AS info ON insti.inst_cod = info.inst_cod\r\n" + 
+					"WHERE\r\n" + 
+					"	info.inf_verificador = 'A TIEMPO' \r\n" + 
+					"	AND insti.inst_fun_cod = ( SELECT func.fun_cod FROM esq_catalogos.tbl_funcion func WHERE func.fun_des = '"+funcion+"' ) \r\n" + 
+					"	AND insti.inst_tip_des = '"+descripcion+"' \r\n" + 
+					"	AND insti.prov_cod = "+provincia+"  \r\n" + 
+					"	AND inst_periodo = "+periodo+" \r\n" + 
+			"	AND insti.inst_cod NOT IN ( SELECT inst_cod FROM esq_retroalimentacion.tbl_asignacion asig WHERE asig.estado_asig = 'asignado' )";
+			Query query=em.createNativeQuery(sql);	     
+			lista=query.getResultList();
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes", "finally" })
+	@Override
+	public List qryContarInformesNativoTodosFuncion(String provincia, String periodo ,  String funciones , String descripcion) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;
+		try {
+			String sql="SELECT COUNT\r\n" + 
+					"	( * ) \r\n" + 
+					"FROM\r\n" + 
+					"	esq_catalogos.tbl_institucion AS insti\r\n" + 
+					"	INNER JOIN esq_rendicioncuentas.tbl_informe AS info ON insti.inst_cod = info.inst_cod\r\n" + 
+					"WHERE\r\n" + 
+					"	info.inf_verificador = 'A TIEMPO' \r\n" + 
+					"	AND insti.inst_fun_cod  IN ("+funciones+") \r\n" + 
+					"	AND insti.inst_tip_des = '"+descripcion+"' \r\n" + 
+					"	AND insti.prov_cod = "+provincia+"  \r\n" + 
+					"	AND inst_periodo = "+periodo+" \r\n" + 
+			"	AND insti.inst_cod NOT IN ( SELECT inst_cod FROM esq_retroalimentacion.tbl_asignacion asig WHERE asig.estado_asig = 'asignado' )";
+			Query query=em.createNativeQuery(sql);
+			lista=query.getResultList();
+		
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	
+	@SuppressWarnings({ "finally", "rawtypes", "unchecked" })
+	@Override
+	public List qryBuscarInformesNativoTodosFuncion(String provincia, String periodo ,  String funciones , String descripcion) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;
+		try {
+			String sql="SELECT \r\n" + 
+					"	insti.inst_cod,\r\n" + 
+					"	insti.inst_periodo,\r\n" + 
+					"	info.inf_cod \r\n" + 
+					"FROM\r\n" + 
+					"	esq_catalogos.tbl_institucion AS insti\r\n" + 
+					"	INNER JOIN esq_rendicioncuentas.tbl_informe AS info ON insti.inst_cod = info.inst_cod\r\n" + 
+					"WHERE\r\n" + 
+					"	info.inf_verificador = 'A TIEMPO' \r\n" + 
+					"	AND insti.inst_fun_cod  IN ("+funciones+") \r\n" + 
+					"	AND insti.inst_tip_des = '"+descripcion+"' \r\n" + 
+					"	AND insti.prov_cod = "+provincia+"  \r\n" + 
+					"	AND inst_periodo = "+periodo+" \r\n" + 
+			"	AND insti.inst_cod NOT IN ( SELECT inst_cod FROM esq_retroalimentacion.tbl_asignacion asig WHERE asig.estado_asig = 'asignado' )";
+			Query query=em.createNativeQuery(sql);
+			lista=query.getResultList();
+		
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	
+	@SuppressWarnings({ "unchecked", "finally", "rawtypes" })
+	@Override
+	public List qryContarInformesNativoSinDescripcion(String provincia, String periodo , String funcion ) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;
+		try {
+			String sql="SELECT COUNT \r\n" + 
+					" ( * )	\r\n" + 
+					"FROM\r\n" + 
+					"	esq_catalogos.tbl_institucion AS insti\r\n" + 
+					"	INNER JOIN esq_rendicioncuentas.tbl_informe AS info ON insti.inst_cod = info.inst_cod\r\n" + 
+					"WHERE\r\n" + 
+					"	info.inf_verificador = 'A TIEMPO' \r\n" + 
+					"	and  insti.inst_fun_cod IN   ("+funcion+") \r\n" + 
+					"	and insti.prov_cod = "+provincia+" \r\n" + 
+					"	and inst_periodo = "+periodo+" \r\n" + 
+					"	AND insti.inst_cod NOT IN ( SELECT inst_cod FROM esq_retroalimentacion.tbl_asignacion asig WHERE asig.estado_asig = 'asignado' )";
+			Query query=em.createNativeQuery(sql);       
+			 lista=query.getResultList();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+		
+	}
+	
+	@SuppressWarnings({ "finally", "rawtypes", "unchecked" })
+	@Override
+	public List qryBuscarInformesNativoSinDescripcion(String provincia, String periodo , String funcion ) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;
+	try {
+		String sql="SELECT\r\n" + 
+				"	insti.inst_cod,\r\n" + 
+				"	insti.inst_periodo,\r\n" + 
+				"	info.inf_cod \r\n" +  
+				"FROM\r\n" + 
+				"	esq_catalogos.tbl_institucion AS insti\r\n" + 
+				"	INNER JOIN esq_rendicioncuentas.tbl_informe AS info ON insti.inst_cod = info.inst_cod\r\n" + 
+				"WHERE\r\n" + 
+				"	info.inf_verificador = 'A TIEMPO' \r\n" + 
+				"	and  insti.inst_fun_cod IN   ("+funcion+") \r\n" +
+				"	and insti.prov_cod = "+provincia+" \r\n" +
+				"	and inst_periodo = "+periodo+" \r\n" +
+		"	AND insti.inst_cod NOT IN ( SELECT inst_cod FROM esq_retroalimentacion.tbl_asignacion asig WHERE asig.estado_asig = 'asignado' )";
+
+		Query query=em.createNativeQuery(sql);
+		lista=query.getResultList();
+	} catch (Exception e) {
+		System.out.println(e.getMessage());
+	}finally {		
+		 em.clear();
+		 em.close();
+		return lista;
+	}	
+	
+	}
+	
+	@SuppressWarnings({ "finally", "unchecked", "rawtypes" })
+	@Override
+	public List qryBuscarInformesNativoTodos(String provincia, String periodo ) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;		
+		try {
+			String sql="SELECT \r\n" + 
+					"	insti.inst_cod,\r\n" + 
+					"	insti.inst_periodo,\r\n" + 
+					"	info.inf_cod \r\n" + 
+					"FROM\r\n" + 
+					"	esq_catalogos.tbl_institucion AS insti\r\n" + 
+					"	INNER JOIN esq_rendicioncuentas.tbl_informe AS info ON insti.inst_cod = info.inst_cod \r\n" + 
+					"WHERE\r\n" + 
+					"	info.inf_verificador = 'A TIEMPO' \r\n" + 
+					"	AND insti.prov_cod =  "+provincia+" \r\n" + 
+					"	AND inst_periodo = "+periodo+" \r\n" + 
+					"	AND insti.inst_cod NOT IN ( SELECT inst_cod FROM esq_retroalimentacion.tbl_asignacion asig WHERE asig.estado_asig = 'asignado' )" ;
+			Query query=em.createNativeQuery(sql);
+			lista=query.getResultList();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+		
+	}
+	
+	@SuppressWarnings({ "finally", "rawtypes", "unchecked" })
+	@Override
+	public List qryContarInformesNativoTodos(String provincia, String periodo ) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;		
+		try {
+			String sql="SELECT COUNT\r\n" + 
+					"	( * ) \r\n" + 
+					"FROM\r\n" + 
+					"	esq_catalogos.tbl_institucion AS insti\r\n" + 
+					"	INNER JOIN esq_rendicioncuentas.tbl_informe AS info ON insti.inst_cod = info.inst_cod \r\n" + 
+					"WHERE\r\n" + 
+					"	info.inf_verificador = 'A TIEMPO' \r\n" + 
+					"	AND insti.prov_cod =  "+provincia+" \r\n" + 
+					"	AND inst_periodo = "+periodo+" \r\n" + 
+					"	AND insti.inst_cod NOT IN ( SELECT inst_cod FROM esq_retroalimentacion.tbl_asignacion asig WHERE asig.estado_asig = 'asignado' )" ;
+			Query query=em.createNativeQuery(sql);
+			lista=query.getResultList();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	
+	
+	}
+	
+	@SuppressWarnings({ "rawtypes", "finally" })
+	@Override
+	public List numeroInstitucionesActivas(int instPeriodo, String instEstado) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;	
+		try {
+			String sql="SELECT\r\n" + 
+					"	count(*)\r\n" + 
+					"FROM\r\n" + 
+					"	esq_catalogos.tbl_institucion insti WHERE insti.inst_cod not in (select inst_cod from esq_rendicioncuentas.tbl_informe WHERE inf_estado='finalizado') and inst_estado ='activo' AND inst_periodo = "+instPeriodo+"";
+			Query query=em.createNativeQuery(sql);	   
+	        lista= query.getResultList();
+		}  catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	
+	
+	@SuppressWarnings({ "rawtypes", "unchecked", "finally" })
+	@Override
+	public List qryBuscarInformesAsigandosxtecnicoNativo(String tecnico, String periodo, String estadoAsig) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;	
+		try {
+			String sql="SELECT\r\n" + 
+					"	asig.inf_cod,\r\n" + 
+					"	insti.inst_nom,\r\n" + 
+					"	insti.inst_ruc,\r\n" + 
+					"	asig.fecha_asig,\r\n" + 
+					"	( SELECT funcio.nombre FROM esq_usuarios_internos.tbl_datos_funcionarios funcio WHERE funcio.identificador = asig.asignador ) AS asginador,\r\n" + 
+					"	asig.estado_asig, \r\n" + 
+					"	insti.inst_tf_cod,\r\n" +
+					"	( SELECT funcio.nombre FROM esq_usuarios_internos.tbl_datos_funcionarios funcio WHERE funcio.identificador = asig.identificador ) AS asignado \r\n" +
+					"FROM\r\n" + 
+					"	esq_retroalimentacion.tbl_asignacion AS asig\r\n" + 
+					"	INNER JOIN esq_catalogos.tbl_institucion AS insti ON asig.inst_cod = insti.inst_cod \r\n" + 
+					"WHERE\r\n" + 
+					"	asig.estado_asig = '"+estadoAsig+"' \r\n" + 
+					"	AND asig.periodo_asig = "+periodo+" \r\n" + 
+					"	AND asig.identificador = '"+tecnico+"'";
+			Query query=em.createNativeQuery(sql);
+			lista=query.getResultList();
+		}  catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+
+	}
+	
+	
+	@SuppressWarnings({ "finally", "rawtypes", "unchecked" })
+	@Override
+	public List qryBuscarInformesValoradosSubCoord( String periodo, String estadoAsig) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;	
+		try {
+			String sql="SELECT\r\n" + 
+					"					asig.inf_cod,\r\n" + 
+					"					insti.inst_nom,\r\n" + 
+					"					insti.inst_ruc,\r\n" + 
+					"					asig.fecha_asig,\r\n" + 
+					"					( SELECT funcio.nombre FROM esq_usuarios_internos.tbl_datos_funcionarios funcio WHERE funcio.identificador = asig.asignador ) AS asginador,\r\n" +
+					"					( SELECT funcio.nombre FROM esq_usuarios_internos.tbl_datos_funcionarios funcio WHERE funcio.identificador = asig.identificador ) AS calificador,\r\n"+
+					"					asig.estado_asig, \r\n" + 
+					"					(SELECT case  WHEN val.nota >= 100 then 100 else val.nota END FROM esq_retroalimentacion.tbl_valoracion val WHERE val.inf_cod = asig.inf_cod)  as nota,\r\n" + 
+					"					insti.inst_tf_cod\r\n" + 
+					"FROM\r\n" + 
+					"					esq_retroalimentacion.tbl_asignacion AS asig\r\n" + 
+					"					INNER JOIN esq_catalogos.tbl_institucion AS insti ON asig.inst_cod = insti.inst_cod \r\n" + 
+					"WHERE\r\n" + 
+					"	asig.estado_asig = '"+estadoAsig+"' \r\n" + 
+					"	AND asig.periodo_asig = "+periodo+"";
+			Query query=em.createNativeQuery(sql);
+			lista=query.getResultList();
+		}  catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+	
+	}
+	
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Override
+	public List<Object[]> ObtenerInstitucionxInforme(int infcod ,int periodo) {
+		EntityManager em= emf.createEntityManager();
+		List<Object[]> lista=null;
+	try {
+		String sql="SELECT\r\n" + 
+				"	info.inf_cod,\r\n" + 
+				"	( SELECT insti.inst_nom FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) AS nombre,\r\n" + 
+				"	( SELECT insti.inst_ruc FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) AS ruc,\r\n" + 
+				"	( SELECT respon_nombre FROM esq_usuario.tbl_responables respon WHERE respon.respon_cod_refe = info.inst_cod AND respon.respon_tipo = 'REPRESENTANTE LEGAL' ) AS representante,\r\n" + 
+				"	(\r\n" + 
+				"	SELECT\r\n" + 
+				"		func.fun_des \r\n" + 
+				"	FROM\r\n" + 
+				"		esq_catalogos.tbl_funcion func \r\n" + 
+				"	WHERE\r\n" + 
+				"		fun_cod = ( SELECT insti.inst_fun_cod FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) \r\n" + 
+				"	) AS funcion,\r\n" + 
+				"	( SELECT insti.inst_tip_des FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) AS descripcion,\r\n" + 
+				"		(\r\n" + 
+				"	SELECT\r\n" + 
+				"		sec.sec_des\r\n" + 
+				"	FROM\r\n" + 
+				"		esq_catalogos.tbl_sector sec \r\n" + 
+				"	WHERE\r\n" + 
+				"		sec_cod = ( SELECT insti.inst_sec_cod FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) \r\n" + 
+				"	) AS sector,\r\n" + 
+				"	(\r\n" + 
+				"	SELECT\r\n" + 
+				"		tipoinf.tf_nom \r\n" + 
+				"	FROM\r\n" + 
+				"		esq_catalogos.tbl_tipo_informe tipoinf \r\n" + 
+				"	WHERE\r\n" + 
+				"		tf_cod = ( SELECT insti.inst_tf_cod FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) \r\n" + 
+				"	) AS tipoFormulario,\r\n" + 
+				"	info.inf_fechafin,\r\n" + 
+				"	info.inf_verificador, \r\n" + 
+				"	info.inst_cod\r\n" +
+				"FROM\r\n" + 
+				"	esq_rendicioncuentas.tbl_informe info \r\n" + 
+				"WHERE \r\n" + 
+				"	info.inf_cod = "+infcod+" \r\n" + 
+				"	AND info.inf_periodo = "+periodo+"";
+		Query query=em.createNativeQuery(sql);
+        lista=query.getResultList();
+	} catch (Exception e) {
+		System.out.println(e.getMessage());
+	}finally {		
+		 em.clear();
+		 em.close();
+		return lista;
+	}
+	}
+	
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Override
+	public List<Object[]> ObtenerInstitucionxInformeMedio(int infcod ,int periodo) {
+		EntityManager em= emf.createEntityManager();
+		List<Object[]> lista=null;
+		try {
+			String sql="SELECT \r\n" + 
+					"					info.inf_cod, \r\n" + 
+					"					( SELECT insti.inst_nom FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) AS nombre, \r\n" + 
+					"					( SELECT insti.inst_ruc FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) AS ruc, \r\n" + 
+					"					( SELECT respon_nombre FROM esq_usuario.tbl_responables respon WHERE respon.respon_cod_refe = info.inst_cod AND respon.respon_tipo = 'REPRESENTANTE LEGAL' ) AS representante, \r\n" + 
+					"					( \r\n" + 
+					"					SELECT \r\n" + 
+					"						func.fun_des  \r\n" + 
+					"					FROM \r\n" + 
+					"						esq_catalogos.tbl_funcion func  \r\n" + 
+					"					WHERE \r\n" + 
+					"						fun_cod = ( SELECT insti.inst_fun_cod FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod )  \r\n" + 
+					"					) AS funcion, \r\n" + 
+					"					( SELECT insti.inst_tip_des FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) AS descripcion, \r\n" + 
+					"						( \r\n" + 
+					"					SELECT \r\n" + 
+					"						tipme.tme_des\r\n" + 
+					"					FROM \r\n" + 
+					"						esq_catalogos.tbl_tipo_medio tipme  \r\n" + 
+					"					WHERE \r\n" + 
+					"						tme_cod = ( SELECT insti.inst_tme_cod FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod )  \r\n" + 
+					"					) AS Tipo, \r\n" + 
+					"					( \r\n" + 
+					"					SELECT \r\n" + 
+					"						tipoinf.tf_nom  \r\n" + 
+					"					FROM \r\n" + 
+					"						esq_catalogos.tbl_tipo_informe tipoinf  \r\n" + 
+					"					WHERE \r\n" + 
+					"						tf_cod = ( SELECT insti.inst_tf_cod FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod )  \r\n" + 
+					"					) AS tipoFormulario, \r\n" + 
+					"					info.inf_fechafin, \r\n" + 
+					"					info.inf_verificador,  \r\n" + 
+					"					info.inst_cod\r\n" + 
+					"				FROM \r\n" + 
+					"					esq_rendicioncuentas.tbl_informe info  \r\n" + 
+					"				WHERE  \r\n" + 
+					"					info.inf_cod = "+infcod+"  \r\n" + 
+					"					AND info.inf_periodo = "+periodo+"";
+			Query query=em.createNativeQuery(sql);
+	        lista=query.getResultList();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	
+	
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Override
+	public List<Object[]> ObtenerInstitucionxInformeES(int infcod ,int periodo) {
+		EntityManager em= emf.createEntityManager();
+		List<Object[]> lista=null;		
+		try {
+			String sql="SELECT  \r\n" + 
+					"									info.inf_cod,  \r\n" + 
+					"									( SELECT insti.inst_nom FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) AS nombre,  \r\n" + 
+					"									( SELECT insti.inst_ruc FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) AS ruc,  \r\n" + 
+					"									( SELECT respon_nombre FROM esq_usuario.tbl_responables respon WHERE respon.respon_cod_refe = info.inst_cod AND respon.respon_tipo = 'REPRESENTANTE LEGAL' ) AS representante,  \r\n" + 
+					"									(  \r\n" + 
+					"									SELECT  \r\n" + 
+					"										func.fun_des   \r\n" + 
+					"									FROM  \r\n" + 
+					"										esq_catalogos.tbl_funcion func   \r\n" + 
+					"									WHERE  \r\n" + 
+					"										fun_cod = ( SELECT insti.inst_fun_cod FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod )   \r\n" + 
+					"									) AS funcion,  \r\n" + 
+					"									( SELECT insti.inst_tip_des FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) AS descripcion,  \r\n" + 
+					"										(  \r\n" + 
+					"									SELECT  \r\n" + 
+					"										tipoes.ties_des \r\n" + 
+					"									FROM  \r\n" + 
+					"										esq_catalogos.tbl_tipo_ies tipoes   \r\n" + 
+					"									WHERE  \r\n" + 
+					"										ties_cod = ( SELECT insti.inst_tme_cod FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod )   \r\n" + 
+					"									) AS Tipo,  \r\n" + 
+					"									(  \r\n" + 
+					"									SELECT  \r\n" + 
+					"										tipoinf.tf_nom   \r\n" + 
+					"									FROM  \r\n" + 
+					"										esq_catalogos.tbl_tipo_informe tipoinf   \r\n" + 
+					"									WHERE  \r\n" + 
+					"										tf_cod = ( SELECT insti.inst_tf_cod FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod )   \r\n" + 
+					"									) AS tipoFormulario,  \r\n" + 
+					"									info.inf_fechafin,  \r\n" + 
+					"									info.inf_verificador,   \r\n" + 
+					"									info.inst_cod, \r\n" + 
+					"                                   ( SELECT insti.inst_tf_cod FROM esq_catalogos.tbl_institucion insti WHERE insti.inst_cod = info.inst_cod ) AS inst_tf_cod  \r\n" + 
+					"								FROM  \r\n" + 
+					"									esq_rendicioncuentas.tbl_informe info   \r\n" + 
+					"								WHERE  \r\n" + 
+					"									info.inf_cod = "+infcod+"  \r\n" + 
+					"									AND info.inf_periodo = "+periodo+"";
+			Query query=em.createNativeQuery(sql);   
+	        lista=query.getResultList();
+		}  catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Override
+	public List<Object[]> qryObtenerRegistrosInformesValoradosXInfocodAndPeriodo(Integer infCod) {
+		EntityManager em= emf.createEntityManager();
+		List<Object[]> lista=null;		
+		try {
+			String sql="SELECT\r\n" + 
+					"	tbl_valoracion.id_valoracion, \r\n" + 
+					"	tbl_valoracion.fecha_valoracion,\r\n" +
+					"	tbl_valoracion.nota,\r\n" +
+					"	tbl_valoracion.tipo_valoracion,\r\n" +
+					"	tbl_valoracion.comentario\r\n" +
+					"FROM\r\n" + 
+					"	esq_retroalimentacion.tbl_valoracion\r\n" + 
+					"WHERE\r\n" + 
+					"	tbl_valoracion.inf_cod = "+infCod+" AND\r\n" + 
+					"	tbl_valoracion.tipo_valoracion = 'calificado'\r\n" + 
+					"ORDER BY\r\n" + 
+					"	tbl_valoracion.id_valoracion ASC";
+			Query query=em.createNativeQuery(sql);
+	       lista=query.getResultList();
+		}  catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Override
+	public List<Object[]> qryObtenerRegistrosInformesValorados() {
+		EntityManager em= emf.createEntityManager();
+		List<Object[]> lista=null;	
+		try {
+			String sql="SELECT 	\r\n" + 
+					"tbl_valoracion.fecha_valoracion,\r\n" + 
+					"tbl_valoracion.id_valoracion\r\n" + 
+					"    \r\n" + 
+					"  FROM esq_retroalimentacion.tbl_valoracion\r\n" + 
+					"  ORDER BY 	tbl_valoracion.fecha_valoracion\r\n" + 
+					" DESC\r\n" + 
+					"  LIMIT 1";
+			Query query=em.createNativeQuery(sql);
+	       lista=query.getResultList();
+		}  catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+
+	}
+
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Override
+	public List<Object[]> qryBuscarCalificacionesInformeUltimo(Integer infcod) {
+		EntityManager em= emf.createEntityManager();
+		List<Object[]> lista=null;	
+		try {
+			String sql="SELECT\r\n" + 
+					" tbl_informe_calificado.id_inf_cal, \r\n" +
+					"	tbl_informe_calificado.inf_cod, \r\n" +
+					"	tbl_informe_calificado.matriz,\r\n" + 
+					"	tbl_informe_calificado.pregunta,\r\n" + 
+					"	tbl_informe_calificado.respuesta,\r\n" + 
+					"	tbl_informe_calificado.evidencia \r\n" + 
+					"FROM\r\n" + 
+					"	esq_retroalimentacion.tbl_valoracion\r\n" + 
+					"	INNER JOIN esq_retroalimentacion.tbl_informe_calificado ON tbl_valoracion.inf_cod = tbl_informe_calificado.inf_cod \r\n" + 
+					"WHERE\r\n" + 
+					"	esq_retroalimentacion.tbl_informe_calificado.inf_cod = "+infcod+" \r\n" + 
+					"	AND 'activo' = ( SELECT v.verificador FROM esq_retroalimentacion.tbl_valoracion v WHERE v.inf_cod = "+infcod+" ) \r\n" + 
+					"	 ORDER BY id_inf_cal ASC";
+			Query query=em.createNativeQuery(sql);
+	        lista=query.getResultList();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	@SuppressWarnings("finally")
+	@Override
+	public List<Object[]> qryBuscarCalificacionesInformeOrden(Integer infcod) {
+		EntityManager em= emf.createEntityManager();
+		List<Object[]> lista=null;
+		try {
+			String sql="SELECT\r\n" + 
+					" tbl_informe_calificado.id_inf_cal, \r\n" +
+					"	tbl_informe_calificado.inf_cod, \r\n" +
+					"	tbl_informe_calificado.matriz,\r\n" + 
+					"	tbl_informe_calificado.pregunta,\r\n" + 
+					"	tbl_informe_calificado.respuesta,\r\n" + 
+					"	tbl_informe_calificado.evidencia, \r\n" + 
+					"	tbl_informe_calificado.orden \r\n" + 
+					"FROM\r\n" + 
+					"	esq_retroalimentacion.tbl_valoracion\r\n" + 
+					"	INNER JOIN esq_retroalimentacion.tbl_informe_calificado ON tbl_valoracion.inf_cod = tbl_informe_calificado.inf_cod \r\n" + 
+					"WHERE\r\n" + 
+					"	esq_retroalimentacion.tbl_informe_calificado.inf_cod = "+infcod+" \r\n" + 
+					"	AND 'activo' = ( SELECT v.verificador FROM esq_retroalimentacion.tbl_valoracion v WHERE v.inf_cod = "+infcod+" ) \r\n" + 
+					"	 ORDER BY orden ASC";
+			Query query=em.createNativeQuery(sql);
+	        lista=query.getResultList();
+		}  catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+		
+	}
+	@SuppressWarnings({ "finally", "rawtypes", "unchecked" })
+	@Override
+	public List qryBuscarInformesAsigandosxSubcoordinadorNativo(String periodo, String estadoAsig) {
+		EntityManager em= emf.createEntityManager();
+		List lista=null;
+		try {
+			String sql="SELECT\r\n" + 
+					"	asig.inf_cod,\r\n" + 
+					"	insti.inst_nom,\r\n" + 
+					"	insti.inst_ruc,\r\n" + 
+					"	asig.fecha_asig,\r\n" + 
+					"	( SELECT funcio.nombre FROM esq_usuarios_internos.tbl_datos_funcionarios funcio WHERE funcio.identificador = asig.asignador ) AS asginador,\r\n" + 
+					"	asig.estado_asig, \r\n" + 
+					"	insti.inst_tf_cod, \r\n" +
+					"  ( SELECT funcio.nombre FROM esq_usuarios_internos.tbl_datos_funcionarios funcio WHERE funcio.identificador = asig.identificador ) AS asignado \r\n"+
+					"FROM\r\n" + 
+					"	esq_retroalimentacion.tbl_asignacion AS asig\r\n" + 
+					"	INNER JOIN esq_catalogos.tbl_institucion AS insti ON asig.inst_cod = insti.inst_cod \r\n" + 
+					"WHERE\r\n" + 
+					"	asig.estado_asig = '"+estadoAsig+"' \r\n" + 
+					//"	AND asig.periodo_asig = "+periodo+" \r\n" + 
+					"	AND asig.periodo_asig = "+periodo+" ";
+			Query query=em.createNativeQuery(sql);
+			lista=query.getResultList();
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {		
+			 em.clear();
+			 em.close();
+			return lista;
+		}
+
+	}
+}

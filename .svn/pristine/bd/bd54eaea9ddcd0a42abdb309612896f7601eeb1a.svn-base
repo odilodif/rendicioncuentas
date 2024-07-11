@@ -1,0 +1,460 @@
+package gob.cpccs.repository.catalogos;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.Query;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import gob.cpccs.model.catalogos.TblInstitucion;
+import gob.cpccs.repository.FuncionesSqlRepository;
+
+@Component
+public class IntitucionesRepositoryImpl extends FuncionesSqlRepository<TblInstitucion>
+		implements InstitucionesServicioRepository {
+	@Autowired
+    private InstitucionRepository institucionRepository;
+	public IntitucionesRepositoryImpl() {
+		super(TblInstitucion.class);
+		// TODO Auto-generated constructor stub
+	}
+
+	@PersistenceUnit
+	private EntityManagerFactory emf;
+
+	@Override
+	public List<Object[]> ObtenerInstitucionesXestadoPeriodo(String instEstado, Integer instPeriodo) {
+		EntityManager em= emf.createEntityManager();
+		String sql="Select ins.inst_cod,\r\n"
+				+ "ins.inst_nom,\r\n"
+				+ "ins.inst_ruc,\r\n"
+				+ "(Select loc.nombre from esq_catalogos.tbl_localizacion loc where loc.id_localizacion=ins.prov_cod) as provincia,\r\n"
+				+ "(Select fun.fun_des from esq_catalogos.tbl_funcion fun where fun.fun_cod =ins.inst_fun_cod) as funcion,\r\n"
+				+ "ins.inst_fecha_activar,\r\n"
+				+ "ins.inst_estado\r\n"
+				+ "from\r\n"
+				+ "esq_catalogos.tbl_institucion ins\r\n"
+				+ "where \r\n"
+				+ "ins.inst_estado='"+instEstado+"' and ins.inst_periodo="+instPeriodo+"\r\n"
+				+ "order by ins.inst_cod";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+	}
+
+	@Override
+	public List<Object[]> ObtenerInstitucionesDatosResponsablesXestadoPeriodo(String instEstado, Integer instPeriodo, String campoFecha ) {
+		EntityManager em= emf.createEntityManager();
+		String sql="Select DISTINCT ins.inst_cod, ins.inst_nom, ins.inst_ruc,\r\n" + 
+				"	(Select loc.nombre from esq_catalogos.tbl_localizacion loc where loc.id_localizacion=ins.prov_cod) as provincia,\r\n" + 
+				"	(Select fun.fun_des from esq_catalogos.tbl_funcion fun where fun.fun_cod =ins.inst_fun_cod) as funcion,\r\n" + 
+				"	"+campoFecha+",\r\n" + 
+				"	ins.inst_estado,\r\n" + 
+				"		(SELECT respon.respon_nombre FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='REPRESENTANTE LEGAL' and respon.respon_cod_refe = ins.inst_cod ) as NombreRepresentante,\r\n" + 
+				"		(SELECT respon.respon_email FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='REPRESENTANTE LEGAL' and respon.respon_cod_refe = ins.inst_cod ) as emailRepresentante,\r\n" + 
+				"		(SELECT respon.respon_celular FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='REPRESENTANTE LEGAL' and respon.respon_cod_refe = ins.inst_cod ) as celularRepresentante\r\n" + 
+				"		,\r\n" + 
+				"		(SELECT respon.respon_nombre FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='RESPONSABLE RENDICION' and respon.respon_cod_refe = ins.inst_cod ) as NombreResponsable,\r\n" + 
+				"		(SELECT respon.respon_email FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='RESPONSABLE RENDICION' and respon.respon_cod_refe = ins.inst_cod ) as emailResponsable,\r\n" + 
+				"		(SELECT respon.respon_celular FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='RESPONSABLE RENDICION' and respon.respon_cod_refe = ins.inst_cod ) as celularResponsable\r\n" + 
+				"		,\r\n" + 
+				"		(SELECT respon.respon_nombre FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='RESPONSABLE REGISTRO' and respon.respon_cod_refe = ins.inst_cod ) as NombreRegistro,\r\n" + 
+				"		(SELECT respon.respon_email FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='RESPONSABLE REGISTRO' and respon.respon_cod_refe = ins.inst_cod ) as emailRegistro,\r\n" + 
+				"		(SELECT respon.respon_celular FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='RESPONSABLE REGISTRO' and respon.respon_cod_refe = ins.inst_cod ) as celularRegistro\r\n" + 
+				"	from\r\n" + 
+				"	esq_catalogos.tbl_institucion ins\r\n" +  
+				"	where \r\n" + 
+				"	ins.inst_estado='"+instEstado+"' and ins.inst_verificador is NULL and ins.inst_periodo="+instPeriodo+"\r\n" + 
+				"	order by ins.inst_cod";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+	}
+	
+	
+	@Override
+	public List<Object[]> ObtenerInstitucionesActivasPeriodo(String instEstado, Integer instPeriodo, String campoFecha ) {
+		EntityManager em= emf.createEntityManager();
+		String sql="				select T1.inst_cod,T1.inst_nom, T1.inst_ruc, T1.provincia, T1.funcion ,T1.inst_fecha_activar,\r\n"
+				+ "	T1.inst_estado,T1_1.respon_nombre AS nombrerepresentante,\r\n"
+				+ "    T1_1.respon_email AS emailrepresentante,\r\n"
+				+ "    T1_1.respon_celular AS celularrepresentante,T1_2.respon_nombre AS nombreresponsable,\r\n"
+				+ "    T1_2.respon_email AS emailresponsable,\r\n"
+				+ "    T1_2.respon_celular AS celularresponsable,\r\n"
+				+ "    T1_3.respon_nombre AS nombreregistro,\r\n"
+				+ "    T1_3.respon_email AS emailregistro,\r\n"
+				+ "    T1_3.respon_celular AS celularregistro from(SELECT\r\n"
+				+ "	ins.inst_cod,\r\n"
+				+ "	ins.inst_nom,\r\n"
+				+ "	ins.inst_ruc,\r\n"
+				+ "	( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.prov_cod ) AS provincia,\r\n"
+				+ "	( SELECT fun.fun_des FROM esq_catalogos.tbl_funcion fun WHERE fun.fun_cod = ins.inst_fun_cod ) AS funcion,\r\n"
+				+ "	ins.inst_fecha_activar,\r\n"
+				+ "	ins.inst_estado\r\n"
+				+ "FROM\r\n"
+				+ "	esq_catalogos.tbl_institucion ins WHERE ins.inst_cod not in (select inst_cod from esq_rendicioncuentas.tbl_informe WHERE inf_estado='finalizado') and inst_estado ='"+instEstado+"' and ins.inst_periodo = "+instPeriodo+" ORDER BY ins.inst_cod)T1\r\n"
+				+ "	   LEFT JOIN ( SELECT respon.respon_nombre, respon.respon_email, respon.respon_celular, respon_cod_refe FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo = 'REPRESENTANTE LEGAL' ) T1_1 ON T1.inst_cod = T1_1.respon_cod_refe\r\n"
+				+ "		     LEFT JOIN ( SELECT respon.respon_nombre, respon.respon_email, respon.respon_celular, respon_cod_refe FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo = 'RESPONSABLE RENDICION' ) T1_2 ON T1.inst_cod = T1_2.respon_cod_refe\r\n"
+				+ "    LEFT JOIN ( SELECT respon.respon_nombre, respon.respon_email, respon.respon_celular, respon_cod_refe FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo = 'RESPONSABLE REGISTRO' ) T1_3 ON T1.inst_cod = T1_3.respon_cod_refe";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+	}
+	
+	@Override
+	public List<Object[]> ObtenerInstitucionesxCumplimiento(String infVerificador, Integer instPeriodo) {
+		EntityManager em= emf.createEntityManager();
+		String sql="SELECT\r\n" + 
+				"	ins.inst_cod, \r\n" + 
+				"	ins.inst_ruc AS ruc, \r\n" + 
+				"	ins.inst_nom AS nombre, \r\n" + 
+				"	( SELECT fun.fun_des FROM esq_catalogos.tbl_funcion fun WHERE fun.fun_cod = ins.inst_fun_cod ) AS funcion, \r\n" + 
+				"	ins.inst_tip_des AS descripcion, \r\n" + 
+				"	( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.prov_cod ) AS provincia, \r\n" + 
+				"	( SELECT inf.inf_cod FROM esq_rendicioncuentas.tbl_informe inf WHERE inf.inst_cod = ins.inst_cod ) AS numeroinforme, \r\n" + 
+				"	( SELECT tipo.tf_nom FROM esq_catalogos.tbl_tipo_informe tipo WHERE tipo.tf_cod = ins.inst_tf_cod ) AS formulario, \r\n" + 
+				"	( SELECT inf.inf_fechafin FROM esq_rendicioncuentas.tbl_informe inf WHERE inf.inst_cod = ins.inst_cod ) AS fechainforme, \r\n" + 
+				"	esq_rendicioncuentas.tbl_informe.inf_verificador AS \"Cumplimiento\"\r\n" + 
+				"FROM\r\n" + 
+				"	esq_catalogos.tbl_institucion AS ins\r\n" + 
+				"	INNER JOIN\r\n" + 
+				"	esq_rendicioncuentas.tbl_informe\r\n" + 
+				"	ON \r\n" + 
+				"		ins.inst_cod = esq_rendicioncuentas.tbl_informe.inst_cod\r\n" + 
+				"WHERE\r\n" + 
+				"	ins.inst_periodo = "+instPeriodo+" AND\r\n" + 
+				"	esq_rendicioncuentas.tbl_informe.inf_verificador = '"+infVerificador+"'";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+	}
+	
+	@Override
+	public List<Object[]> ObtenerInstitucionesxCumplimientoProvincia(String infVerificador, Integer instPeriodo, Integer provincia) {
+		EntityManager em= emf.createEntityManager();
+		String sql="SELECT\r\n" + 
+				"	ins.inst_cod, \r\n" + 
+				"	ins.inst_ruc AS ruc, \r\n" + 
+				"	ins.inst_nom AS nombre, \r\n" + 
+				"	( SELECT fun.fun_des FROM esq_catalogos.tbl_funcion fun WHERE fun.fun_cod = ins.inst_fun_cod ) AS funcion, \r\n" + 
+				"	ins.inst_tip_des AS descripcion, \r\n" + 
+				"	( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.prov_cod ) AS provincia, \r\n" + 
+				"	( SELECT inf.inf_cod FROM esq_rendicioncuentas.tbl_informe inf WHERE inf.inst_cod = ins.inst_cod ) AS numeroinforme, \r\n" + 
+				"	( SELECT tipo.tf_nom FROM esq_catalogos.tbl_tipo_informe tipo WHERE tipo.tf_cod = ins.inst_tf_cod ) AS formulario, \r\n" + 
+				"	( SELECT inf.inf_fechafin FROM esq_rendicioncuentas.tbl_informe inf WHERE inf.inst_cod = ins.inst_cod ) AS fechainforme, \r\n" + 
+				"	esq_rendicioncuentas.tbl_informe.inf_verificador AS \"Cumplimiento\"\r\n" + 
+				"FROM\r\n" + 
+				"	esq_catalogos.tbl_institucion AS ins\r\n" + 
+				"	INNER JOIN\r\n" + 
+				"	esq_rendicioncuentas.tbl_informe\r\n" + 
+				"	ON \r\n" + 
+				"		ins.inst_cod = esq_rendicioncuentas.tbl_informe.inst_cod\r\n" + 
+				"WHERE\r\n" + 
+				"	ins.inst_periodo = "+instPeriodo+" AND\r\n" + 
+				"	ins.prov_cod = "+provincia+" AND\r\n" +
+				"	esq_rendicioncuentas.tbl_informe.inf_verificador = '"+infVerificador+"'";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+	}
+	
+	@Override
+	public List<Object[]> ObtenerInstitucionesxIncumplimiento(String infVerificador, Integer instPeriodo) {
+		EntityManager em= emf.createEntityManager();
+		String sql="SELECT\r\n" + 
+				"	ins.inst_cod, \r\n" + 
+				"	ins.inst_ruc AS ruc, \r\n" + 
+				"	ins.inst_nom AS nombre, \r\n" + 
+				"	( SELECT fun.fun_des FROM esq_catalogos.tbl_funcion fun WHERE fun.fun_cod = ins.inst_fun_cod ) AS funcion, \r\n" + 
+				"	ins.inst_tip_des AS descripcion, \r\n" + 
+				"	( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.prov_cod ) AS provincia, \r\n" + 
+				"	( SELECT inf.inf_cod FROM esq_rendicioncuentas.tbl_informe inf WHERE inf.inst_cod = ins.inst_cod ) AS numeroinforme, \r\n" + 
+				"	( SELECT tipo.tf_nom FROM esq_catalogos.tbl_tipo_informe tipo WHERE tipo.tf_cod = ins.inst_tf_cod ) AS formulario, \r\n" + 
+				"	( SELECT inf.inf_fechafin FROM esq_rendicioncuentas.tbl_informe inf WHERE inf.inst_cod = ins.inst_cod ) AS fechainforme, \r\n" + 
+				"	ins.inst_verificador AS \"Cumplimiento\"\r\n" + 
+				"FROM\r\n" + 
+				"	esq_catalogos.tbl_institucion AS ins\r\n" + 
+				"	INNER JOIN\r\n" + 
+				"	esq_rendicioncuentas.tbl_informe\r\n" + 
+				"	ON \r\n" + 
+				"		ins.inst_cod = esq_rendicioncuentas.tbl_informe.inst_cod\r\n" + 
+				"WHERE\r\n" + 
+				"	ins.inst_periodo = "+instPeriodo+" AND\r\n" + 
+				"	ins.inst_verificador = '"+infVerificador+"'";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+	}
+	
+	@Override
+	public List<Object[]> ObtenerInstitucionesxIncumplimientoProvincia(String infVerificador, Integer instPeriodo, Integer provincia) {
+		EntityManager em= emf.createEntityManager();
+		String sql="SELECT\r\n" + 
+				"	ins.inst_cod, \r\n" + 
+				"	ins.inst_ruc AS ruc, \r\n" + 
+				"	ins.inst_nom AS nombre, \r\n" + 
+				"	( SELECT fun.fun_des FROM esq_catalogos.tbl_funcion fun WHERE fun.fun_cod = ins.inst_fun_cod ) AS funcion, \r\n" + 
+				"	ins.inst_tip_des AS descripcion, \r\n" + 
+				"	( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.prov_cod ) AS provincia, \r\n" + 
+				"	( SELECT inf.inf_cod FROM esq_rendicioncuentas.tbl_informe inf WHERE inf.inst_cod = ins.inst_cod ) AS numeroinforme, \r\n" + 
+				"	( SELECT tipo.tf_nom FROM esq_catalogos.tbl_tipo_informe tipo WHERE tipo.tf_cod = ins.inst_tf_cod ) AS formulario, \r\n" + 
+				"	( SELECT inf.inf_fechafin FROM esq_rendicioncuentas.tbl_informe inf WHERE inf.inst_cod = ins.inst_cod ) AS fechainforme, \r\n" + 
+				"	ins.inst_verificador AS \"Cumplimiento\"\r\n" + 
+				"FROM\r\n" + 
+				"	esq_catalogos.tbl_institucion AS ins\r\n" + 
+				"	INNER JOIN\r\n" + 
+				"	esq_rendicioncuentas.tbl_informe\r\n" + 
+				"	ON \r\n" + 
+				"		ins.inst_cod = esq_rendicioncuentas.tbl_informe.inst_cod\r\n" + 
+				"WHERE\r\n" + 
+				"	ins.inst_periodo = "+instPeriodo+" AND\r\n" + 
+				"	ins.prov_cod = "+provincia+" AND\r\n" +
+				"	ins.inst_verificador = '"+infVerificador+"'";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+	}
+	
+	@Override
+	public List<Object[]> ObtenerInstitucionesDatosResponsablesXestadoPeriodoxP(String instEstado, Integer instPeriodo, String campoFecha, Integer provincia ) {
+		EntityManager em= emf.createEntityManager();
+		String sql="Select DISTINCT ins.inst_cod, ins.inst_nom, ins.inst_ruc,\r\n" + 
+				"	(Select loc.nombre from esq_catalogos.tbl_localizacion loc where loc.id_localizacion=ins.prov_cod) as provincia,\r\n" + 
+				"	(Select fun.fun_des from esq_catalogos.tbl_funcion fun where fun.fun_cod =ins.inst_fun_cod) as funcion,\r\n" + 
+				"	"+campoFecha+",\r\n" + 
+				"	ins.inst_estado,\r\n" + 
+				"		(SELECT respon.respon_nombre FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='REPRESENTANTE LEGAL' and respon.respon_cod_refe = ins.inst_cod ) as NombreRepresentante,\r\n" + 
+				"		(SELECT respon.respon_email FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='REPRESENTANTE LEGAL' and respon.respon_cod_refe = ins.inst_cod ) as emailRepresentante,\r\n" + 
+				"		(SELECT respon.respon_celular FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='REPRESENTANTE LEGAL' and respon.respon_cod_refe = ins.inst_cod ) as celularRepresentante\r\n" + 
+				"		,\r\n" + 
+				"		(SELECT respon.respon_nombre FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='RESPONSABLE RENDICION' and respon.respon_cod_refe = ins.inst_cod ) as NombreResponsable,\r\n" + 
+				"		(SELECT respon.respon_email FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='RESPONSABLE RENDICION' and respon.respon_cod_refe = ins.inst_cod ) as emailResponsable,\r\n" + 
+				"		(SELECT respon.respon_celular FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='RESPONSABLE RENDICION' and respon.respon_cod_refe = ins.inst_cod ) as celularResponsable\r\n" + 
+				"		,\r\n" + 
+				"		(SELECT respon.respon_nombre FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='RESPONSABLE REGISTRO' and respon.respon_cod_refe = ins.inst_cod ) as NombreRegistro,\r\n" + 
+				"		(SELECT respon.respon_email FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='RESPONSABLE REGISTRO' and respon.respon_cod_refe = ins.inst_cod ) as emailRegistro,\r\n" + 
+				"		(SELECT respon.respon_celular FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo ='RESPONSABLE REGISTRO' and respon.respon_cod_refe = ins.inst_cod ) as celularRegistro\r\n" + 
+				"	from\r\n" + 
+				"	esq_catalogos.tbl_institucion ins\r\n" +  
+				"	where \r\n" + 
+				"	ins.inst_estado='"+instEstado+"' and ins.inst_verificador is NULL and ins.inst_periodo="+instPeriodo+" and ins.prov_cod="+provincia+" \r\n" + 
+				"	order by ins.inst_cod";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+	}
+	
+	
+		@Override
+	public List<Object[]> ObtenerInstitucionesXProvinciaEstadoPeriodo(Integer provincia, String instEstado,
+			Integer instPeriodo) {
+		EntityManager em= emf.createEntityManager();
+		String sql="Select ins.inst_cod,\r\n"
+				+ "ins.inst_nom,\r\n"
+				+ "ins.inst_ruc,\r\n"
+				+ "(Select loc.nombre from esq_catalogos.tbl_localizacion loc where loc.id_localizacion=ins.prov_cod) as provincia,\r\n"
+				+ "(Select fun.fun_des from esq_catalogos.tbl_funcion fun where fun.fun_cod =ins.inst_fun_cod) as funcion,\r\n"
+				+ "ins.inst_fecha_activar,\r\n"
+				+ "ins.inst_estado\r\n"
+				+ "from\r\n"
+				+ "esq_catalogos.tbl_institucion ins\r\n"
+				+ "where \r\n"
+				+ "ins.prov_cod="+provincia +" and  ins.inst_estado='"+instEstado+"' and ins.inst_periodo="+instPeriodo+"\r\n"
+				+ "order by ins.inst_cod";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+	}
+
+	@Override
+	public List<Object[]> ObtenerInstitucionesXPeriodo(Integer instPeriodo) {
+		EntityManager em= emf.createEntityManager();
+		String sql="Select ins.inst_cod,\r\n"
+				+ "				ins.inst_nom,\r\n"
+				+ "				ins.inst_ruc,\r\n"
+				+ "				(Select loc.nombre from esq_catalogos.tbl_localizacion loc where loc.id_localizacion=ins.prov_cod) as provincia,\r\n"
+				+ "				(Select fun.fun_des from esq_catalogos.tbl_funcion fun where fun.fun_cod =ins.inst_fun_cod) as funcion,\r\n"
+				+ "				ins.inst_fecha_creacion,\r\n"
+				+ "				ins.inst_estado,\r\n"
+			//	+ "				(Select h.id_nombre_tecnico||', <br>'|| h.fecha_accion||', <br>'|| substr(h.descripcion,1,strpos(h.descripcion ,':') +1)from esq_seguridad.tbl_historico_instituciones h  where h.cod_referencial=ins.inst_cod and h.tipo_historico='institucion'  ORDER BY h.id_historial DESC LIMIT 1	) as  accion,\r\n"
+			+ "				(Select h.id_nombre_tecnico||', <br>'|| h.fecha_accion||', <br>'|| h.descripcion from esq_seguridad.tbl_historico_instituciones h  where h.cod_referencial=ins.inst_cod and h.tipo_historico='institucion'  ORDER BY h.id_historial DESC LIMIT 1	) as  accion,\r\n"
+			    + "			(Select h.ruta_anexo	from esq_seguridad.tbl_historico_instituciones h  where h.cod_referencial=ins.inst_cod ORDER BY h.id_historial DESC LIMIT 1	) as  rutaarchivo\r\n"
+				+ "				from\r\n"
+				+ "				esq_catalogos.tbl_institucion ins\r\n"
+				+ "				where \r\n"
+				+ "				ins.inst_periodo="+instPeriodo+"\r\n"
+				+ "				order by ins.inst_cod desc";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+	}
+	
+	
+	@Override
+	public List<Object[]> ObtenerAutoridadesXPeriodo(Integer instPeriodo) {
+		EntityManager em= emf.createEntityManager();
+		String sql="Select \r\n" + 
+				"aut.aut_codigo, \r\n" + 
+				"aut.nombre, \r\n" + 
+				"aut.identificador, \r\n" + 
+				"(Select loc.nombre from esq_catalogos.tbl_localizacion loc where loc.id_localizacion=aut.provincia) as provincia, \r\n" + 
+				"aut.dignidad, \r\n" + 
+				"aut.fecha_registro,\r\n" + 
+				"aut.estado,\r\n" + 
+				"(Select h.id_nombre_tecnico||', <br>'|| h.fecha_accion||', <br>'|| h.descripcion from esq_seguridad.tbl_historico_instituciones h  where h.cod_referencial=aut.aut_codigo and h.tipo_historico='autoridad'  ORDER BY h.id_historial DESC LIMIT 1	) as  accion, \r\n" + 
+				"(Select h.ruta_anexo	from esq_seguridad.tbl_historico_instituciones h  where h.cod_referencial=aut.aut_codigo ORDER BY h.id_historial DESC LIMIT 1	) as  rutaarchivo \r\n" + 
+				"from \r\n" + 
+				"esq_autoridades.tbl_autoridad aut\r\n" + 
+				"where  \r\n" + 
+				"aut.periodo="+instPeriodo+" \r\n" + 
+				"order by aut.aut_codigo desc";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+	}
+
+	@Override
+	public List<Object[]> ObtenerInstitucionesXRuc(String instRuc, Integer instPeriodo) {
+		EntityManager em= emf.createEntityManager();
+		String sql="Select ins.inst_cod,\r\n"
+				+ "ins.inst_nom,\r\n"
+				+ "ins.inst_ruc,\r\n"
+				+ "(Select loc.nombre from esq_catalogos.tbl_localizacion loc where loc.id_localizacion=ins.prov_cod) as provincia,\r\n"
+				+ "(Select fun.fun_des from esq_catalogos.tbl_funcion fun where fun.fun_cod =ins.inst_fun_cod) as funcion,\r\n"
+				+ "ins.inst_fecha_creacion,\r\n"
+				+ "ins.inst_estado,\r\n"
+				+ "(Select h.id_nombre_tecnico||', <br>'|| h.fecha_accion||', <br>'|| substr(h.descripcion,1,strpos(h.descripcion ,':') +1)from esq_seguridad.tbl_historico_instituciones h  where h.cod_referencial=ins.inst_cod and h.tipo_historico='institucion'  ORDER BY h.id_historial DESC LIMIT 1	) as  accion,\r\n"
+				+ "(Select h.ruta_anexo	from esq_seguridad.tbl_historico_instituciones h  where h.cod_referencial=ins.inst_cod ORDER BY h.id_historial DESC LIMIT 1	) as  rutaarchivo\r\n"
+				+ "from\r\n"
+				+ "esq_catalogos.tbl_institucion ins\r\n"
+				+ "where \r\n"
+				+ "ins.inst_ruc='"+instRuc+"'\r\n"
+				+ "and ins.inst_periodo='"+instPeriodo+"'\r\n"
+				+ "order by ins.inst_cod";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+		
+	}
+
+	@Override
+	public List<Object[]> ObtenerInstitucionesXruc(String instEstado, Integer instPeriodo, String ruc, String infEstado) {
+		EntityManager em= emf.createEntityManager();
+		String sql="SELECT\r\n" + 
+				"	esq_rendicioncuentas.tbl_informe.inf_cod, \r\n" + 
+				"	esq_catalogos.tbl_institucion.inst_ruc, \r\n" + 
+				"	esq_catalogos.tbl_institucion.inst_nom, \r\n" + 
+				"	esq_catalogos.tbl_funcion.fun_des, \r\n" + 
+				"	esq_catalogos.tbl_localizacion.nombre, \r\n" + 
+				"	esq_catalogos.tbl_institucion.inst_fecha_registro, \r\n" + 
+				"	esq_catalogos.tbl_institucion.inst_fecha_activar, \r\n" + 
+				"	esq_rendicioncuentas.tbl_informe.inf_fechafin, \r\n" + 
+				"	esq_rendicioncuentas.tbl_informe.inf_estado, \r\n" + 
+				"	esq_rendicioncuentas.tbl_informe.inf_contador_apertura, \r\n" + 
+				"	esq_catalogos.tbl_institucion.inst_estado, \r\n" + 
+				"	esq_catalogos.tbl_institucion.inst_periodo\r\n" + 
+				"FROM\r\n" + 
+				"	esq_catalogos.tbl_institucion\r\n" + 
+				"	INNER JOIN\r\n" + 
+				"	esq_rendicioncuentas.tbl_informe\r\n" + 
+				"	ON \r\n" + 
+				"		esq_catalogos.tbl_institucion.inst_cod = esq_rendicioncuentas.tbl_informe.inst_cod\r\n" + 
+				"	INNER JOIN\r\n" + 
+				"	esq_catalogos.tbl_localizacion\r\n" + 
+				"	ON \r\n" + 
+				"		esq_catalogos.tbl_institucion.prov_cod = esq_catalogos.tbl_localizacion.id_localizacion\r\n" + 
+				"	INNER JOIN\r\n" + 
+				"	esq_catalogos.tbl_funcion\r\n" + 
+				"	ON \r\n" + 
+				"		esq_catalogos.tbl_institucion.inst_fun_cod = esq_catalogos.tbl_funcion.fun_cod\r\n" + 
+				"WHERE\r\n" + 
+				"	esq_catalogos.tbl_institucion.inst_ruc = '"+ruc+"' AND\r\n" + 
+				"	esq_catalogos.tbl_institucion.inst_estado = '"+instEstado+"' AND\r\n" + 
+				"	esq_catalogos.tbl_institucion.inst_periodo = '"+instPeriodo+"' AND\r\n" + 
+				"	esq_rendicioncuentas.tbl_informe.inf_estado = '"+infEstado+"'\r\n" + 
+				"ORDER BY\r\n" + 
+				"	esq_catalogos.tbl_institucion.inst_cod ASC";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		
+
+		return lista;
+	}
+	//CAMM Seguimineto Institucion
+	@Override
+	public List<Object[]> ObtenerSeguimientoInstitucion(Integer instPeriodo) {
+		EntityManager em= emf.createEntityManager();
+		String sql="select T1.* ,T1_4.inf_estado,T1_4.inf_fechaini,T1_4.inf_fechafin,t1_4.inf_verificador,T1_1.respon_nombre AS nombrerepresentante,\r\n"
+				+ "T1_1.respon_email AS emailrepresentante,\r\n"
+				+ "T1_1.respon_celular AS celularrepresentante,\r\n"
+				+ "T1_2.respon_nombre AS nombreresponsable,\r\n"
+				+ "T1_2.respon_email AS emailresponsable,\r\n"
+				+ "T1_2.respon_celular AS celularresponsable,\r\n"
+				+ "T1_3.respon_nombre AS nombreregistro,\r\n"
+				+ "T1_3.respon_email AS emailregistro,\r\n"
+				+ "T1_3.respon_celular AS celularregistro  from\r\n"
+				+ "(SELECT\r\n"
+				+ "ins.inst_cod,\r\n"
+				+ "ins.inst_nom,\r\n"
+				+ "ins.inst_ruc,\r\n"
+				+ "( SELECT fun.fun_des FROM esq_catalogos.tbl_funcion fun WHERE fun.fun_cod = ins.inst_fun_cod ) AS funcion,\r\n"
+				+ "( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.prov_cod ) AS provincia,( SELECT loc.nombre FROM esq_catalogos.tbl_localizacion loc WHERE loc.id_localizacion = ins.cant_cod ) AS canton,\r\n"
+				+ "ins.inst_tip_des,\r\n"
+				+ "ins.inst_estado,\r\n"
+				+ "ins.inst_fecha_registro,\r\n"
+				+ "ins.inst_fecha_activar\r\n"
+				+ "FROM\r\n"
+				+ "esq_catalogos.tbl_institucion ins WHERE  inst_estado in('activo','registrado','inactivo')and ins.inst_periodo = "+instPeriodo+"\r\n"
+				+ ") T1\r\n"
+				+ "LEFT JOIN ( SELECT respon.respon_nombre, respon.respon_email, respon.respon_celular, respon_cod_refe FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo = 'REPRESENTANTE LEGAL' ) T1_1 ON T1.inst_cod = T1_1.respon_cod_refe\r\n"
+				+ "LEFT JOIN ( SELECT respon.respon_nombre, respon.respon_email, respon.respon_celular, respon_cod_refe FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo = 'RESPONSABLE RENDICION' ) T1_2 ON T1.inst_cod = T1_2.respon_cod_refe\r\n"
+				+ "LEFT JOIN ( SELECT respon.respon_nombre, respon.respon_email, respon.respon_celular, respon_cod_refe FROM esq_usuario.tbl_responables respon WHERE respon.respon_tipo = 'RESPONSABLE REGISTRO' ) T1_3 ON T1.inst_cod = T1_3.respon_cod_refe\r\n"
+				+ "LEFT JOIN ( SELECT inst_cod,inf_estado,inf_fechaini,inf_fechafin,inf_verificador FROM esq_rendicioncuentas.tbl_informe  ) T1_4 ON T1.inst_cod = T1_4.inst_cod\r\n"
+				+ "ORDER BY provincia";
+		Query query=em.createNativeQuery(sql);
+        @SuppressWarnings("unchecked")
+		List<Object[]> lista=query.getResultList();
+		em.close();
+		return lista;
+	}
+	
+	@Override
+    public List<TblInstitucion> findByRucAndVerificadorNotNull(String ruc) {
+        return institucionRepository.findByRucAndVerificadorNotNull(ruc);
+    }
+	@Override
+    public List<TblInstitucion> findByRucAndVerificadorNotNullMedios(String ruc, Integer provincia, Integer canton) {
+        return institucionRepository.findByRucAndVerificadorNotNullMedios( ruc,  provincia,  canton);
+    }
+	
+}

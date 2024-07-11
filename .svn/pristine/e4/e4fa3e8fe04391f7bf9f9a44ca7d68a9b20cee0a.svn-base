@@ -1,0 +1,112 @@
+package gob.cpccs.service.catalogos;
+
+import java.util.Date;
+import java.util.List;
+
+import gob.cpccs.model.catalogos.TblFuncion;
+import gob.cpccs.model.catalogos.TblInstitucion;
+import gob.cpccs.model.catalogos.TblLocalizacion;
+import gob.cpccs.model.catalogos.TblSector;
+import gob.cpccs.model.catalogos.TblTipoIes;
+import gob.cpccs.model.catalogos.TblTipoInforme;
+import gob.cpccs.model.catalogos.TblTipoMedio;
+import gob.cpccs.model.dto.catalogos.SeguimientoInstitucionDTO;
+import gob.cpccs.model.funcionarios.TblDatosFuncionarios;
+import gob.cpccs.model.seguridad.TblHistoricoInstituciones;
+import gob.cpccs.model.usuario.TblAutoridad;
+
+public interface CatalogosServicio {
+
+	// 'PAIS'->'categoria = 0' // 'PROVINCIAS'->'categoria = 1' //
+	// 'CANTONES'->'categoria = 2' // 'SITIOS'->'categoria = 3' //
+	// 'PARROQUIAS'->'categoria = 4'
+	List<TblLocalizacion> obtenerLocalizacion(int categoria, String estado);
+
+	List<TblLocalizacion> obtenerLocalizacionfuncionarios(int categoria, List<Integer> provincia, String estado);
+
+	TblLocalizacion obtenerNombreLocalizacion(Integer categoria, Integer idLocalizacion, String estado);
+
+	TblLocalizacion obtenerNombreLocalizacionIdXExtado(Integer idLocalizacion, String estado);
+
+	TblInstitucion ObtenerInstitucionesXidEstado(Integer instCod, String instEstado, Integer instPeriodo);
+
+	List<TblInstitucion> ObtenerInstitucionesXRucEstado(String instRuc, String instEstado, Integer instPeriodo);
+
+	List<TblInstitucion> ObtenerInstitucionesXprovinciaEstado(Integer provincia, String instEstado,
+			Integer instPeriodo);
+
+	List<TblInstitucion> ObtenerInstitucionesXEstadoPeriodo(String instEstado, Integer instPeriodo);
+
+	// nuevo funciones CAMM
+	TblInstitucion ObtenerInstitucionesXInstCod(Integer instCod);
+	TblInstitucion ObtenerInstitucionesXInstCodandPeriodo(Integer instCod,Integer instPeriodo );
+	
+	List<Object[]> ObtenerInstitucionesXPeriodoEstado(String instEstado, Integer instPeriodo);
+	
+	List<Object[]> obtenerIntitucionesDatosResponsables(String instEstado, Integer instPeriodo, String campoFecha);
+
+	List<Object[]> obtenerIntitucionesActivasDatosResponsables(String instEstado, Integer instPeriodo, String campoFecha);
+
+	
+	List<Object[]> obtenerIntitucionesDatosResponsablesxP(String instEstado, Integer instPeriodo, String campoFecha, Integer provincia);
+
+	List<Object[]> obtenerIntitucionesxCumplimiento(String infVerificador, Integer instPeriodo);
+
+	List<Object[]> obtenerIntitucionesxCumplimientoProvincia(String infVerificador, Integer instPeriodo, Integer provincia);
+
+	
+	List<Object[]> obtenerIntitucionesIncumplidas(String infVerificador, Integer instPeriodo);
+	
+	List<Object[]> obtenerIntitucionesIncumplidasProvincia(String infVerificador, Integer instPeriodo, Integer provincia );
+
+
+	List<Object[]> ObtenerInstitucionesXprovinciaEstadoPeriodo(Integer provincia, String instEstado,
+			Integer instPeriodo);
+	List<Object[]> ObtenerInstitucionesXRuc(String instRuc);
+
+	List<Object[]> ObtenerInstitucionesXPeriodo(Integer instPeriodo);
+
+	List<Object[]> ObtenerAutoridadesXPeriodo(Integer instPeriodo);
+	
+	List<Object[]> ObtenerInstitucionesXPeriodoEstadoXRucXEstadoInforme(String instEstado, Integer instPeriodo, String ruc, String infEstado);
+
+	List<TblAutoridad> ObtenerAutoridadXprovinciaEstado(Integer provincia, String instEstado, Integer instPeriodo);
+
+	List<TblAutoridad> ObtenerAutoridadXidentificadorEstado(String identificador, String instEstado, Integer instPeriodo);
+
+	
+	List<TblFuncion> obtenerFuncionInstitucion(String estado);
+
+	List<TblTipoInforme> obtenerTipoInforme(String estado);
+
+	List<TblTipoMedio> obtenerTipoMedio(String estado);
+
+	List<TblSector> obtenerTipoSector(String estado);
+
+	TblSector ObtenerSectorXid(Integer secCod);
+
+	TblTipoMedio ObtenerTipoMedioXid(Integer tmeCod);
+
+	TblFuncion ObtenerFuncionXid(Integer funCod);
+
+	TblTipoInforme ObtenerTipoInformeXCod(Integer instTfCod);
+
+	void GuardarNuevoCatastros(TblInstitucion tblInstitucion);
+
+	void GuardarHistoricoInstitucion(TblHistoricoInstituciones tblHistoricoInstituciones);
+	List<Object[]> ObtenerSeguimientoInstitucion(Integer instPeriodo);
+
+	// Fin Funciones CAMM//
+
+	void ActualizarDatosIntitucionRegistro(Integer provCod, Integer cantCod, Integer parroCod, String instDir,
+			String instTel, String instEma, String instPag, Date instFechaRegistro, Integer instCod, String instRucDoc,
+			String instEstado);
+	
+	List<SeguimientoInstitucionDTO> seguimineto (Integer periodo);
+	
+	List<TblTipoIes> ListaTipoIesPorEstado(String tiesEst);
+	
+	
+	
+
+}

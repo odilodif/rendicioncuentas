@@ -1,0 +1,14 @@
+package gob.cpccs.service.retroalimentacion;
+
+import gob.cpccs.model.retroalimentacion.TblAsignacion;
+
+public interface AsignacionServicio {
+	
+	void guardarAsignacion(TblAsignacion tblAsignacion);
+	TblAsignacion buscarInformeAsignado(int infcod);
+	void actualizarEstadoInformeAsignado(int idAsignacion, String estadoAsig );
+	void ElimnarAsignacion(String identificador, String estadoAsig);
+	
+	void ElimnarAsignacionPorPerido(String identificador, String estadoAsig, int periodoAsig);
+
+}

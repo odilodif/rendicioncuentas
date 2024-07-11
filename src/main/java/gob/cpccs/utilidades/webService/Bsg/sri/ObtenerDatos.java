@@ -1,0 +1,60 @@
+
+package gob.cpccs.utilidades.webService.Bsg.sri;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
+
+/**
+ * <p>Clase Java para obtenerDatos complex type.
+ * 
+ * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
+ * 
+ * <pre>
+ * &lt;complexType name="obtenerDatos">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="numeroRuc" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(namespace="http://www.test15.com",name = "obtenerDatos", propOrder = {
+    "numeroRuc"
+})
+public class ObtenerDatos {
+
+    protected String numeroRuc;
+
+    /**
+     * Obtiene el valor de la propiedad numeroRuc.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getNumeroRuc() {
+        return numeroRuc;
+    }
+
+    /**
+     * Define el valor de la propiedad numeroRuc.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setNumeroRuc(String value) {
+        this.numeroRuc = value;
+    }
+
+}

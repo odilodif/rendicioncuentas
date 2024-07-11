@@ -1,0 +1,45 @@
+package gob.cpccs.repository.registroUsuarioInterno;
+
+import java.util.List;
+import javax.transaction.Transactional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import gob.cpccs.model.funcionarios.*;
+
+@Repository
+@Transactional
+public interface UsuarioInternoRepository extends JpaRepository<TblDatosFuncionarios, String> {
+
+	@Query("select d from TblDatosFuncionarios d  where d.estadoEmpleado='activo' and d.identificador=:identificador ")
+	TblDatosFuncionarios findByIdentificadorDatosFuncionario(@Param("identificador") String identificador);
+
+	@Query("select d.mailInstitucional from TblDatosFuncionarios d  where d.estadoEmpleado='activo' and d.identificador=:identificador ")
+	String findByIdentificadorCorreoInstitucionalFuncionario(@Param("identificador") String identificador);
+
+	@Query("select d.mailInstitucional, d.nombre from TblDatosFuncionarios d  where d.estadoEmpleado='activo' and d.identificador=:identificador ")
+	Object findByIdentificadorCorreoInstitucionalAndNombreFuncionario(@Param("identificador") String identificador);
+
+	TblDatosFuncionarios findByIdentificador(@Param("identificador") String identificador);
+
+	List<TblDatosFuncionarios> findByEstadoEmpleadoOrderByIdDatoFuncionarioAsc(
+			@Param("estadoEmpleado") String estadoEmpleado);
+
+	TblDatosFuncionarios findByIdDatoFuncionario(@Param("idDatoFuncionario") Integer idDatoFuncionario);
+
+	@Query("select d from TblDatosFuncionarios d  where d.estadoEmpleado=:estadoEmpleado and d.cargo=:cargo ")
+	TblDatosFuncionarios buscarXestadoXCargo(@Param("estadoEmpleado") String estadoEmpleado,
+			@Param("cargo") String cargo);
+
+	List<TblDatosFuncionarios> findByEstadoEmpleadoAndCargo(@Param("estadoEmpleado") String estadoEmpleado,
+			@Param("cargo") String cargo);
+
+	@Query("select d from TblDatosFuncionarios d  where d.estadoEmpleado=:estadoEmpleado and d.cargo!=:cargo order by d.nombre asc")
+	List<TblDatosFuncionarios> findByEstadoEmpleadoAndCargoTecnico(@Param("estadoEmpleado") String estadoEmpleado,
+			@Param("cargo") String cargo);	
+	
+	List<TblDatosFuncionarios> findByIdDatoFuncionarioOrderByIdDatoFuncionario(@Param("idDatoFuncionario") Integer idDatoFuncionario);
+
+
+}
